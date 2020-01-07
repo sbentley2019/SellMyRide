@@ -1,15 +1,16 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import axios from "axios";
 
-const { Pool } = require('pg');
+const listing = axios.get("/api/listing");
 
-const pool = new Pool({
-  user: 'morbi',
-  password: 'guessthepassword101',
-  host: 'localhost',
-  database: 'sellmycar'
-});
+/* useEffect(() => {  // access the database for data to build the interviewers and appointments for each day
+  const listing = axios.get("/api/listing");
+
+},[]); */
+
+console.log(listing);
 
 function App() {
   return (
