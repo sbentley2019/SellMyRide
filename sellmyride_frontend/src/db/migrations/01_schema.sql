@@ -11,7 +11,7 @@ CREATE TABLE users (
   email VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
   location VARCHAR(255),
-  phone INTEGER
+  phone VARCHAR(255)
 );
 
 CREATE TABLE cars (
@@ -24,19 +24,24 @@ CREATE TABLE cars (
   make VARCHAR(255) NOT NULL,
   model VARCHAR(255) NOT NULL,
   location TEXT NOT NULL
-)
+);
+
+CREATE TABLE car_images (
+  id SERIAL PRIMARY KEY NOT NULL,
+  car_id INTEGER REFERENCES cars(id) ON DELETE CASCADE,
+  image TEXT
+);
 
 CREATE TABLE listing (
   id SERIAL PRIMARY KEY NOT NULL,
   car_id INTEGER REFERENCES cars(id) ON DELETE CASCADE,
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-  image INTEGER REFERENCES car_images(id) ON DELETE CASCADE,
-  attribute_id INTEGER REFERENCES car_attributes(id) ON DELETE CASCADE,
-  listing_date DATE NOT NULL,
+  image_id INTEGER REFERENCES car_images(id) ON DELETE CASCADE,
+  listing_date DATE NOT NULL DEFAULT CURRENT_DATE,
   is_sold BOOLEAN NOT NULL,
-  price INTEGER NOT NULL,
-  kms INTEGER NOT NULL,
-  trim VARCHAR(255),
+  price BIGINT NOT NULL,
+  kms BIGINT NOT NULL,
+  body_type VARCHAR(255),
   drivetrain VARCHAR(255),
   transmission VARCHAR(255),
   engine_size VARCHAR(255),
@@ -45,20 +50,14 @@ CREATE TABLE listing (
   doors INTEGER,
   with_photos BOOLEAN NOT NULL,
   other_options TEXT
-)
-
-CREATE TABLE car_images (
-  id SERIAL PRIMARY KEY NOT NULL,
-  car_id INTEGER REFERENCES cars(id) ON DELETE CASCADE,
-  image TEXT
-)
+);
 
 CREATE TABLE ratings (
   id SERIAL PRIMARY KEY NOT NULL,
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   rating INTEGER,
   comment TEXT
-)
+);
 
 CREATE TABLE messages (
   id SERIAL PRIMARY KEY NOT NULL,
@@ -66,4 +65,4 @@ CREATE TABLE messages (
   seller_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   message TEXT NOT NULL,
   timestamp TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-)
+);
