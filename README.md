@@ -104,42 +104,36 @@ There are two ways. Through the terminal, or through the psql terminal.
 
 - through the psql terminal
 
+
   sudo -u postgres psql
+
 
   When inside, enter following command for existing users:
 
-  =# SELECT usename FROM pg_user;
-  usename
-  ----------
-  postgres
-  (1 row)
+
+  SELECT usename FROM pg_user;
+
 
   Create a new user:
 
-  =# CREATE USER librarian;
-  CREATE ROLE
-  =# SELECT usename FROM pg_user;
-    usename
-  -----------
-  postgres
-  librarian
-  (2 rows)
+
+  CREATE USER librarian;
+
+  Type this again to see the new user:
+
+
+  SELECT usename FROM pg_user;
 
 
   The command \du will let you see permissions:
 
-  =# \du
-                              List of roles
-  Role name |                   Attributes                   | Member of
-  -----------+------------------------------------------------+-----------
-  librarian |                                                | {}
-  postgres  | Superuser, Create role, Create DB, Replication | {}
+   \du
 
 
   The basic format of ALTER USER includes the name of the user (or ROLE) followed by a series of options to inform PostgreSQL which permissive alterations to make:
 
 
-  =# ALTER USER role_specification WITH OPTION1 OPTION2 OPTION3;
+  ->      ALTER USER role_specification WITH OPTION1 OPTION2 OPTION3;
 
 
   These options range from CREATEDB, CREATEROLE, CREATEUSER, and even SUPERUSER. Additionally, most options also have a negative counterpart, informing the system that you wish to deny the user that particular permission. These option names are the same as their assignment counterpart, but are prefixed with NO (e.g. NOCREATEDB, NOCREATEROLE, NOSUPERUSER).
@@ -149,16 +143,8 @@ There are two ways. Through the terminal, or through the psql terminal.
 
   Now that we understand the basics of creating users and using ALTER USER to modify permissions, we can quite simply use the SUPERUSER option to assign our librarian user SUPERUSER permission:
 
-  =# ALTER USER librarian WITH SUPERUSER;
-  ALTER ROLE
-  Sure enough, if we display our permission list now, we’ll see librarian has the new SUPERUSER permission we want:
+  ->      ALTER USER librarian WITH SUPERUSER;
 
-  =# \du
-                              List of roles
-  Role name |                   Attributes                   | Member of
-  -----------+------------------------------------------------+-----------
-  librarian | Superuser                                      | {}
-  postgres  | Superuser, Create role, Create DB, Replication | {}
 
 
 ----------------------------------------------------------------------------------------------------
