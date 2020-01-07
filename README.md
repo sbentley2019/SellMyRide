@@ -14,7 +14,7 @@ https://chartio.com/resources/tutorials/how-to-change-a-user-to-superuser-in-pos
 https://github.com/lighthouse-labs/scheduler-api
 
 
-----------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------
 
 step 1 - install Postgresql in your terminal
 
