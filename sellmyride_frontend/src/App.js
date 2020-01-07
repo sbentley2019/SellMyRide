@@ -2,6 +2,15 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+const { Pool } = require('pg');
+
+const pool = new Pool({
+  user: 'morbi',
+  password: 'guessthepassword101',
+  host: 'localhost',
+  database: 'sellmycar'
+});
+
 function App() {
   return (
     <div className="App">
