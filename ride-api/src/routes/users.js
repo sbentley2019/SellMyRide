@@ -37,5 +37,25 @@ module.exports = db => {
   });
 
 
+  router.delete("/users/:id", (request, response) => {
+    if (process.env.TEST_ERROR) {
+      setTimeout(() => response.status(500).json({}), 1000);
+      return;
+    }
+
+    console.log(request.params.id)
+
+    /* const { id } = request.body.id; */
+
+
+
+    db.query(`DELETE FROM users WHERE id = $1`, [
+      Number(request.params.id)
+    ])
+    .then(res => res.rows)
+    .catch(error => console.log(error));
+  });
+
+
   return router;
 };
