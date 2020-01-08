@@ -3,6 +3,7 @@
 .env
 .env.development
 .env.test
+.env.example
 
 node_modules/
 coverage/

@@ -34,7 +34,7 @@ import RegisterPage from "views/examples/RegisterPage.js";
 
 import axios from "axios";
 const listing = axios.get("/api/listing");
-console.log(listing);
+console.log("zzzzzzz", listing);
 
 ReactDOM.render(
   <BrowserRouter>
