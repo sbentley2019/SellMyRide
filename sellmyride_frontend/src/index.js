@@ -30,10 +30,12 @@ console.log(users); */
 class MyForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { username: '', email: '', password: '', location: '', phone: '' };
+    this.state = { username: '', email: '', password: '', location: '', phone: '', id: ''};
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
+
   myChangeHandler = (event) => {
     let nam = event.target.name;
     let val = event.target.value;
@@ -47,53 +49,82 @@ class MyForm extends React.Component {
 
     event.preventDefault();
   }
+
+  handleDelete(event) {
+    event.preventDefault();
+    let id = this.state.id;
+    axios.delete(`/api/users/${id}`);
+    alert('user id being deleted is: ' + this.state.id);
+
+  }
+
+
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-      <h1>Hello , this is a form !!</h1>
-      <p>Enter your name:</p>
-      <label>
-        Name
-        <input
-          type='text'
-          name='username'
-          onChange={this.myChangeHandler}
-        />
-      </label>
-      <label>
-        Email
-        <input
-          type='email'
-          name='email'
-          onChange={this.myChangeHandler}
-        />
-      </label>
-      <label>
-        Password
-        <input
-          type='password'
-          name='password'
-          onChange={this.myChangeHandler}
-        />
-      </label>
-      <label>
-        Location
-        <input
-          type='text'
-          name='location'
-          onChange={this.myChangeHandler}
-        />
-      </label>
-      <label>
-        Phone
-        <input
-          type='text'
-          name='phone'
-          onChange={this.myChangeHandler}
-        />
-      </label>
-      <input type="submit" value="Submit" />
-      </form>
+      <div>
+{/*         <form onSubmit={this.handleSubmit}>
+          <h1>Hello , this is a form !!</h1>
+          <p>Enter your name:</p>
+          <label>
+            Name
+            <input
+              type='text'
+              name='username'
+              onChange={this.myChangeHandler}
+            />
+          </label>
+          <label>
+            Email
+            <input
+              type='email'
+              name='email'
+              onChange={this.myChangeHandler}
+            />
+          </label>
+          <label>
+            Password
+            <input
+              type='password'
+              name='password'
+              onChange={this.myChangeHandler}
+            />
+          </label>
+          <label>
+            Location
+            <input
+              type='text'
+              name='location'
+              onChange={this.myChangeHandler}
+            />
+          </label>
+          <label>
+            Phone
+            <input
+              type='text'
+              name='phone'
+              onChange={this.myChangeHandler}
+            />
+          </label>
+          <input type="submit" value="Submit" />
+        </form> */}
+
+
+
+          <form onSubmit={this.handleDelete}>
+            <label>
+              <h1>user id</h1>
+              <input
+                type='text'
+                name='id'
+                onChange={this.myChangeHandler}
+              />
+            </label>
+              <input type="submit" value="Submit" />
+          </form>  
+
+
+
+      </div> 
     );
   }
 }
