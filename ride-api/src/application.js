@@ -10,9 +10,16 @@ const app = express();
 
 const db = require("./db");
 
+// files for sellmyride
 ////////////////////////////////////
 const listing = require("./routes/listing");
+const cars = require("./routes/cars");
+const car_images = require("./routes/car_images");
+const messages = require("./routes/messages");
+const ratings = require("./routes/ratings");
+const users = require("./routes/users");
 ////////////////////////////////////
+
 const days = require("./routes/days");
 const appointments = require("./routes/appointments");
 const interviewers = require("./routes/interviewers");
@@ -43,7 +50,16 @@ module.exports = function application(
   app.use("/api", days(db));
   app.use("/api", appointments(db, actions.updateAppointment));
   app.use("/api", interviewers(db));
+
+  // paths for sellmyride
+  ////////////////////////////////////////
   app.use("/api", listing(db));
+  app.use("/api", cars(db));
+  app.use("/api", car_images(db));
+  app.use("/api", messages(db));
+  app.use("/api", ratings(db));
+  app.use("/api", users(db));
+  ////////////////////////////////////////
 
   if (ENV === "development" || ENV === "test") {
     Promise.all([
