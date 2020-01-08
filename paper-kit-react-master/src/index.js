@@ -51,11 +51,11 @@ ReactDOM.render(
         render={props => <LandingPage {...props} />}
       />
       <Route
-        path="/profile-page"
+        path="/profile"
         render={props => <ProfilePage {...props} />}
       />
       <Route
-        path="/register-page"
+        path="/register"
         render={props => <RegisterPage {...props} />}
       />
       <Route

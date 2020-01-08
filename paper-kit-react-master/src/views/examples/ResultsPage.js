@@ -11,6 +11,7 @@ function ResultsPage() {
   });
   return (
     <>
+    <IndexNavbar/>
      <h1>SEARCH RESULTS GO HERE!!!!@</h1>
     </>
   );

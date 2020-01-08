@@ -103,7 +103,7 @@ function IndexNavbar() {
               <Button
                 className="btn-round"
                 color="success"
-                href="/register-page"
+                href="/register"
                 target=""
                 // disabled
               >
@@ -112,7 +112,7 @@ function IndexNavbar() {
               <Button
                 className="btn-round"
                 color="danger"
-                href="/profile-page"
+                href="/profile"
                 target=""
               >
                 My Profile
