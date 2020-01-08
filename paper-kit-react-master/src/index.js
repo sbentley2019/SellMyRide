@@ -30,6 +30,8 @@ import NucleoIcons from "views/NucleoIcons.js";
 import LandingPage from "views/examples/LandingPage.js";
 import ProfilePage from "views/examples/ProfilePage.js";
 import RegisterPage from "views/examples/RegisterPage.js";
+import SearchPage from "views/examples/SearchPage.js";
+import ResultsPage from "views/examples/ResultsPage.js";
 // others
 
 import axios from "axios";
@@ -55,6 +57,14 @@ ReactDOM.render(
       <Route
         path="/register-page"
         render={props => <RegisterPage {...props} />}
+      />
+      <Route
+        path="/search"
+        render={props => <SearchPage {...props} />}
+      />
+      <Route
+        path="/results"
+        render={props => <ResultsPage {...props} />}
       />
       <Redirect to="/index" />
     </Switch>

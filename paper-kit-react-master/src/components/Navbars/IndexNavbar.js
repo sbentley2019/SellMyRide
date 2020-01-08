@@ -68,7 +68,7 @@ function IndexNavbar() {
           <NavbarBrand
             data-placement="bottom"
             href="/index"
-            target="_blank"
+            target=""
             title="Coded by Creative Tim"
           >
             <i>Sell</i>MyRide
@@ -95,7 +95,7 @@ function IndexNavbar() {
               <NavLink
                 data-placement="bottom"
                 href="https://twitter.com/CreativeTim?ref=creativetim"
-                target="_blank"
+                target=""
                 title="Follow us on Twitter"
               >
                 <i className="fa fa-twitter" />
@@ -106,7 +106,7 @@ function IndexNavbar() {
               <NavLink
                 data-placement="bottom"
                 href="https://www.facebook.com/CreativeTim?ref=creativetim"
-                target="_blank"
+                target=""
                 title="Like us on Facebook"
               >
                 <i className="fa fa-facebook-square" />
@@ -117,7 +117,7 @@ function IndexNavbar() {
               <NavLink
                 data-placement="bottom"
                 href="https://www.instagram.com/CreativeTimOfficial?ref=creativetim"
-                target="_blank"
+                target=""
                 title="Follow us on Instagram"
               >
                 <i className="fa fa-instagram" />
@@ -128,7 +128,7 @@ function IndexNavbar() {
               <NavLink
                 data-placement="bottom"
                 href="https://www.github.com/CreativeTimOfficial/paper-kit-react?ref=creativetim"
-                target="_blank"
+                target=""
                 title="Star on GitHub"
               >
                 <i className="fa fa-github" />
@@ -137,8 +137,8 @@ function IndexNavbar() {
             </NavItem> */}
             <NavItem>
               <NavLink
-                href="/landing-page"
-                target="_blank"
+                href="/search"
+                target=""
               >
                 <i className="nc-icon nc-book-bookmark" /> New Search
               </NavLink>
@@ -148,7 +148,7 @@ function IndexNavbar() {
                 className="btn-round"
                 color="success"
                 href="/register-page"
-                target="_blank"
+                target=""
                 // disabled
               >
                 Register
@@ -157,7 +157,7 @@ function IndexNavbar() {
                 className="btn-round"
                 color="danger"
                 href="/profile-page"
-                target="_blank"
+                target=""
               >
                 My Profile
               </Button>
