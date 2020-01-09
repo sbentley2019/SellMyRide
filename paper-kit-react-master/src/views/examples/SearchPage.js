@@ -1,6 +1,5 @@
 import React from "react";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
-
 import SearchPageHeader from "components/Headers/SearchPageHeader.js";
 
 // reactstrap components
