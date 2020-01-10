@@ -25,13 +25,12 @@ module.exports = db => {
   router.get("/listing", (request, response) => {
     db.query(
       `
-      SELECT * FROM listing
+      SELECT * FROM listing LIMIT 5
     `
     ).then(({ rows: listing }) => {
       response.json(listing);
     });
   });
-
 
   router.get("/listing/make", (request, response) => {
     db.query(

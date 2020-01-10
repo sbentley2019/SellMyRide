@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useCookies } from "react-cookie";
 import axios from "axios";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import SearchPageHeader from "components/Headers/SearchPageHeader.js";
@@ -23,6 +24,7 @@ import {
 
 function SearchPage() {
   const [results, setResults] = useState([]);
+  const [cookies, setCookie] = useCookies(["name"]);
 
   useEffect(() => {}, [results]);
 

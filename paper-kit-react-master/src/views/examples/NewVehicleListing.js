@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import NewVehicleListingHeader from "components/Headers/NewVehicleListingHeader.js";
-
+import { useCookies } from "react-cookie";
 // reactstrap components
 import {
   Button,
@@ -57,6 +57,9 @@ function VehicleListing(props) {
 
 
   document.documentElement.classList.remove("nav-open");
+
+  const [cookies, setCookie] = useCookies(["name"]);
+
   useEffect(() => {
 
     if (window.innerWidth < 991) {
@@ -113,15 +116,15 @@ function VehicleListing(props) {
   return (
     <>
       <IndexNavbar />
-        {/* <NewVehicleListingHeader /> */}
-        <div className="main">
-          <div className="section text-center">
+      {/* <NewVehicleListingHeader /> */}
+      <div className="main">
+        <div className="section text-center">
+          <Container>
             <Container>
-              <Container>
-                <div className="motto text-center">
-                  <h1>Selling your ride? </h1>
-                  <h3>Provide some details below:</h3>
-                  <br />
+              <div className="motto text-center">
+                <h1>Selling your ride? </h1>
+                <h3>Provide some details below:</h3>
+                <br />
 
                   <Form>
                     <FormGroup row>
@@ -303,8 +306,9 @@ function VehicleListing(props) {
                 </div>
               </Container>
             </Container>
-          </div>
+          </Container>
         </div>
+      </div>
     </>
   );
 }

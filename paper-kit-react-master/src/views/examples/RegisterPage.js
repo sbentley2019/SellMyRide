@@ -18,6 +18,7 @@
 */
 import React, { useState } from "react";
 import axios from "axios";
+import { useCookies } from "react-cookie";
 // *********** add a redirect on the function register user that redirects after registering ***********
 // reactstrap components
 import {
@@ -39,6 +40,8 @@ import IndexNavbar from "components/Navbars/IndexNavbar.js";
 
 function RegisterPage() {
   document.documentElement.classList.remove("nav-open");
+  const [cookies, setCookie] = useCookies(["name"]);
+
   React.useEffect(() => {
     document.body.classList.add("register-page");
     return function cleanup() {
@@ -58,6 +61,7 @@ function RegisterPage() {
     e.preventDefault();
     axios.put("/api/users", user).then(res => {
       console.log(res.data);
+      setCookie("name", user.email, { path: "/" });
     });
   };
 

@@ -18,7 +18,7 @@
 */
 import React from "react";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
-
+import { useCookies } from "react-cookie";
 // reactstrap components
 import {
   Button,
@@ -42,6 +42,7 @@ import DemoFooter from "components/Footers/DemoFooter.js";
 
 function ProfilePage() {
   const [activeTab, setActiveTab] = React.useState("1");
+  const [cookies, setCookie] = useCookies(["name"]);
 
   const toggle = tab => {
     if (activeTab !== tab) {
@@ -67,31 +68,13 @@ function ProfilePage() {
               <img
                 alt="..."
                 className="img-circle img-no-padding img-responsive"
-                src={require("assets/img/faces/joe-gardner-2.jpg")}
+                src={require("assets/img/default-avatar.png")}
               />
             </div>
             <div className="name">
-              <h4 className="title">
-                Jane Faker <br />
-              </h4>
-              <h6 className="description">Music Producer</h6>
+              <h4 className="title">email@email.com</h4>
             </div>
           </div>
-          <Row>
-            <Col className="ml-auto mr-auto text-center" md="6">
-              <p>
-                An artist of considerable range, Jane Faker — the name taken by
-                Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs
-                and records all of his own music, giving it a warm, intimate
-                feel with a solid groove structure.
-              </p>
-              <br />
-              <Button className="btn-round" color="default" outline>
-                <i className="fa fa-cog" /> Settings
-              </Button>
-            </Col>
-          </Row>
-          <br />
           <div className="nav-tabs-navigation">
             <div className="nav-tabs-wrapper">
               <Nav role="tablist" tabs>
@@ -102,7 +85,7 @@ function ProfilePage() {
                       toggle("1");
                     }}
                   >
-                    Follows
+                    My Listings
                   </NavLink>
                 </NavItem>
                 <NavItem>
@@ -112,13 +95,12 @@ function ProfilePage() {
                       toggle("2");
                     }}
                   >
-                    Following
+                    My Messages
                   </NavLink>
                 </NavItem>
               </Nav>
             </div>
           </div>
-          {/* Tab panes */}
           <TabContent className="following" activeTab={activeTab}>
             <TabPane tabId="1" id="follows">
               <Row>
@@ -130,43 +112,60 @@ function ProfilePage() {
                           <img
                             alt="..."
                             className="img-circle img-no-padding img-responsive"
-                            src={require("assets/img/faces/clem-onojeghuo-2.jpg")}
+                            src={require("assets/img/4-911-gt3.jpg")}
                           />
                         </Col>
                         <Col className="ml-auto mr-auto" lg="7" md="4" xs="4">
                           <h6>
-                            Flume <br />
-                            <small>Musical Producer</small>
+                            2017 Porsche 911 <br />
                           </h6>
                         </Col>
                         <Col className="ml-auto mr-auto" lg="3" md="4" xs="4">
                           <FormGroup check>
                             <Label check>
-                              <Input
-                                defaultChecked
-                                defaultValue=""
-                                type="checkbox"
-                              />
+                              <Input defaultValue="" type="checkbox" />
                               <span className="form-check-sign" />
                             </Label>
                           </FormGroup>
                         </Col>
                       </Row>
                     </li>
-                    <hr />
                     <li>
                       <Row>
                         <Col className="mx-auto" lg="2" md="4" xs="4">
                           <img
                             alt="..."
                             className="img-circle img-no-padding img-responsive"
-                            src={require("assets/img/faces/ayo-ogunseinde-2.jpg")}
+                            src={require("assets/img/1-sti-hyperblue.jpg")}
                           />
                         </Col>
                         <Col lg="7" md="4" xs="4">
                           <h6>
-                            Banks <br />
-                            <small>Singer</small>
+                            2016 Subaru STI <br />
+                          </h6>
+                        </Col>
+                        <Col lg="3" md="4" xs="4">
+                          <FormGroup check>
+                            <Label check>
+                              <Input defaultValue="" type="checkbox" />
+                              <span className="form-check-sign" />
+                            </Label>
+                          </FormGroup>
+                        </Col>
+                      </Row>
+                    </li>
+                    <li>
+                      <Row>
+                        <Col className="mx-auto" lg="2" md="4" xs="4">
+                          <img
+                            alt="..."
+                            className="img-circle img-no-padding img-responsive"
+                            src={require("assets/img/car-noimage.png")}
+                          />
+                        </Col>
+                        <Col lg="7" md="4" xs="4">
+                          <h6>
+                            2007 Toyota Camry <br />
                           </h6>
                         </Col>
                         <Col lg="3" md="4" xs="4">
@@ -182,17 +181,21 @@ function ProfilePage() {
                   </ul>
                 </Col>
               </Row>
+              <div className="text-center">
+                <Button className="btn-round" color="warning" outline>
+                  Delete Listing
+                </Button>
+              </div>
             </TabPane>
             <TabPane className="text-center" tabId="2" id="following">
-              <h3 className="text-muted">Not following anyone yet :(</h3>
-              <Button className="btn-round" color="warning">
-                Find artists
+              <h3 className="text-muted">Your inbox is empty!</h3>
+              <Button className="btn-round" color="warning" outline>
+                Delete Message
               </Button>
             </TabPane>
           </TabContent>
         </Container>
       </div>
-      {/* <DemoFooter /> */}
     </>
   );
 }

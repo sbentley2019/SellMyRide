@@ -1,5 +1,5 @@
 import React from "react";
-
+import { useCookies } from "react-cookie";
 // reactstrap components
 import {
   Button,
@@ -14,19 +14,25 @@ import {
   Col
 } from "reactstrap";
 
-
 // core components
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 // import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 
 function LoginPage() {
   document.documentElement.classList.remove("nav-open");
+  const [cookies, setCookie] = useCookies(["name"]);
+
   React.useEffect(() => {
     document.body.classList.add("register-page");
     return function cleanup() {
       document.body.classList.remove("register-page");
     };
   });
+
+  function alterUser(newName) {
+    setCookie("name", newName, { path: "/" });
+  }
+
   return (
     <>
       <IndexNavbar />
@@ -50,7 +56,14 @@ function LoginPage() {
                         <i className="nc-icon nc-email-85" />
                       </InputGroupText>
                     </InputGroupAddon>
-                    <Input placeholder="Email" type="email" />
+                    <Input
+                      name={cookies.name}
+                      onChange={e => {
+                        alterUser(e.target.value);
+                      }}
+                      placeholder="Email"
+                      type="email"
+                    />
                   </InputGroup>
                   <label>Password</label>
                   <InputGroup className="form-group-no-border">
