@@ -21,6 +21,7 @@ import {
 } from "reactstrap";
 
 function SearchPage() {
+
   const [results, setResults] = useState([]);
 
   useEffect(() => {
