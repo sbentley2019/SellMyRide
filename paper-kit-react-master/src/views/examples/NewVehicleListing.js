@@ -253,41 +253,6 @@ function VehicleListing(props) {
                                 }}/>
                       </Col>
                     </FormGroup>
-{/*                     <FormGroup tag="fieldset" row>
-                      <legend className="col-form-label col-sm-2">
-                        Condition
-                      </legend>
-                      <Col sm={10}>
-                        <FormGroup check>
-                          <Label check>
-                            <Input type="radio" name="radio2" /> New
-                          </Label>
-                        </FormGroup>
-                        <FormGroup check>
-                          <Label check>
-                            <Input type="radio" name="radio2" /> Used
-                          </Label>
-                        </FormGroup>
-                      </Col>
-                    </FormGroup> */}
-
-{/*                     <FormGroup tag="fieldset" row>
-                      <legend className="col-form-label col-sm-2">
-                        You are a...
-                      </legend>
-                      <Col sm={10}>
-                        <FormGroup check>
-                          <Label check>
-                            <Input type="radio" name="radio2" /> Private Seller
-                          </Label>
-                        </FormGroup>
-                        <FormGroup check>
-                          <Label check>
-                            <Input type="radio" name="radio2" /> Dealership
-                          </Label>
-                        </FormGroup>
-                      </Col>
-                    </FormGroup> */}
 
                     <FormGroup check row>
                       <Col>
@@ -306,7 +271,6 @@ function VehicleListing(props) {
                 </div>
               </Container>
             </Container>
-          </Container>
         </div>
       </div>
     </>
