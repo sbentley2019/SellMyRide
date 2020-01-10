@@ -43,14 +43,16 @@ function ProfilePageHeader() {
     <>
       <div
         style={{
-          backgroundImage:
-            "url(" + require("assets/img/fabio-mangione.jpg") + ")"
+          backgroundImage: "url(" + require("assets/img/racetrack.jpg") + ")"
         }}
         className="page-header page-header-xs"
         data-parallax={true}
         ref={pageHeader}
       >
         <div className="filter" />
+        <div className="motto text-center">
+          <h2>View My Profile</h2>
+        </div>
       </div>
     </>
   );
