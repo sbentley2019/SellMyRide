@@ -16,8 +16,9 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
-
+import React, { useState } from "react";
+import axios from "axios";
+// *********** add a redirect on the function register user that redirects after registering ***********
 // reactstrap components
 import {
   Button,
@@ -32,7 +33,6 @@ import {
   Col
 } from "reactstrap";
 
-
 // core components
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 // import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
@@ -45,6 +45,26 @@ function RegisterPage() {
       document.body.classList.remove("register-page");
     };
   });
+
+  const [user, setUser] = useState({
+    username: "",
+    email: "",
+    password: "",
+    location: "",
+    phone: ""
+  });
+
+  const registerUser = function(e) {
+    e.preventDefault();
+    axios.put("/api/users", user).then(res => {
+      console.log(res.data);
+    });
+  };
+
+  const updateUser = function(e) {
+    setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
   return (
     <>
       <IndexNavbar />
@@ -60,7 +80,23 @@ function RegisterPage() {
             <Col className="mx-auto" lg="4" md="6">
               <Card className="card-register">
                 <h3 className="title mx-auto">New here? Sign up below:</h3>
-                <Form className="register-form">
+                <Form className="register-form" onSubmit={registerUser}>
+                  <label>Username</label>
+                  <InputGroup className="form-group-no-border">
+                    <InputGroupAddon addonType="prepend">
+                      <InputGroupText>
+                        <i className="nc-icon nc-email-85" />
+                      </InputGroupText>
+                    </InputGroupAddon>
+                    <Input
+                      name="username"
+                      value={user.username}
+                      onChange={updateUser}
+                      placeholder="Username"
+                      type="text"
+                      required
+                    />
+                  </InputGroup>
                   <label>Email</label>
                   <InputGroup className="form-group-no-border">
                     <InputGroupAddon addonType="prepend">
@@ -68,7 +104,14 @@ function RegisterPage() {
                         <i className="nc-icon nc-email-85" />
                       </InputGroupText>
                     </InputGroupAddon>
-                    <Input placeholder="Email" type="email" />
+                    <Input
+                      name="email"
+                      value={user.email}
+                      onChange={updateUser}
+                      placeholder="Email"
+                      type="email"
+                      required
+                    />
                   </InputGroup>
                   <label>Password</label>
                   <InputGroup className="form-group-no-border">
@@ -77,13 +120,52 @@ function RegisterPage() {
                         <i className="nc-icon nc-key-25" />
                       </InputGroupText>
                     </InputGroupAddon>
-                    <Input placeholder="Password" type="password" />
+                    <Input
+                      name="password"
+                      value={user.password}
+                      onChange={updateUser}
+                      placeholder="Password"
+                      type="password"
+                      required
+                    />
+                  </InputGroup>
+                  <label>Location</label>
+                  <InputGroup className="form-group-no-border">
+                    <InputGroupAddon addonType="prepend">
+                      <InputGroupText>
+                        <i className="nc-icon nc-key-25" />
+                      </InputGroupText>
+                    </InputGroupAddon>
+                    <Input
+                      name="location"
+                      value={user.location}
+                      onChange={updateUser}
+                      placeholder="Location"
+                      type="text"
+                      required
+                    />
+                  </InputGroup>
+                  <label>Phone</label>
+                  <InputGroup className="form-group-no-border">
+                    <InputGroupAddon addonType="prepend">
+                      <InputGroupText>
+                        <i className="nc-icon nc-key-25" />
+                      </InputGroupText>
+                    </InputGroupAddon>
+                    <Input
+                      name="phone"
+                      value={user.phone}
+                      onChange={updateUser}
+                      placeholder="Phone"
+                      type="text"
+                      required
+                    />
                   </InputGroup>
                   <Button
                     block
                     className="btn-round"
                     color="danger"
-                    type="button"
+                    type="submit"
                   >
                     Register
                   </Button>
