@@ -36,35 +36,6 @@ const SectionSearchCards = props => {
             </CardBody>
           </Card>
         ))}
-        <Card>
-          <CardImg
-            top
-            width="100%"
-            src="/assets/img/1-sti-hyperblue.jpg"
-            alt="Card image cap"
-          />
-          <CardBody>
-            <CardTitle>2016</CardTitle>
-            <CardSubtitle>Subaru STI</CardSubtitle>
-            <CardText>Special edition hyper blue colour!</CardText>
-            <Button>View More</Button>
-          </CardBody>
-        </Card>
-
-        <Card>
-          <CardImg
-            top
-            width="100%"
-            src="/assets/img/1-sti-hyperblue.jpg"
-            alt="Card image cap"
-          />
-          <CardBody>
-            <CardTitle>2019</CardTitle>
-            <CardSubtitle>Subaru WRX</CardSubtitle>
-            <CardText>Full send!</CardText>
-            <Button>View More</Button>
-          </CardBody>
-        </Card>
       </Container>
     </div>
   );

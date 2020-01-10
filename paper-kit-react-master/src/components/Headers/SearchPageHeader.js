@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -16,21 +15,17 @@ import {
   FormGroup,
   Row,
   Col,
-
   Button,
   ButtonDropdown,
   Container,
   DropdownToggle,
   DropdownMenu,
-
   DropdownItem
-
 } from "reactstrap";
 
 import Slider from "nouislider";
 
 // core components
-
 
 function SearchPageHeader(props) {
   const [makeArr, setMakeArr] = useState([]);
@@ -46,7 +41,6 @@ function SearchPageHeader(props) {
   const toggle2 = () => setOpen2(!dropdownOpen2);
 
   useEffect(() => {
-
     if (window.innerWidth < 991) {
       const updateScroll = () => {
         let windowScrollTop = window.pageYOffset / 3;
@@ -59,11 +53,10 @@ function SearchPageHeader(props) {
       };
     }
 
-
-    axios.get("http://localhost:8001/api/listing/make").then(res => {
+    axios.get("/api/listing/make").then(res => {
       setMakeArr(res.data.map(listing => listing.make));
     });
-  }, []);
+  }, [make, model]);
 
   const sendMake = function(e) {
     setMake(e);
@@ -74,10 +67,22 @@ function SearchPageHeader(props) {
   };
 
   const searchListing = function(e) {
-    axios.get(`/api/listing/make/${make}/model/${model}`).then(res => {
-      props.setResults(res.data.map(listing => listing));
-      // console.log(res.data);
-    });
+    e.preventDefault();
+    console.log("search");
+    axios
+      .get(
+        `/api/listing${
+          make === `all`
+            ? ``
+            : model === ""
+            ? `/make/${make}`
+            : `/make/${make}/model/${model}`
+        }`
+      )
+      .then(res => {
+        props.setResults(res.data.map(listing => listing));
+        // console.log(res.data);
+      });
   };
 
   // React.useEffect(() => {
@@ -105,20 +110,16 @@ function SearchPageHeader(props) {
   // }
   // });
 
-
   return (
     <>
       <div
         style={{
-
           backgroundImage: "url(" + require("assets/img/racetrack.jpg") + ")"
-
         }}
         className="page-header"
         data-parallax={true}
         ref={pageHeader}
       >
-
         <Container>
           <div className="filter" />
           <div className="motto text-center">
@@ -129,6 +130,15 @@ function SearchPageHeader(props) {
                     {make ? make : "Select Make"}
                   </DropdownToggle>
                   <DropdownMenu>
+                    <DropdownItem
+                      onClick={e => {
+                        e.preventDefault();
+                        setMake("all");
+                        setModel("");
+                      }}
+                    >
+                      All
+                    </DropdownItem>
                     {makeArr.map(make => (
                       <DropdownItem
                         value={make}
@@ -203,7 +213,6 @@ function SearchPageHeader(props) {
             <br />
             <div className="slider slider-primary" id="sliderDouble" />
           </Col> */}
-
         </Container>
       </div>
     </>
