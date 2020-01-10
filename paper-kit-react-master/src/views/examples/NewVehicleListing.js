@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import NewVehicleListingHeader from "components/Headers/NewVehicleListingHeader.js";
 
@@ -28,14 +29,87 @@ import {
   FormText
 } from "reactstrap";
 
-function VehicleListing() {
+function VehicleListing(props) {
+
+  const [makeArr, setMakeArr] = useState([]);
+  const [modelArr, setModelArr] = useState([]);
+  const [make, setMake] = useState("");
+  const [model, setModel] = useState("");
+  const [year, setYear] = useState("");
+  const [image, setImage] = useState("");
+  const [price, setPrice] = useState("");
+  const [kms, setKms] = useState("");
+  const [city, setCity] = useState("");
+
+  let pageHeader = React.createRef();
+
+  const [dropdownOpen, setOpen] = useState(false);
+  const [dropdownOpen2, setOpen2] = useState(false);
+  const [dropdownOpen3, setOpen3] = useState(false);
+  const toggle = () => setOpen(!dropdownOpen);
+  const toggle2 = () => setOpen2(!dropdownOpen2);
+  const toggle3 = () => setOpen3(!dropdownOpen3);
+
+  let yearArr = [];
+  for (let i = 1970; i <= 2020; i++) {
+    yearArr.push(i);
+  }
+
+
   document.documentElement.classList.remove("nav-open");
-  React.useEffect(() => {
+  useEffect(() => {
+
+    if (window.innerWidth < 991) {
+      const updateScroll = () => {
+        let windowScrollTop = window.pageYOffset / 3;
+        pageHeader.current.style.transform =
+          "translate3d(0," + windowScrollTop + "px,0)";
+      };
+      window.addEventListener("scroll", updateScroll);
+      return function cleanup() {
+        window.removeEventListener("scroll", updateScroll);
+      };
+    }
+
+
+    axios.get("http://localhost:8001/api/makeModel/make").then(res => {
+      setMakeArr(res.data.map(listing => listing.make));
+      console.log(res.data);
+    });
+
     document.body.classList.add("profile-page");
     return function cleanup() {
       document.body.classList.remove("profile-page");
     };
-  });
+  }, []);
+
+  const sendMake = function(e) {
+    setMake(e);
+    setModel("");
+    axios.get(`/api/makeModel/make/${e}`).then(res => {
+      setModelArr(res.data.map(listing => listing.model));
+      console.log(res.data);
+    });
+  };
+
+  const createListing = function(data) {
+/*     kms = kms.replace(/[^\d\.\-\ ]/g, '');
+    price = price.replace(/[^\d\.\-\ ]/g, ''); */
+
+    let listingObj = {};
+    listingObj['make'] = make;
+    listingObj['model'] = model;
+    listingObj['year'] = year;
+    listingObj['user_id'] = 1;
+    listingObj['listing_image'] = image;
+    listingObj['price'] = parseInt(price);
+    listingObj['kms'] = parseInt(kms);
+    listingObj['city'] = city;
+
+    axios.put(`/api/listing`,listingObj);
+  };
+
+
   return (
     <>
       <IndexNavbar />
@@ -55,13 +129,24 @@ function VehicleListing() {
                         Select Make
                       </Label>
                       <Col sm={10}>
-                        <Input type="select" name="select" id="exampleSelect">
-                          <option>Audi</option>
-                          <option>BMW</option>
-                          <option>Honda</option>
-                          <option>Subaru</option>
-                          <option>Toyota</option>
-                        </Input>
+                      <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
+                        <DropdownToggle caret>
+                          {make ? make : "Select Make"}
+                        </DropdownToggle>
+                        <DropdownMenu>
+                          {makeArr.map(make => (
+                            <DropdownItem
+                              value={make}
+                              onClick={e => {
+                                e.preventDefault();
+                                sendMake(e.target.value);
+                              }}
+                            >
+                              {make}
+                            </DropdownItem>
+                          ))}
+                        </DropdownMenu>
+                      </ButtonDropdown>
                       </Col>
                     </FormGroup>
 
@@ -70,16 +155,50 @@ function VehicleListing() {
                         Select Model
                       </Label>
                       <Col sm={10}>
-                        <Input type="select" name="select" id="exampleSelect">
-                          <option>Ascent</option>
-                          <option>BRZ</option>
-                          <option>Crosstrek</option>
-                          <option>Forester</option>
-                          <option>Impreza</option>
-                          <option>Outback</option>
-                          <option>STI</option>
-                          <option>WRX</option>
-                        </Input>
+                        <ButtonDropdown isOpen={dropdownOpen2} toggle={toggle2}>
+                          <DropdownToggle caret>
+                            {model ? model : "Select Model"}
+                          </DropdownToggle>
+                          <DropdownMenu>
+                            {modelArr.map(model => (
+                              <DropdownItem
+                                value={model}
+                                onClick={e => {
+                                  e.preventDefault();
+                                  setModel(e.target.value);
+                                }}
+                              >
+                                {model}
+                              </DropdownItem>
+                            ))}
+                          </DropdownMenu>
+                        </ButtonDropdown>
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup row>
+                      <Label for="exampleSelect" sm={2}>
+                        Select Year
+                      </Label>
+                      <Col sm={10}>
+                        <ButtonDropdown isOpen={dropdownOpen3} toggle={toggle3}>
+                          <DropdownToggle caret>
+                            {year ? year : "Select Year"}
+                          </DropdownToggle>
+                          <DropdownMenu>
+                            {yearArr.map(year => (
+                              <DropdownItem
+                                value={year}
+                                onClick={e => {
+                                  e.preventDefault();
+                                  setYear(e.target.value);
+                                }}
+                              >
+                                {year}
+                              </DropdownItem>
+                            ))}
+                          </DropdownMenu>
+                        </ButtonDropdown>
                       </Col>
                     </FormGroup>
                     <FormGroup row>
@@ -87,15 +206,35 @@ function VehicleListing() {
                         Kilometers ('000s)
                       </Label>
                       <Col sm={10}>
-                        <Input type="textarea" name="text" id="exampleText" />
+                        <Input type="textarea" name="text" id="exampleText" value={kms}
+                        onChange={e => {
+                        setKms(e.target.value);
+                                }}/>
                       </Col>
                     </FormGroup>
                     <FormGroup row>
                       <Label for="exampleText" sm={2}>
-                        Brief Description
+                        Price
                       </Label>
                       <Col sm={10}>
-                        <Input type="textarea" name="text" id="exampleText" />
+                        <Input type="textarea" name="text" id="exampleText" 
+                        value={price}
+                        onChange={e => {
+                        setPrice(e.target.value);
+                                }}/>
+                      </Col>
+                    </FormGroup>
+
+                    <FormGroup row>
+                      <Label for="exampleText" sm={2}>
+                        City
+                      </Label>
+                      <Col sm={10}>
+                        <Input type="textarea" name="text" id="exampleText"
+                        value={city}
+                        onChange={e => {
+                        setCity(e.target.value);
+                                }} />
                       </Col>
                     </FormGroup>
 
@@ -104,10 +243,14 @@ function VehicleListing() {
                         Add Photos
                       </Label>
                       <Col sm={10}>
-                        <Input type="file" name="file" id="exampleFile" />
+                        <Input type="file" name="file" id="exampleFile" 
+                        value={image}
+                        onChange={e => {
+                                  setImage(e.target.value);
+                                }}/>
                       </Col>
                     </FormGroup>
-                    <FormGroup tag="fieldset" row>
+{/*                     <FormGroup tag="fieldset" row>
                       <legend className="col-form-label col-sm-2">
                         Condition
                       </legend>
@@ -123,9 +266,9 @@ function VehicleListing() {
                           </Label>
                         </FormGroup>
                       </Col>
-                    </FormGroup>
+                    </FormGroup> */}
 
-                    <FormGroup tag="fieldset" row>
+{/*                     <FormGroup tag="fieldset" row>
                       <legend className="col-form-label col-sm-2">
                         You are a...
                       </legend>
@@ -141,7 +284,7 @@ function VehicleListing() {
                           </Label>
                         </FormGroup>
                       </Col>
-                    </FormGroup>
+                    </FormGroup> */}
 
                     <FormGroup check row>
                       <Col>
@@ -149,7 +292,7 @@ function VehicleListing() {
                           className="btn-round"
                           color="success"
                           href="/listing"
-                          target=""
+                          onClick={createListing}
                           outline
                         >
                           List my ride!

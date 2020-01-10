@@ -64,29 +64,30 @@ module.exports = db => {
     });
   });
 
-  router.put("/listing/:id", (request, response) => {
+  router.put("/listing", (request, response) => {
     if (process.env.TEST_ERROR) {
       setTimeout(() => response.status(500).json({}), 1000);
       return;
     }
+    console.log(request.body);
     // need to add other listing variables into the db query
     const {
       make,
       model,
       year,
-      imageUrl,
-      isSold,
+      user_id,
+      listing_image,
       price,
       kms,
       city
     } = request.body;
 
-    console.log(make, model, year, imageUrl, isSold, price, kms, city);
+    console.log(make, model, year, user_id, listing_image, price, kms, city);
     db.query(
       `
-      INSERT INTO listing (make, model, year, user_id, listing_image, is_sold, price, kms, city) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+      INSERT INTO listing (make, model, year, user_id, listing_image, is_sold, price, kms, city) VALUES ($1, $2, $3, $4, $5, FALSE, $6, $7, $8)
     `,
-      [make, model, year, request.params.id, imageUrl, isSold, price, kms, city]
+      [make, model, year, user_id, listing_image, price, kms, city]
     );
   });
 
