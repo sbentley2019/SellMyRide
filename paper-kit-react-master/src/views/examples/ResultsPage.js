@@ -21,6 +21,7 @@ import {
   Col
 } from "reactstrap";
 
+
 function ResultsPage() {
   document.documentElement.classList.remove("nav-open");
   React.useEffect(() => {

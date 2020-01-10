@@ -17,14 +17,14 @@ module.exports = db => {
       return;
     }
 
-    const { username , email, password, location, phone } = request.body;
+    const { username, email, password, location, phone } = request.body;
 
     console.log(request.body);
     console.log(username);
     console.log(email);
     console.log(password);
     console.log(location);
-    console.log(phone);    
+    console.log(phone);
 
     db.query(
       `
@@ -32,11 +32,11 @@ module.exports = db => {
     `,
       [username, email, password, location, phone]
     )
-      .then(res => res.rows)
+      .then(data => {
+        response.json("User added.");
+      })
       .catch(error => console.log(error));
   });
-
-
 
   router.put("/users/:id", (request, response) => {
     if (process.env.TEST_ERROR) {
@@ -54,11 +54,9 @@ module.exports = db => {
     `,
       [Number(request.params.id), username, email, password, location, phone]
     )
-    .then(res => res.rows)
-    .catch(error => console.log(error));
+      .then(res => res.rows)
+      .catch(error => console.log(error));
   });
-
-
 
   router.delete("/users/:id", (request, response) => {
     if (process.env.TEST_ERROR) {
@@ -66,19 +64,14 @@ module.exports = db => {
       return;
     }
 
-    console.log(request.params.id)
+    console.log(request.params.id);
 
     /* const { id } = request.body.id; */
 
-
-
-    db.query(`DELETE FROM users WHERE id = $1`, [
-      Number(request.params.id)
-    ])
-    .then(res => res.rows)
-    .catch(error => console.log(error));
+    db.query(`DELETE FROM users WHERE id = $1`, [Number(request.params.id)])
+      .then(res => res.rows)
+      .catch(error => console.log(error));
   });
-
 
   return router;
 };
