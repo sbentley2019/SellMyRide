@@ -94,8 +94,13 @@ function IndexNavbar() {
             <NavItem>
 
               <NavLink href="/search" target="">
-
-                <i className="nc-icon nc-book-bookmark" /> New Search
+                {/* <i className="nc-icon nc-book-bookmark" /> New Search */}
+                <i /> New Search
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="/new-listing" target="">
+                <i  /> List my ride
               </NavLink>
             </NavItem>
             <NavItem>

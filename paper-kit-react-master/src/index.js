@@ -34,8 +34,8 @@ import SearchPage from "views/examples/SearchPage.js";
 import ResultsPage from "views/examples/ResultsPage.js";
 
 import LoginPage from "views/examples/LoginPage.js";
-
-// others
+import VehicleListing from "views/examples/VehicleListing.js";
+import NewVehicleListing from "views/examples/NewVehicleListing.js";
 
 import axios from "axios";
 const listing = axios.get("/api/listing");
@@ -74,6 +74,14 @@ ReactDOM.render(
       <Route
         path="/results"
         render={props => <ResultsPage {...props} />}
+      />
+      <Route
+        path="/listing"
+        render={props => <VehicleListing {...props} />}
+      />
+      <Route
+        path="/new-listing"
+        render={props => <NewVehicleListing {...props} />}
       />
       <Redirect to="/index" />
     </Switch>
