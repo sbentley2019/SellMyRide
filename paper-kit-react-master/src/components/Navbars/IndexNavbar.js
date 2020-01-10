@@ -16,7 +16,9 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { useEffect } from "react";
+import { useCookies } from "react-cookie";
+
 // nodejs library that concatenates strings
 import classnames from "classnames";
 // reactstrap components
@@ -34,13 +36,14 @@ import {
 function IndexNavbar() {
   const [navbarColor, setNavbarColor] = React.useState("navbar-transparent");
   const [navbarCollapse, setNavbarCollapse] = React.useState(false);
+  const [cookies, setCookie] = useCookies(["name"]);
 
   const toggleNavbarCollapse = () => {
     setNavbarCollapse(!navbarCollapse);
     document.documentElement.classList.toggle("nav-open");
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const updateNavbarColor = () => {
       if (
         document.documentElement.scrollTop > 299 ||
@@ -61,6 +64,11 @@ function IndexNavbar() {
       window.removeEventListener("scroll", updateNavbarColor);
     };
   });
+
+  function alterUser(newName) {
+    setCookie("name", newName, { path: "/" });
+  }
+
   return (
     <Navbar className={classnames("fixed-top", navbarColor)} expand="lg">
       <Container>
@@ -92,7 +100,6 @@ function IndexNavbar() {
         >
           <Nav navbar>
             <NavItem>
-
               <NavLink href="/search" target="">
                 {/* <i className="nc-icon nc-book-bookmark" /> New Search */}
                 <i /> New Search
@@ -100,36 +107,46 @@ function IndexNavbar() {
             </NavItem>
             <NavItem>
               <NavLink href="/new-listing" target="">
-                <i  /> List my ride
+                <i /> List my ride
               </NavLink>
             </NavItem>
+            {cookies.name ? (
+              <NavItem>
+                <Button
+                  className="btn-round"
+                  color="success"
+                  onClick={() => alterUser("")}
+                >
+                  Logout
+                </Button>
+              </NavItem>
+            ) : (
+              <NavItem>
+                <Button
+                  className="btn-round"
+                  color="success"
+                  href="/register"
+                  target=""
+                  // disabled
+                >
+                  Register
+                </Button>
+                <Button
+                  className="btn-round"
+                  color="success"
+                  href="/login"
+                  target=""
+                  // disabled
+                >
+                  Login
+                </Button>
+              </NavItem>
+            )}
             <NavItem>
               <Button
                 className="btn-round"
-                color="success"
-
-                href="/register"
-
-                target=""
-                // disabled
-              >
-                Register
-              </Button>
-              <Button
-                className="btn-round"
-                color="success"
-                href="/login"
-                target=""
-                // disabled
-              >
-                Login
-              </Button>
-              <Button
-                className="btn-round"
                 color="danger"
-
                 href="/profile"
-
                 target=""
               >
                 My Profile
