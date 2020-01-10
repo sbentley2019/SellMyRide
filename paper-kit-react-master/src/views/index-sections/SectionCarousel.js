@@ -38,11 +38,11 @@ const items = [
     altText: "2016Subaru STI",
     caption: "2016 Subaru STI"
   },
-  {
-    src: require("assets/img/2-crosstrek.PNG"),
-    altText: "2019 Subaru Crosstrek",
-    caption: "2019 Subaru Crosstrek"
-  },
+  // {
+  //   src: require("assets/img/2-crosstrek.PNG"),
+  //   altText: "2019 Subaru Crosstrek",
+  //   caption: "2019 Subaru Crosstrek"
+  // },
   {
     src: require("assets/img/3-shitty-accord.jpg"),
     altText: "2002 Honda Accord",
@@ -50,8 +50,8 @@ const items = [
   },
   {
     src: require("assets/img/4-911-gt3.jpg"),
-    altText: "2017 Porsche 911 GT3",
-    caption: "2017 Porsche 911 GT3"
+    altText: "2017 Porsche 911",
+    caption: "2017 Porsche 911"
   }
 ];
 

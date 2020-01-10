@@ -92,10 +92,9 @@ function IndexNavbar() {
         >
           <Nav navbar>
             <NavItem>
-              <NavLink
-                href="/search"
-                target=""
-              >
+
+              <NavLink href="/search" target="">
+
                 <i className="nc-icon nc-book-bookmark" /> New Search
               </NavLink>
             </NavItem>
@@ -103,7 +102,9 @@ function IndexNavbar() {
               <Button
                 className="btn-round"
                 color="success"
-                href="/register-page"
+
+                href="/register"
+
                 target=""
                 // disabled
               >
@@ -111,8 +112,19 @@ function IndexNavbar() {
               </Button>
               <Button
                 className="btn-round"
+                color="success"
+                href="/login"
+                target=""
+                // disabled
+              >
+                Login
+              </Button>
+              <Button
+                className="btn-round"
                 color="danger"
-                href="/profile-page"
+
+                href="/profile"
+
                 target=""
               >
                 My Profile

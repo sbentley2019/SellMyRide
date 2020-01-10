@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
-
 import SearchPageHeader from "components/Headers/SearchPageHeader.js";
 
 // reactstrap components
@@ -21,6 +21,13 @@ import {
 } from "reactstrap";
 
 function SearchPage() {
+
+  const [results, setResults] = useState([]);
+
+  useEffect(() => {
+    console.log(results);
+  }, [results]);
+
   document.documentElement.classList.remove("nav-open");
   React.useEffect(() => {
     document.body.classList.add("profile-page");
@@ -31,7 +38,7 @@ function SearchPage() {
   return (
     <>
       <IndexNavbar />
-      <SearchPageHeader />
+      <SearchPageHeader setResults={results => setResults(results)} />
     </>
   );
 }

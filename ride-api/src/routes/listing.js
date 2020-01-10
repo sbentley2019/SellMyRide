@@ -32,6 +32,38 @@ module.exports = db => {
     });
   });
 
+
+  router.get("/listing/make", (request, response) => {
+    db.query(
+      `
+      SELECT DISTINCT make FROM listing
+      `
+    ).then(data => {
+      response.json(data.rows);
+    });
+  });
+
+  router.get("/listing/make/:id", (request, response) => {
+    db.query(
+      `
+      SELECT DISTINCT model FROM listing WHERE make = $1`,
+      [request.params.id]
+    ).then(data => {
+      response.json(data.rows);
+    });
+  });
+
+  router.get("/listing/make/:id1/model/:id2", (request, response) => {
+    db.query(
+      `
+      SELECT * FROM listing WHERE make = $1 AND model = $2
+      `,
+      [request.params.id1, request.params.id2]
+    ).then(data => {
+      response.json(data.rows);
+    });
+  });
+
   router.put("/listing/:id", (request, response) => {
     if (process.env.TEST_ERROR) {
       setTimeout(() => response.status(500).json({}), 1000);

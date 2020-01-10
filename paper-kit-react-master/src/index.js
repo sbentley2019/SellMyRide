@@ -32,6 +32,9 @@ import ProfilePage from "views/examples/ProfilePage.js";
 import RegisterPage from "views/examples/RegisterPage.js";
 import SearchPage from "views/examples/SearchPage.js";
 import ResultsPage from "views/examples/ResultsPage.js";
+
+import LoginPage from "views/examples/LoginPage.js";
+
 // others
 
 import axios from "axios";
@@ -51,14 +54,20 @@ ReactDOM.render(
         render={props => <LandingPage {...props} />}
       />
       <Route
-        path="/profile-page"
+        path="/profile"
         render={props => <ProfilePage {...props} />}
       />
       <Route
-        path="/register-page"
+        path="/register"
         render={props => <RegisterPage {...props} />}
       />
       <Route
+
+        path="/login"
+        render={props => <LoginPage {...props} />}
+      />
+      <Route
+
         path="/search"
         render={props => <SearchPage {...props} />}
       />
