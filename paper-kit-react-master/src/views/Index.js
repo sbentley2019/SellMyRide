@@ -17,6 +17,7 @@
 
 */
 import React from "react";
+import { useCookies } from "react-cookie";
 
 // reactstrap components
 
@@ -44,9 +45,10 @@ import axios from "axios";
 const listing = axios.get("/api/listing");
 console.log("zzzzzzz", listing);
 
-
 function Index() {
   document.documentElement.classList.remove("nav-open");
+  const [cookies, setCookie] = useCookies(["name"]);
+
   React.useEffect(() => {
     document.body.classList.add("index");
     return function cleanup() {
@@ -58,7 +60,6 @@ function Index() {
       <IndexNavbar />
       <IndexHeader />
       <div className="main">
-        
         <SectionButtons />
         <SectionNavbars />
         <SectionNavigation />

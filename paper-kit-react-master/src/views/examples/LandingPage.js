@@ -18,7 +18,7 @@
 */
 import React from "react";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
-
+import { useCookies } from "react-cookie";
 // reactstrap components
 import {
   Button,
@@ -43,6 +43,8 @@ import DemoFooter from "components/Footers/DemoFooter.js";
 
 function LandingPage() {
   document.documentElement.classList.remove("nav-open");
+  const [cookies, setCookie] = useCookies(["name"]);
+
   React.useEffect(() => {
     document.body.classList.add("profile-page");
     return function cleanup() {

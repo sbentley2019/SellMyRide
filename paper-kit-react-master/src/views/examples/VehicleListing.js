@@ -1,5 +1,6 @@
 import React from "react";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
+import { useCookies } from "react-cookie";
 
 // reactstrap components
 import {
@@ -20,6 +21,8 @@ import {
 
 function VehicleListing() {
   document.documentElement.classList.remove("nav-open");
+  const [cookies, setCookie] = useCookies(["name"]);
+
   React.useEffect(() => {
     document.body.classList.add("profile-page");
     return function cleanup() {

@@ -18,7 +18,7 @@
 */
 import React from "react";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
-
+import { useCookies } from "react-cookie";
 // reactstrap components
 import {
   Button,
@@ -42,6 +42,7 @@ import DemoFooter from "components/Footers/DemoFooter.js";
 
 function ProfilePage() {
   const [activeTab, setActiveTab] = React.useState("1");
+  const [cookies, setCookie] = useCookies(["name"]);
 
   const toggle = tab => {
     if (activeTab !== tab) {
@@ -122,10 +123,7 @@ function ProfilePage() {
                         <Col className="ml-auto mr-auto" lg="3" md="4" xs="4">
                           <FormGroup check>
                             <Label check>
-                              <Input
-                                defaultValue=""
-                                type="checkbox"
-                              />
+                              <Input defaultValue="" type="checkbox" />
                               <span className="form-check-sign" />
                             </Label>
                           </FormGroup>

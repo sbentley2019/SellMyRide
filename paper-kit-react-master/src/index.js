@@ -19,7 +19,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
-
+import { CookiesProvider } from "react-cookie";
 // styles
 import "assets/css/bootstrap.min.css";
 import "assets/scss/paper-kit.scss";
@@ -43,48 +43,33 @@ console.log("zzzzzzz", listing);
 
 ReactDOM.render(
   <BrowserRouter>
-    <Switch>
-      <Route path="/index" render={props => <Index {...props} />} />
-      <Route
-        path="/nucleo-icons"
-        render={props => <NucleoIcons {...props} />}
-      />
-      <Route
-        path="/landing-page"
-        render={props => <LandingPage {...props} />}
-      />
-      <Route
-        path="/profile"
-        render={props => <ProfilePage {...props} />}
-      />
-      <Route
-        path="/register"
-        render={props => <RegisterPage {...props} />}
-      />
-      <Route
-
-        path="/login"
-        render={props => <LoginPage {...props} />}
-      />
-      <Route
-
-        path="/search"
-        render={props => <SearchPage {...props} />}
-      />
-      <Route
-        path="/results"
-        render={props => <ResultsPage {...props} />}
-      />
-      <Route
-        path="/listing"
-        render={props => <VehicleListing {...props} />}
-      />
-      <Route
-        path="/new-listing"
-        render={props => <NewVehicleListing {...props} />}
-      />
-      <Redirect to="/index" />
-    </Switch>
+    <CookiesProvider>
+      <Switch>
+        <Route path="/index" render={props => <Index {...props} />} />
+        <Route
+          path="/nucleo-icons"
+          render={props => <NucleoIcons {...props} />}
+        />
+        <Route
+          path="/landing-page"
+          render={props => <LandingPage {...props} />}
+        />
+        <Route path="/profile" render={props => <ProfilePage {...props} />} />
+        <Route path="/register" render={props => <RegisterPage {...props} />} />
+        <Route path="/login" render={props => <LoginPage {...props} />} />
+        <Route path="/search" render={props => <SearchPage {...props} />} />
+        <Route path="/results" render={props => <ResultsPage {...props} />} />
+        <Route
+          path="/listing"
+          render={props => <VehicleListing {...props} />}
+        />
+        <Route
+          path="/new-listing"
+          render={props => <NewVehicleListing {...props} />}
+        />
+        <Redirect to="/index" />
+      </Switch>
+    </CookiesProvider>
   </BrowserRouter>,
   document.getElementById("root")
 );
