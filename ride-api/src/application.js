@@ -18,6 +18,7 @@ const car_images = require("./routes/car_images");
 const messages = require("./routes/messages");
 const ratings = require("./routes/ratings");
 const users = require("./routes/users");
+const makeModel = require("./routes/makeModel");
 ////////////////////////////////////
 
 const days = require("./routes/days");
@@ -59,6 +60,7 @@ module.exports = function application(
   app.use("/api", messages(db));
   app.use("/api", ratings(db));
   app.use("/api", users(db));
+  app.use("/api", makeModel(db));
   ////////////////////////////////////////
 
   if (ENV === "development" || ENV === "test") {
