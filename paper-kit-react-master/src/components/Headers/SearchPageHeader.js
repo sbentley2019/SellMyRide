@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -15,17 +16,21 @@ import {
   FormGroup,
   Row,
   Col,
+
   Button,
   ButtonDropdown,
   Container,
   DropdownToggle,
   DropdownMenu,
+
   DropdownItem
+
 } from "reactstrap";
 
 import Slider from "nouislider";
 
 // core components
+
 
 function SearchPageHeader(props) {
   const [makeArr, setMakeArr] = useState([]);
@@ -41,6 +46,7 @@ function SearchPageHeader(props) {
   const toggle2 = () => setOpen2(!dropdownOpen2);
 
   useEffect(() => {
+
     if (window.innerWidth < 991) {
       const updateScroll = () => {
         let windowScrollTop = window.pageYOffset / 3;
@@ -52,6 +58,7 @@ function SearchPageHeader(props) {
         window.removeEventListener("scroll", updateScroll);
       };
     }
+
 
     axios.get("http://localhost:8001/api/listing/make").then(res => {
       setMakeArr(res.data.map(listing => listing.make));
@@ -98,16 +105,20 @@ function SearchPageHeader(props) {
   // }
   // });
 
+
   return (
     <>
       <div
         style={{
+
           backgroundImage: "url(" + require("assets/img/racetrack.jpg") + ")"
+
         }}
         className="page-header"
         data-parallax={true}
         ref={pageHeader}
       >
+
         <Container>
           <div className="filter" />
           <div className="motto text-center">
@@ -192,6 +203,7 @@ function SearchPageHeader(props) {
             <br />
             <div className="slider slider-primary" id="sliderDouble" />
           </Col> */}
+
         </Container>
       </div>
     </>

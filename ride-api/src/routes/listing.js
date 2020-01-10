@@ -1,6 +1,27 @@
 const router = require("express").Router();
 
 module.exports = db => {
+  router.get("/listing/make", (request, response) => {
+    db.query(
+      `
+      SELECT DISTINCT make FROM listing
+      `
+    ).then(data => {
+      response.json(data.rows);
+    });
+  });
+
+  router.get("/listing/make/:id", (request, response) => {
+    console.log("got here");
+    db.query(
+      `
+      SELECT DISTINCT model FROM listing WHERE make = $1`,
+      [request.params.id]
+    ).then(data => {
+      response.json(data.rows);
+    });
+  });
+
   router.get("/listing", (request, response) => {
     db.query(
       `
@@ -10,6 +31,7 @@ module.exports = db => {
       response.json(listing);
     });
   });
+
 
   router.get("/listing/make", (request, response) => {
     db.query(
