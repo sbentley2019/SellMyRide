@@ -16,9 +16,11 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, {useEffect, useState} from "react";
+import axios from "axios";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import { useCookies } from "react-cookie";
+
 // reactstrap components
 import {
   Button,
@@ -40,9 +42,61 @@ import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import ProfilePageHeader from "components/Headers/ProfilePageHeader.js";
 import DemoFooter from "components/Footers/DemoFooter.js";
 
+
 function ProfilePage() {
   const [activeTab, setActiveTab] = React.useState("1");
   const [cookies, setCookie] = useCookies(["name"]);
+  const [arrListing, setArrListing] = useState([]);
+  const [del, setDel] = useState(0);
+  
+
+  useEffect(() => {
+
+    let id = 3
+    axios.get(`http://localhost:8001/api/listing/profile/${id}`).then(res => {
+      setArrListing(res.data);
+    });
+
+  }, []);
+
+  let generateListing = arrListing.map(list => {
+                                      console.log(list.id);
+                                       return (
+                                                  <li>
+                                                  <Row>
+                                                  <Col className="ml-auto mr-auto" lg="2" md="4" xs="4">
+                                                    <img
+                                                      alt="..."
+                                                      className="img-circle img-no-padding img-responsive"
+                                                      src={list.listing_image}
+                                                    />
+                                                  </Col>
+                                                  <Col className="ml-auto mr-auto" lg="7" md="4" xs="4">
+                                                    <h6>
+                                                      {list.year} {list.make} {list.model} <br />
+                                                    </h6>
+                                                  </Col>
+                                                  <Col className="ml-auto mr-auto" lg="3" md="4" xs="4">
+                                                  <div className="text-center">
+                                                    <Button 
+                                                    className="btn-round" 
+                                                    color="warning" 
+                                                    outline
+                                                    onClick={() => {
+                                                                    
+                                                                    deleteListing(list.id)
+                                                    }}
+                                                    >
+                                                      Delete Listing
+                                                    </Button>
+                                                  </div>
+                                                  </Col>
+                                                </Row>
+                                              </li>
+                                              )
+                                           });
+
+  console.log(generateListing);
 
   const toggle = tab => {
     if (activeTab !== tab) {
@@ -57,6 +111,12 @@ function ProfilePage() {
       document.body.classList.remove("landing-page");
     };
   });
+
+  let deleteListing = function(e) {
+
+    axios.delete(`/api/listing/${e}`);
+  };
+
   return (
     <>
       <IndexNavbar />
@@ -116,90 +176,20 @@ function ProfilePage() {
               <Row>
                 <Col className="ml-auto mr-auto" md="6">
                   <ul className="list-unstyled follows">
-                    <li>
-                      <Row>
-                        <Col className="ml-auto mr-auto" lg="2" md="4" xs="4">
-                          <img
-                            alt="..."
-                            className="img-circle img-no-padding img-responsive"
-                            src={require("assets/img/4-911-gt3.jpg")}
-                          />
-                        </Col>
-                        <Col className="ml-auto mr-auto" lg="7" md="4" xs="4">
-                          <h6>
-                            2017 Porsche 911 <br />
-                          </h6>
-                        </Col>
-                        <Col className="ml-auto mr-auto" lg="3" md="4" xs="4">
-                          <FormGroup check>
-                            <Label check>
-                              <Input defaultValue="" type="checkbox" />
-                              <span className="form-check-sign" />
-                            </Label>
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                    </li>
-                    <li>
-                      <Row>
-                        <Col className="mx-auto" lg="2" md="4" xs="4">
-                          <img
-                            alt="..."
-                            className="img-circle img-no-padding img-responsive"
-                            src={require("assets/img/1-sti-hyperblue.jpg")}
-                          />
-                        </Col>
-                        <Col lg="7" md="4" xs="4">
-                          <h6>
-                            2016 Subaru STI <br />
-                          </h6>
-                        </Col>
-                        <Col lg="3" md="4" xs="4">
-                          <FormGroup check>
-                            <Label check>
-                              <Input defaultValue="" type="checkbox" />
-                              <span className="form-check-sign" />
-                            </Label>
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                    </li>
-                    <li>
-                      <Row>
-                        <Col className="mx-auto" lg="2" md="4" xs="4">
-                          <img
-                            alt="..."
-                            className="img-circle img-no-padding img-responsive"
-                            src={require("assets/img/car-noimage.png")}
-                          />
-                        </Col>
-                        <Col lg="7" md="4" xs="4">
-                          <h6>
-                            2007 Toyota Camry <br />
-                          </h6>
-                        </Col>
-                        <Col lg="3" md="4" xs="4">
-                          <FormGroup check>
-                            <Label check>
-                              <Input defaultValue="" type="checkbox" />
-                              <span className="form-check-sign" />
-                            </Label>
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                    </li>
+
+                  {generateListing}
+
                   </ul>
                 </Col>
               </Row>
-              <div className="text-center">
-                <Button className="btn-round" color="warning" outline>
-                  Delete Listing
-                </Button>
-              </div>
             </TabPane>
             <TabPane className="text-center" tabId="2" id="following">
               <h3 className="text-muted">Your inbox is empty!</h3>
-              <Button className="btn-round" color="warning" outline>
+              <Button 
+              className="btn-round" 
+              color="warning" 
+              outline
+              >
                 Delete Message
               </Button>
             </TabPane>
