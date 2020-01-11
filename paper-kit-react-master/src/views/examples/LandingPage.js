@@ -43,7 +43,7 @@ import DemoFooter from "components/Footers/DemoFooter.js";
 
 function LandingPage() {
   document.documentElement.classList.remove("nav-open");
-  const [cookies, setCookie] = useCookies(["name"]);
+  const [cookies, setCookie] = useCookies(["name", "user_id"]);
 
   React.useEffect(() => {
     document.body.classList.add("profile-page");

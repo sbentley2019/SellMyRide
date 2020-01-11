@@ -24,7 +24,7 @@ import {
 
 function SearchPage() {
   const [results, setResults] = useState([]);
-  const [cookies, setCookie] = useCookies(["name"]);
+  const [cookies, setCookie] = useCookies(["name", "user_id"]);
 
   useEffect(() => {}, [results]);
 

@@ -36,7 +36,7 @@ import {
 function IndexNavbar() {
   const [navbarColor, setNavbarColor] = React.useState("navbar-transparent");
   const [navbarCollapse, setNavbarCollapse] = React.useState(false);
-  const [cookies, setCookie] = useCookies(["name"]);
+  const [cookies, setCookie] = useCookies(["name", "user_id"]);
 
   const toggleNavbarCollapse = () => {
     setNavbarCollapse(!navbarCollapse);
@@ -67,6 +67,7 @@ function IndexNavbar() {
 
   function alterUser(newName) {
     setCookie("name", newName, { path: "/" });
+    setCookie("user_id", newName, { path: "/" });
     window.location.replace("/");
   }
 
@@ -100,6 +101,13 @@ function IndexNavbar() {
           isOpen={navbarCollapse}
         >
           <Nav navbar>
+            {cookies.name && (
+              <NavItem>
+                <NavLink>
+                  <i /> user: {cookies.name}
+                </NavLink>
+              </NavItem>
+            )}
             <NavItem>
               <NavLink href="/search" target="">
                 {/* <i className="nc-icon nc-book-bookmark" /> New Search */}

@@ -56,7 +56,7 @@ function VehicleListing(props) {
 
   document.documentElement.classList.remove("nav-open");
 
-  const [cookies, setCookie] = useCookies(["name"]);
+  const [cookies, setCookie] = useCookies(["name", "user_id"]);
 
   useEffect(() => {
     if (window.innerWidth < 991) {
