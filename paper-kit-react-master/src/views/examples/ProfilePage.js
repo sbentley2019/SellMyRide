@@ -85,7 +85,7 @@ function ProfilePage() {
                       toggle("1");
                     }}
                   >
-                    My Listings
+                    Current Listings
                   </NavLink>
                 </NavItem>
                 <NavItem>
@@ -96,6 +96,16 @@ function ProfilePage() {
                     }}
                   >
                     My Messages
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink
+                    className={activeTab === "3" ? "active" : ""}
+                    onClick={() => {
+                      toggle("3");
+                    }}
+                  >
+                    Previous Listings
                   </NavLink>
                 </NavItem>
               </Nav>
@@ -192,6 +202,9 @@ function ProfilePage() {
               <Button className="btn-round" color="warning" outline>
                 Delete Message
               </Button>
+            </TabPane>
+            <TabPane className="text-center" tabId="3" id="following">
+              <h3 className="text-muted">No previous listings!</h3>
             </TabPane>
           </TabContent>
         </Container>
