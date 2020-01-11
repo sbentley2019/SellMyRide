@@ -67,6 +67,7 @@ function IndexNavbar() {
 
   function alterUser(newName) {
     setCookie("name", newName, { path: "/" });
+    window.location.replace("/");
   }
 
   return (

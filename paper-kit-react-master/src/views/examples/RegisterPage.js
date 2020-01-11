@@ -59,9 +59,15 @@ function RegisterPage() {
 
   const registerUser = function(e) {
     e.preventDefault();
-    axios.put("/api/users", user).then(res => {
-      console.log(res.data);
-      setCookie("name", user.email, { path: "/" });
+    axios.get(`/api/users/${user.email}`).then(res => {
+      if (res.data.length === 0) {
+        axios.put("/api/users", user).then(res => {
+          setCookie("name", user.email, { path: "/" });
+          window.location.replace("/");
+        });
+      } else {
+        alert("email is already in use");
+      }
     });
   };
 

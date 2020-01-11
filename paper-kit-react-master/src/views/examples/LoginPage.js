@@ -36,12 +36,13 @@ function LoginPage() {
     setCookie("name", newName, { path: "/" });
   }
 
-  const registerUser = function() {
+  const loginUser = function() {
     axios.get(`/api/users/${user.email}`).then(res => {
       if (user.password === res.data[0].password) {
         setCookie("name", res.data[0].id, { path: "/" });
+        window.location.replace("/");
       } else {
-        console.log("incorrect email or password");
+        alert("incorrect email or password");
       }
     });
   };
@@ -100,7 +101,7 @@ function LoginPage() {
                     block
                     className="btn-round"
                     color="danger"
-                    onClick={registerUser}
+                    onClick={loginUser}
                     type="button"
                   >
                     Login
