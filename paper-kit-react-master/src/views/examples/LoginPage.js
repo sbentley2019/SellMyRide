@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
+import axios from "axios";
+
 // reactstrap components
 import {
   Button,
@@ -21,8 +23,9 @@ import IndexNavbar from "components/Navbars/IndexNavbar.js";
 function LoginPage() {
   document.documentElement.classList.remove("nav-open");
   const [cookies, setCookie] = useCookies(["name"]);
+  const [user, setUser] = useState({ email: "", password: "" });
 
-  React.useEffect(() => {
+  useEffect(() => {
     document.body.classList.add("register-page");
     return function cleanup() {
       document.body.classList.remove("register-page");
@@ -32,6 +35,16 @@ function LoginPage() {
   function alterUser(newName) {
     setCookie("name", newName, { path: "/" });
   }
+
+  const registerUser = function() {
+    axios.get(`/api/users/${user.email}`).then(res => {
+      if (user.password === res.data[0].password) {
+        setCookie("name", res.data[0].id, { path: "/" });
+      } else {
+        console.log("incorrect email or password");
+      }
+    });
+  };
 
   return (
     <>
@@ -57,9 +70,10 @@ function LoginPage() {
                       </InputGroupText>
                     </InputGroupAddon>
                     <Input
-                      name={cookies.name}
+                      name="email"
+                      value={user.email}
                       onChange={e => {
-                        alterUser(e.target.value);
+                        setUser({ ...user, email: e.target.value });
                       }}
                       placeholder="Email"
                       type="email"
@@ -72,15 +86,24 @@ function LoginPage() {
                         <i className="nc-icon nc-key-25" />
                       </InputGroupText>
                     </InputGroupAddon>
-                    <Input placeholder="Password" type="password" />
+                    <Input
+                      name="password"
+                      value={user.password}
+                      onChange={e => {
+                        setUser({ ...user, password: e.target.value });
+                      }}
+                      placeholder="Password"
+                      type="password"
+                    />
                   </InputGroup>
                   <Button
                     block
                     className="btn-round"
                     color="danger"
+                    onClick={registerUser}
                     type="button"
                   >
-                    Register
+                    Login
                   </Button>
                 </Form>
               </Card>

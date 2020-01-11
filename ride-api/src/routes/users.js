@@ -38,6 +38,17 @@ module.exports = db => {
       .catch(error => console.log(error));
   });
 
+  router.get("/users/:id", (request, response) => {
+    db.query(
+      `
+      SELECT * FROM users WHERE email = $1 LIMIT 1
+      `,
+      [request.params.id]
+    ).then(data => {
+      response.json(data.rows);
+    });
+  });
+
   router.put("/users/:id", (request, response) => {
     if (process.env.TEST_ERROR) {
       setTimeout(() => response.status(500).json({}), 1000);
