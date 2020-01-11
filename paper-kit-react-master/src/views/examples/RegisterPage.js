@@ -40,7 +40,7 @@ import IndexNavbar from "components/Navbars/IndexNavbar.js";
 
 function RegisterPage() {
   document.documentElement.classList.remove("nav-open");
-  const [cookies, setCookie] = useCookies(["name"]);
+  const [cookies, setCookie] = useCookies(["name", "user_id"]);
 
   React.useEffect(() => {
     document.body.classList.add("register-page");
@@ -57,11 +57,22 @@ function RegisterPage() {
     phone: ""
   });
 
+  function alterUser(key, value) {
+    setCookie(key, value, { path: "/" });
+  }
+
   const registerUser = function(e) {
     e.preventDefault();
-    axios.put("/api/users", user).then(res => {
-      console.log(res.data);
-      setCookie("name", user.email, { path: "/" });
+    axios.get(`/api/users/${user.email}`).then(res => {
+      if (res.data.length === 0) {
+        axios.put("/api/users", user).then(res => {
+          alterUser("name", res.data[0].name);
+          alterUser("user_id", res.data[0].id);
+          window.location.replace("/");
+        });
+      } else {
+        alert("email is already in use");
+      }
     });
   };
 

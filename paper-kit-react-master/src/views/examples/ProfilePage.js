@@ -45,7 +45,7 @@ import DemoFooter from "components/Footers/DemoFooter.js";
 
 function ProfilePage() {
   const [activeTab, setActiveTab] = React.useState("1");
-  const [cookies, setCookie] = useCookies(["name"]);
+  const [cookies, setCookie] = useCookies(["name", "user_id"]);
   const [arrListing, setArrListing] = useState([]);
   const [del, setDel] = useState(0);
   
@@ -96,7 +96,6 @@ function ProfilePage() {
                                               )
                                            });
 
-  console.log(generateListing);
 
   const toggle = tab => {
     if (activeTab !== tab) {

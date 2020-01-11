@@ -22,7 +22,7 @@ import IndexNavbar from "components/Navbars/IndexNavbar.js";
 
 function LoginPage() {
   document.documentElement.classList.remove("nav-open");
-  const [cookies, setCookie] = useCookies(["name"]);
+  const [cookies, setCookie] = useCookies(["name", "user_id"]);
   const [user, setUser] = useState({ email: "", password: "" });
 
   useEffect(() => {
@@ -32,16 +32,18 @@ function LoginPage() {
     };
   });
 
-  function alterUser(newName) {
-    setCookie("name", newName, { path: "/" });
+  function alterUser(key, value) {
+    setCookie(key, value, { path: "/" });
   }
 
-  const registerUser = function() {
+  const loginUser = function() {
     axios.get(`/api/users/${user.email}`).then(res => {
       if (user.password === res.data[0].password) {
-        setCookie("name", res.data[0].id, { path: "/" });
+        alterUser("name", res.data[0].name);
+        alterUser("user_id", res.data[0].id);
+        window.location.replace("/");
       } else {
-        console.log("incorrect email or password");
+        alert("incorrect email or password");
       }
     });
   };
@@ -100,7 +102,7 @@ function LoginPage() {
                     block
                     className="btn-round"
                     color="danger"
-                    onClick={registerUser}
+                    onClick={loginUser}
                     type="button"
                   >
                     Login

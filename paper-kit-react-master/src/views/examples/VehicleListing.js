@@ -1,6 +1,9 @@
 import React from "react";
-import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import { useCookies } from "react-cookie";
+import IndexNavbar from "components/Navbars/IndexNavbar.js";
+import NewVehicleListingHeader from "components/Headers/NewVehicleListingHeader.js";
+import VehicleProfileCarousel from "components/Sections/VehicleProfileCarousel.js";
+import VehicleProfileDescription from "components/Sections/VehicleProfileDescription.js";
 
 // reactstrap components
 import {
@@ -21,7 +24,7 @@ import {
 
 function VehicleListing() {
   document.documentElement.classList.remove("nav-open");
-  const [cookies, setCookie] = useCookies(["name"]);
+  const [cookies, setCookie] = useCookies(["name", "user_id"]);
 
   React.useEffect(() => {
     document.body.classList.add("profile-page");
@@ -32,22 +35,9 @@ function VehicleListing() {
   return (
     <>
       <IndexNavbar />
-      {/* <ResultsPageHeader /> */}
-      <div>
-        <h1>VEHICLE LISTING</h1>
-      </div>
-      {/* <Container>
-        <Row>
-          <Col className="ml-auto mr-auto" md="8">
-            <h2 className="title">My rides</h2>
-            <h4 className="description">
-              <p className="card-description text-center">
-                view your search results right here.
-              </p>
-            </h4>
-          </Col>
-        </Row>
-      </Container> */}
+      <NewVehicleListingHeader />
+      <VehicleProfileCarousel />
+      <VehicleProfileDescription />
     </>
   );
 }

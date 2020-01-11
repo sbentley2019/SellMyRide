@@ -47,7 +47,7 @@ console.log("zzzzzzz", listing);
 
 function Index() {
   document.documentElement.classList.remove("nav-open");
-  const [cookies, setCookie] = useCookies(["name"]);
+  const [cookies, setCookie] = useCookies(["name", "user_id"]);
 
   React.useEffect(() => {
     document.body.classList.add("index");
