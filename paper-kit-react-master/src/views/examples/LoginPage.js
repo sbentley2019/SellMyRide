@@ -39,8 +39,8 @@ function LoginPage() {
   const loginUser = function() {
     axios.get(`/api/users/${user.email}`).then(res => {
       if (user.password === res.data[0].password) {
-        alterUser("name", res.data[0].id);
-        alterUser("user_id", res.data[0].name);
+        alterUser("name", res.data[0].name);
+        alterUser("user_id", res.data[0].id);
         window.location.replace("/");
       } else {
         alert("incorrect email or password");
