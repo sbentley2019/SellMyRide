@@ -30,8 +30,8 @@ import Slider from "nouislider";
 function SearchPageHeader(props) {
   const [makeArr, setMakeArr] = useState([]);
   const [modelArr, setModelArr] = useState([]);
-  const [make, setMake] = useState("");
-  const [model, setModel] = useState("");
+  const [make, setMake] = useState("all");
+  const [model, setModel] = useState("all");
 
   let pageHeader = React.createRef();
 
@@ -56,11 +56,15 @@ function SearchPageHeader(props) {
     axios.get("/api/listing/make").then(res => {
       setMakeArr(res.data.map(listing => listing.make));
     });
-  }, [make, model]);
+  }, [make]);
+
+  useEffect(() => {
+    console.log(model);
+  }, [model]);
 
   const sendMake = function(e) {
     setMake(e);
-    setModel("");
+    setModel("all");
     axios.get(`/api/listing/make/${e}`).then(res => {
       setModelArr(res.data.map(listing => listing.model));
     });
@@ -68,20 +72,18 @@ function SearchPageHeader(props) {
 
   const searchListing = function(e) {
     e.preventDefault();
-    console.log("search");
     axios
       .get(
         `/api/listing${
           make === `all`
             ? ``
-            : model === ""
-            ? `/make/${make}`
+            : model === "all"
+            ? `/make/${make}/model/all`
             : `/make/${make}/model/${model}`
         }`
       )
       .then(res => {
         props.setResults(res.data.map(listing => listing));
-        // console.log(res.data);
       });
   };
 
@@ -127,17 +129,17 @@ function SearchPageHeader(props) {
               <Col>
                 <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
                   <DropdownToggle caret>
-                    {make ? make : "Select Make"}
+                    {make !== "all" ? make : "--Select Make--"}
                   </DropdownToggle>
                   <DropdownMenu>
                     <DropdownItem
                       onClick={e => {
                         e.preventDefault();
                         setMake("all");
-                        setModel("");
+                        setModel("all");
                       }}
                     >
-                      All
+                      --Select Make--
                     </DropdownItem>
                     {makeArr.map(make => (
                       <DropdownItem
@@ -156,9 +158,17 @@ function SearchPageHeader(props) {
               <Col>
                 <ButtonDropdown isOpen={dropdownOpen2} toggle={toggle2}>
                   <DropdownToggle caret>
-                    {model ? model : "Select Model"}
+                    {model !== "all" ? model : "--Select Model--"}
                   </DropdownToggle>
                   <DropdownMenu>
+                    <DropdownItem
+                      onClick={e => {
+                        e.preventDefault();
+                        setModel("all");
+                      }}
+                    >
+                      --Select Model--
+                    </DropdownItem>
                     {modelArr.map(model => (
                       <DropdownItem
                         value={model}
