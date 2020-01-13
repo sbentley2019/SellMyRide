@@ -16,7 +16,8 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { useEffect } from "react";
+import axios from "axios";
 
 // reactstrap components
 import {
@@ -32,30 +33,50 @@ import {
 
 // core components
 
-const items = [
-  {
-    src: require("assets/img/2016-sti/1-sti.jpg")
-  },
-  {
-    src: require("assets/img/2016-sti/2-sti.jpg")
-  },
-  {
-    src: require("assets/img/2016-sti/3-sti.jpg")
-  },
-  {
-    src: require("assets/img/2016-sti/4-sti.jpg")
-  },
-  {
-    src: require("assets/img/2016-sti/5-sti.jpg")
-  },
-  {
-    src: require("assets/img/2016-sti/6-sti.jpg")
-  }
-];
+/*   const items = [
+    {
+      src: require("assets/img/2016-sti/1-sti.jpg")
+    },
+    {
+      src: require("assets/img/2016-sti/2-sti.jpg")
+    },
+    {
+      src: require("assets/img/2016-sti/3-sti.jpg")
+    },
+    {
+      src: require("assets/img/2016-sti/4-sti.jpg")
+    },
+    {
+      src: require("assets/img/2016-sti/5-sti.jpg")
+    },
+    {
+      src: require("assets/img/2016-sti/6-sti.jpg")
+    }
+  ]; */
 
-function VehicleProfileCarousel() {
+function VehicleProfileCarousel(props) {
   const [activeIndex, setActiveIndex] = React.useState(0);
   const [animating, setAnimating] = React.useState(false);
+  const [imagesArr, setImagesArr] = React.useState([]);
+  
+  useEffect(() => {
+
+    
+    axios.get(`http://localhost:8001/api/car_images/listing/${props.data.id}`).then(res => {
+      console.log("images: ", res.data);
+      setImagesArr(res.data);
+    
+    });
+  }, []);
+
+
+  let items = imagesArr.map(objImage => {
+    return (
+      { src : objImage.image}
+    )
+  });
+  
+  
   const onExiting = () => {
     setAnimating(true);
   };
@@ -76,6 +97,7 @@ function VehicleProfileCarousel() {
     if (animating) return;
     setActiveIndex(newIndex);
   };
+
   return (
     <>
       <div className="section pt-o" id="carousel">

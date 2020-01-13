@@ -49,15 +49,10 @@ function ProfilePage() {
   const [del, setDel] = useState(0);
 
   useEffect(() => {
-<<<<<<< HEAD
 
     let id = cookies.user_id;
-=======
-    let id = 3;
->>>>>>> 9cb26f0df646c6bb865310439912373db1c5646c
     axios.get(`http://localhost:8001/api/listing/profile/${id}`).then(res => {
       setArrListing(res.data);
-      /* console.log(arrListing); */
     });
   }, []);
 
