@@ -47,7 +47,7 @@ function VehicleListing() {
     <>
       <IndexNavbar />
       <NewVehicleListingHeader />
-      <VehicleProfileCarousel />
+      <VehicleProfileCarousel data={data.state.result}/>
       <VehicleProfileDescription data={data.state.result}/>
     </>
   );
