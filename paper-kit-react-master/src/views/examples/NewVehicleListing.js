@@ -143,7 +143,7 @@ function VehicleListing(props) {
                                   styles: {
                                     ...data.styles,
                                     overflow: "auto",
-                                    maxHeight: 100
+                                    maxHeight: 300
                                   }
                                 };
                               }
@@ -186,7 +186,7 @@ function VehicleListing(props) {
                                   styles: {
                                     ...data.styles,
                                     overflow: "auto",
-                                    maxHeight: 100
+                                    maxHeight: 300
                                   }
                                 };
                               }
@@ -229,7 +229,7 @@ function VehicleListing(props) {
                                   styles: {
                                     ...data.styles,
                                     overflow: "auto",
-                                    maxHeight: 100
+                                    maxHeight: 300
                                   }
                                 };
                               }
