@@ -37,10 +37,6 @@ import LoginPage from "views/examples/LoginPage.js";
 import VehicleListing from "views/examples/VehicleListing.js";
 import NewVehicleListing from "views/examples/NewVehicleListing.js";
 
-import axios from "axios";
-const listing = axios.get("/api/listing");
-console.log("zzzzzzz", listing);
-
 ReactDOM.render(
   <BrowserRouter>
     <CookiesProvider>

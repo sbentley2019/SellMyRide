@@ -31,8 +31,8 @@ import Slider from "nouislider";
 function SearchPageHeader(props) {
   const [makeArr, setMakeArr] = useState([]);
   const [modelArr, setModelArr] = useState([]);
-  const [make, setMake] = useState("all");
-  const [model, setModel] = useState("all");
+  const [locationArr, setLocationArr] = useState([]);
+  const [state, setState] = useState({ make: "", model: "", location: "" });
 
   let pageHeader = React.createRef();
 
@@ -57,15 +57,19 @@ function SearchPageHeader(props) {
     axios.get("/api/listing/make").then(res => {
       setMakeArr(res.data.map(listing => listing.make));
     });
-  }, [make]);
+  }, []);
 
   useEffect(() => {
-    console.log(model);
-  }, [model]);
+    if (state.location) {
+      axios.get(`/api/listing/input/location/${state.location}`).then(res => {
+        setLocationArr(res.data.map(listing => listing.city));
+      });
+    }
+    console.log(state.location);
+  }, [state.location]);
 
   const sendMake = function(e) {
-    setMake(e);
-    setModel("all");
+    setState({ ...state, make: e, model: "" });
     axios.get(`/api/listing/make/${e}`).then(res => {
       setModelArr(res.data.map(listing => listing.model));
     });
@@ -73,19 +77,13 @@ function SearchPageHeader(props) {
 
   const searchListing = function(e) {
     e.preventDefault();
-    axios
-      .get(
-        `/api/listing${
-          make === `all`
-            ? ``
-            : model === "all"
-            ? `/make/${make}/model/all`
-            : `/make/${make}/model/${model}`
-        }`
-      )
-      .then(res => {
-        props.setResults(res.data.map(listing => listing));
-      });
+    let url = `/api/listing`;
+    if (state.make) url += `/make/${state.make}`;
+    if (state.model) url += `/model/${state.model}`;
+    if (state.location) url += `/location/${state.location}`;
+    axios.get(url).then(res => {
+      props.setResults(res.data.map(listing => listing));
+    });
   };
 
   // React.useEffect(() => {
@@ -130,7 +128,7 @@ function SearchPageHeader(props) {
               <Col>
                 <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
                   <DropdownToggle caret>
-                    {make !== "all" ? make : "--Select Make--"}
+                    {state.make !== "" ? state.make : "--Select Make--"}
                   </DropdownToggle>
                   <DropdownMenu
                     modifiers={{
@@ -153,8 +151,7 @@ function SearchPageHeader(props) {
                     <DropdownItem
                       onClick={e => {
                         e.preventDefault();
-                        setMake("all");
-                        setModel("all");
+                        setState({ ...state, make: "", model: "" });
                       }}
                     >
                       --Select Make--
@@ -176,7 +173,7 @@ function SearchPageHeader(props) {
               <Col>
                 <ButtonDropdown isOpen={dropdownOpen2} toggle={toggle2}>
                   <DropdownToggle caret>
-                    {model !== "all" ? model : "--Select Model--"}
+                    {state.model !== "" ? state.model : "--Select Model--"}
                   </DropdownToggle>
                   <DropdownMenu
                     modifiers={{
@@ -199,7 +196,7 @@ function SearchPageHeader(props) {
                     <DropdownItem
                       onClick={e => {
                         e.preventDefault();
-                        setModel("all");
+                        setState({ ...state, model: "" });
                       }}
                     >
                       --Select Model--
@@ -209,7 +206,7 @@ function SearchPageHeader(props) {
                         value={model}
                         onClick={e => {
                           e.preventDefault();
-                          setModel(e.target.value);
+                          setState({ ...state, model: e.target.value });
                         }}
                       >
                         {model}
@@ -219,12 +216,34 @@ function SearchPageHeader(props) {
                 </ButtonDropdown>
               </Col>
               <Col>
-                <FormGroup>
+                <FormGroup className="location-container">
                   <Input
                     className="transparent-input"
                     placeholder="Enter your location here"
+                    value={state.location}
+                    onChange={e => {
+                      setState({ ...state, location: e.target.value });
+                    }}
                     type="text"
                   />
+                  <div className="location-search">
+                    <ul>
+                      {locationArr.map(place => {
+                        return (
+                          <li
+                            value={place}
+                            onClick={e => {
+                              //setState is not setting location as place
+                              // setState({ ...state, location: place });
+                              console.log("clicked");
+                            }}
+                          >
+                            {place}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
                 </FormGroup>
               </Col>
             </Row>
@@ -235,6 +254,7 @@ function SearchPageHeader(props) {
               color="primary"
               type="button"
               onClick={searchListing}
+              // onClick={e => console.log(state)}
               outline
             >
               Find my ride!

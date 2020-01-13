@@ -128,6 +128,14 @@ function IndexNavbar() {
                 >
                   Logout
                 </Button>
+                <Button
+                  className="btn-round"
+                  color="danger"
+                  href="/profile"
+                  target=""
+                >
+                  My Profile
+                </Button>
               </NavItem>
             ) : (
               <NavItem>
@@ -151,16 +159,6 @@ function IndexNavbar() {
                 </Button>
               </NavItem>
             )}
-            <NavItem>
-              <Button
-                className="btn-round"
-                color="danger"
-                href="/profile"
-                target=""
-              >
-                My Profile
-              </Button>
-            </NavItem>
           </Nav>
         </Collapse>
       </Container>
