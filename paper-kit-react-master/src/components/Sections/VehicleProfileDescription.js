@@ -33,6 +33,10 @@ function VehicleProfileDescription() {
               <td>Blue</td>
             </tr>
             <tr>
+              <th scope="row">Price</th>
+              <td>$52000</td>
+            </tr>
+            <tr>
               <th scope="row">Kilometers</th>
               <td>45000</td>
             </tr>
