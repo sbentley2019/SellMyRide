@@ -25,6 +25,7 @@ import {
 
 import Slider from "nouislider";
 
+
 // core components
 
 function SearchPageHeader(props) {
@@ -129,7 +130,24 @@ function SearchPageHeader(props) {
                   <DropdownToggle caret>
                     {state.make !== "" ? state.make : "--Select Make--"}
                   </DropdownToggle>
-                  <DropdownMenu>
+                  <DropdownMenu
+                    modifiers={{
+                      setMaxHeight: {
+                        enabled: true,
+                        order: 890,
+                        fn: data => {
+                          return {
+                            ...data,
+                            styles: {
+                              ...data.styles,
+                              overflow: "auto",
+                              maxHeight: 300
+                            }
+                          };
+                        }
+                      }
+                    }}
+                  >
                     <DropdownItem
                       onClick={e => {
                         e.preventDefault();
@@ -157,7 +175,24 @@ function SearchPageHeader(props) {
                   <DropdownToggle caret>
                     {state.model !== "" ? state.model : "--Select Model--"}
                   </DropdownToggle>
-                  <DropdownMenu>
+                  <DropdownMenu
+                    modifiers={{
+                      setMaxHeight: {
+                        enabled: true,
+                        order: 890,
+                        fn: data => {
+                          return {
+                            ...data,
+                            styles: {
+                              ...data.styles,
+                              overflow: "auto",
+                              maxHeight: 300
+                            }
+                          };
+                        }
+                      }
+                    }}
+                  >
                     <DropdownItem
                       onClick={e => {
                         e.preventDefault();

@@ -50,6 +50,7 @@ function ProfilePage() {
   const [arrListing, setArrListing] = useState([]);
   const [prevListings, setPrevListings] = useState([]);
   const [del, setDel] = useState(0);
+
   const [userData, setUserData] = useState([]);
 
   useEffect(() => {
@@ -136,11 +137,13 @@ function ProfilePage() {
             <TabPane tabId="1" id="follows">
               <Row>
                 <Col className="ml-auto mr-auto" md="6">
+
                   <ul className="list-unstyled follows">
                     {arrListing.map(list => (
                       <ProfileListSection list={list} current={true} />
                     ))}
                   </ul>
+
                 </Col>
               </Row>
             </TabPane>

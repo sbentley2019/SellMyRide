@@ -22,7 +22,7 @@ import {
 } from "reactstrap";
 
 
-function ResultsPage() {
+function ResultsPage(props) {
   document.documentElement.classList.remove("nav-open");
   React.useEffect(() => {
     document.body.classList.add("profile-page");
@@ -47,7 +47,7 @@ function ResultsPage() {
         </Row>
       </Container> */}
       <SectionSearchCards />
-      <SectionCarousel />
+      {/* <SectionCarousel /> */}
     </>
   );
 }

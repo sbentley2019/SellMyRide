@@ -1,6 +1,7 @@
 import React from "react";
-import SectionCarousel from "views/index-sections/SectionCarousel.js";
+// import SectionCarousel from "views/index-sections/SectionCarousel.js";
 import SectionSearchCards from "views/index-sections/SectionSearchCards";
+
 
 export default function ResultSection(props) {
   console.log(props.results);
@@ -8,7 +9,7 @@ export default function ResultSection(props) {
     <div>
       <h1>Results</h1>
       <SectionSearchCards results={props.results} />
-      <SectionCarousel />
+      {/* <SectionCarousel /> */}
     </div>
   );
 }

@@ -23,12 +23,14 @@ module.exports = db => {
   });
 
   router.get("/car_images/listing/:id", (request, response) => {
+    console.log([request.params.id]);
     db.query(
       `
       SELECT * FROM car_images WHERE listing_id = $1
       `,
-      [request.params.id]
+      [Number(request.params.id)]
     ).then(data => {
+      console.log(data.rows);
       response.json(data.rows);
     });
   });
