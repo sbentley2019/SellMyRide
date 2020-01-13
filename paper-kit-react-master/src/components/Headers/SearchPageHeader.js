@@ -131,7 +131,24 @@ function SearchPageHeader(props) {
                   <DropdownToggle caret>
                     {make !== "all" ? make : "--Select Make--"}
                   </DropdownToggle>
-                  <DropdownMenu>
+                  <DropdownMenu
+                    modifiers={{
+                      setMaxHeight: {
+                        enabled: true,
+                        order: 890,
+                        fn: data => {
+                          return {
+                            ...data,
+                            styles: {
+                              ...data.styles,
+                              overflow: "auto",
+                              maxHeight: 300
+                            }
+                          };
+                        }
+                      }
+                    }}
+                  >
                     <DropdownItem
                       onClick={e => {
                         e.preventDefault();
@@ -160,7 +177,24 @@ function SearchPageHeader(props) {
                   <DropdownToggle caret>
                     {model !== "all" ? model : "--Select Model--"}
                   </DropdownToggle>
-                  <DropdownMenu>
+                  <DropdownMenu
+                    modifiers={{
+                      setMaxHeight: {
+                        enabled: true,
+                        order: 890,
+                        fn: data => {
+                          return {
+                            ...data,
+                            styles: {
+                              ...data.styles,
+                              overflow: "auto",
+                              maxHeight: 300
+                            }
+                          };
+                        }
+                      }
+                    }}
+                  >
                     <DropdownItem
                       onClick={e => {
                         e.preventDefault();
