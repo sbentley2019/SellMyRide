@@ -1,85 +1,19 @@
 const router = require("express").Router();
 
 module.exports = db => {
-  router.get("/listing/make", (request, response) => {
-    db.query(
-      `
-      SELECT DISTINCT make FROM listing
-      `
-    ).then(data => {
-      response.json(data.rows);
-    });
-  });
-
-  router.get("/listing/make/:id", (request, response) => {
-    console.log("got here");
-    db.query(
-      `
-      SELECT DISTINCT model FROM listing WHERE make = $1`,
-      [request.params.id]
-    ).then(data => {
-      response.json(data.rows);
-    });
-  });
-
-  /////this one is for obtaining listing that belong to a specific user_id
-
-  router.get("/listing/profile/:id", (request, response) => {
-    db.query(
-      `
-      SELECT * FROM listing WHERE user_id = $1
-      `,
-      [request.params.id]
-    ).then(data => {
-      console.log(data.rows);
-      response.json(data.rows);
-    });
-  });
-
-  //////////////
-
   router.get("/listing", (request, response) => {
+    console.log("/listing GET");
     db.query(
       `
-      SELECT * FROM listing LIMIT 5
+      SELECT * FROM listing
     `
     ).then(({ rows: listing }) => {
       response.json(listing);
     });
   });
 
-  router.get("/listing/make", (request, response) => {
-    db.query(
-      `
-      SELECT DISTINCT make FROM listing
-      `
-    ).then(data => {
-      response.json(data.rows);
-    });
-  });
-
-  router.get("/listing/make/:id", (request, response) => {
-    db.query(
-      `
-      SELECT DISTINCT model FROM listing WHERE make = $1`,
-      [request.params.id]
-    ).then(data => {
-      response.json(data.rows);
-    });
-  });
-
-  router.get("/listing/make/:id1/model/:id2", (request, response) => {
-    db.query(
-      `
-      SELECT * FROM listing WHERE make = $1 AND model = $2
-      `,
-      [request.params.id1, request.params.id2]
-    ).then(data => {
-      response.json(data.rows);
-    });
-  });
-
   router.put("/listing", (request, response) => {
+    console.log("/listing PUT");
     if (process.env.TEST_ERROR) {
       setTimeout(() => response.status(500).json({}), 1000);
       return;
@@ -97,7 +31,7 @@ module.exports = db => {
       city
     } = request.body;
 
-    console.log(make, model, year, user_id, listing_image, price, kms, city);
+    // console.log(make, model, year, user_id, listing_image, price, kms, city);
     db.query(
       `
       INSERT INTO listing (make, model, year, user_id, listing_image, is_sold, price, kms, city) VALUES ($1, $2, $3, $4, $5, FALSE, $6, $7, $8)
@@ -106,10 +40,25 @@ module.exports = db => {
     );
   });
 
-  router.get("/listing/:id", (request, response) => {
+  // /make
+  router.get("/listing/make", (request, response) => {
+    console.log("/listing/make GET");
     db.query(
       `
-      SELECT * FROM listing WHERE id = $1::integer
+      SELECT DISTINCT make FROM listing
+      `
+    ).then(data => {
+      response.json(data.rows);
+    });
+  });
+
+  router.get("/listing/make/:id", (request, response) => {
+    console.log("/listing/make/:id GET");
+    // const make = (request.params.id === "all" ? :)
+    // const queryStr = `SELECT * FROM listing WHERE make = $1`
+    db.query(
+      `
+      SELECT * FROM listing WHERE make = $1 
       `,
       [request.params.id]
     ).then(data => {
@@ -117,7 +66,164 @@ module.exports = db => {
     });
   });
 
+  router.get("/listing/make/:id/model", (request, response) => {
+    console.log("/listing/make/:id/model GET");
+    db.query(
+      `
+      SELECT DISTINCT model FROM listing WHERE make = $1`,
+      [request.params.id]
+    ).then(data => {
+      response.json(data.rows);
+    });
+  });
+
+  router.get("/listing/make/:id1/model/:id2", (request, response) => {
+    console.log("/listing/make/:id1/model/:id2 GET");
+    db.query(
+      `
+      SELECT * FROM listing WHERE make = $1 AND model = $2 
+      `,
+      [request.params.id1, request.params.id2]
+    ).then(data => {
+      response.json(data.rows);
+    });
+  });
+
+  router.get("/listing/make/:id1/location/:id2", (request, response) => {
+    console.log("/listing/make/:id1/location/:id2 GET");
+    db.query(
+      `
+      SELECT * FROM listing WHERE make = $1 AND city ILIKE $2 
+      `,
+      [request.params.id1, request.params.id2]
+    ).then(data => {
+      response.json(data.rows);
+    });
+  });
+
+  router.get(
+    "/listing/make/:id1/model/:id2/location/:id3",
+    (request, response) => {
+      console.log("/listing/make/:id1/model/:id2/location/:id3 GET");
+      db.query(
+        `
+      SELECT * FROM listing WHERE make = $1 AND model = $2 AND city ILIKE $3 
+      `,
+        [request.params.id1, request.params.id2, request.params.id3]
+      ).then(data => {
+        response.json(data.rows);
+      });
+    }
+  );
+
+  router.get("/listing/make/:id", (request, response) => {
+    console.log("/listing/make/:id GET");
+    db.query(
+      `
+      SELECT DISTINCT model FROM listing WHERE make = $1`,
+      [request.params.id]
+    ).then(data => {
+      response.json(data.rows);
+    });
+  });
+
+  router.get("/listing/make/:id/model/all", (request, response) => {
+    console.log("/listing/make/:id/model/all GET");
+    db.query(
+      `
+      SELECT * FROM listing WHERE make = $1
+      `,
+      [request.params.id]
+    ).then(data => {
+      response.json(data.rows);
+    });
+  });
+
+  router.get("/listing/make/:id1/model/:id2", (request, response) => {
+    console.log("/listing/make/:id1/model/:id2 GET");
+    db.query(
+      `
+      SELECT * FROM listing WHERE make = $1 AND model = $2
+      `,
+      [request.params.id1, request.params.id2]
+    ).then(data => {
+      response.json(data.rows);
+    });
+  });
+
+  // /model
+  router.get("/listing/model/:id", (request, response) => {
+    console.log("/listing/model/:id GET");
+    db.query(
+      `
+      SELECT * FROM listing WHERE model = $1 
+      `,
+      [request.params.id]
+    ).then(data => {
+      response.json(data.rows);
+    });
+  });
+
+  router.get("/listing/model/:id1/location/:id2", (request, response) => {
+    console.log("/listing/model/:id1/location/:id2 GET");
+    db.query(
+      `
+      SELECT * FROM listing WHERE model = $1 AND city ILIKE $2 
+      `,
+      [request.params.id1, request.params.id2]
+    ).then(data => {
+      response.json(data.rows);
+    });
+  });
+
+  // /location
+  router.get("/listing/location/:id", (request, response) => {
+    const city = request.params.id + "%";
+    console.log("city", city);
+    db.query(
+      `
+      SELECT * FROM listing WHERE city ILIKE $1
+      `,
+      [city]
+    ).then(data => {
+      response.json(data.rows);
+    });
+  });
+
+  router.get("/listing/input/location/:id", (request, response) => {
+    console.log(`/listing/location/${request.params.id} GET`);
+    const city = request.params.id + "%";
+    console.log("city", city);
+    db.query(
+      `
+      SELECT DISTINCT city FROM listing WHERE city ILIKE $1
+      `,
+      [city]
+    ).then(data => {
+      response.json(data.rows);
+    });
+  });
+
+  //////////////////////////////////////////////////////////////////
+
+  /////this one is for obtaining listing that belong to a specific user_id
+
+  router.get("/listing/profile/:id", (request, response) => {
+    console.log("/listing/profile/:id GET");
+    db.query(
+      `
+      SELECT * FROM listing WHERE user_id = $1
+      `,
+      [request.params.id]
+    ).then(data => {
+      console.log(data.rows);
+      response.json(data.rows);
+    });
+  });
+
+  //////////////
   router.get("/listing/user/:id", (request, response) => {
+    console.log("/listing/user/:id GET");
     db.query(
       `
       SELECT * FROM listing WHERE user_id = $1
@@ -128,7 +234,20 @@ module.exports = db => {
     });
   });
 
+  router.get("/listing/:id", (request, response) => {
+    console.log("/listing/:id GET");
+    db.query(
+      `
+      SELECT * FROM listing WHERE id = $1::integer
+      `,
+      [request.params.id]
+    ).then(data => {
+      response.json(data.rows);
+    });
+  });
+
   router.delete("/listing/:id", (request, response) => {
+    console.log("/listing/:id DELETE");
     if (process.env.TEST_ERROR) {
       setTimeout(() => response.status(500).json({}), 1000);
       return;
@@ -138,7 +257,12 @@ module.exports = db => {
 
     /* const { id } = request.body.id; */
 
-    db.query(`DELETE FROM listing WHERE id = $1`, [Number(request.params.id)])
+    db.query(
+      `
+      UPDATE listing SET is_sold = true WHERE id = $1
+      `,
+      [Number(request.params.id)]
+    )
       .then(res => res.rows)
       .catch(error => console.log(error));
   });

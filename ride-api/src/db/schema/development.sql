@@ -23,7 +23,6 @@ VALUES
     '4169993321'
   );
 
-
 INSERT INTO
   listing (
     make,
