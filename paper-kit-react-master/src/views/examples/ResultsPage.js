@@ -47,7 +47,7 @@ function ResultsPage() {
         </Row>
       </Container> */}
       <SectionSearchCards />
-      <SectionCarousel />
+      {/* <SectionCarousel /> */}
     </>
   );
 }

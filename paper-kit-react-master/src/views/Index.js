@@ -60,7 +60,7 @@ function Index() {
       <IndexNavbar />
       <IndexHeader />
       <div className="main">
-        <SectionButtons />
+        {/* <SectionButtons />
         <SectionNavbars />
         <SectionNavigation />
         <SectionProgress />
@@ -70,7 +70,7 @@ function Index() {
         <SectionCarousel />
         <SectionNucleoIcons />
         <SectionDark />
-        <SectionLogin />
+        <SectionLogin /> */}
         {/* <SectionExamples /> */}
         {/* <SectionDownload /> */}
         {/* <DemoFooter /> */}
