@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {
   Card,
   CardImg,
@@ -12,6 +13,8 @@ import {
 
 const SectionSearchCards = props => {
   console.log("props:", props.results);
+  console.log(props.results[0]);
+  let link = `/listing/${props.results[0]}`;
   return (
     <div className="section pt-o">
       <Container>
@@ -32,7 +35,7 @@ const SectionSearchCards = props => {
                 Less than 1 year new! Ready for all your urban and offroad
                 adventures!
               </CardText>
-              <Button>View More</Button>
+              <Link to={{pathname:'/listing', state:{ result: listing }}}>View More</Link>
             </CardBody>
           </Card>
         ))}

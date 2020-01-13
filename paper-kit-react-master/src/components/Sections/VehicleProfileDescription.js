@@ -7,7 +7,8 @@ import { Card, Container, Row, Col, Table, Button } from "reactstrap";
 
 // core components
 
-function VehicleProfileDescription() {
+function VehicleProfileDescription(props) {
+  console.log("data: ", props.data);
   return (
     <>
       <Container className="tim-container">
@@ -18,15 +19,15 @@ function VehicleProfileDescription() {
           <tbody>
             <tr>
               <th scope="row">Year</th>
-              <td>2016</td>
+              <td>{props.data.year}</td>
             </tr>
             <tr>
               <th scope="row">Make</th>
-              <td>Subaru</td>
+            <td>{props.data.make}</td>
             </tr>
             <tr>
               <th scope="row">Model</th>
-              <td>WRX STI</td>
+            <td>{props.data.model}</td>
             </tr>
             <tr>
               <th scope="row">Colour</th>
@@ -34,7 +35,7 @@ function VehicleProfileDescription() {
             </tr>
             <tr>
               <th scope="row">Kilometers</th>
-              <td>45000</td>
+            <td>{props.data.kms}</td>
             </tr>
             <tr>
               <th scope="row">Description</th>
