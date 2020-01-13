@@ -47,7 +47,7 @@ function ResultsPage(props) {
         </Row>
       </Container> */}
       <SectionSearchCards />
-      <SectionCarousel />
+      {/* <SectionCarousel /> */}
     </>
   );
 }

@@ -34,6 +34,10 @@ function VehicleProfileDescription(props) {
               <td>Blue</td>
             </tr>
             <tr>
+              <th scope="row">Price</th>
+              <td>$52000</td>
+            </tr>
+            <tr>
               <th scope="row">Kilometers</th>
             <td>{props.data.kms}</td>
             </tr>

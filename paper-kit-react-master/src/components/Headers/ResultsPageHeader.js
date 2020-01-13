@@ -68,7 +68,7 @@ function SearchPageHeader() {
         style={{
           backgroundImage: "url(" + require("assets/img/racetrack.jpg") + ")"
         }}
-        className="page-header"
+        className="page-header page-header-xs"
         data-parallax={true}
         ref={pageHeader}
       >
