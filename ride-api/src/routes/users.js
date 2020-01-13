@@ -38,6 +38,17 @@ module.exports = db => {
       .catch(error => console.log(error));
   });
 
+  router.get("/users/profile/:id", (request, response) => {
+    db.query(
+      `
+      SELECT * FROM users WHERE id = $1 LIMIT 1
+      `,
+      [request.params.id]
+    ).then(data => {
+      response.json(data.rows);
+    });
+  });
+
   router.get("/users/:id", (request, response) => {
     db.query(
       `

@@ -41,56 +41,28 @@ import {
 import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import ProfilePageHeader from "components/Headers/ProfilePageHeader.js";
 import DemoFooter from "components/Footers/DemoFooter.js";
+import ProfileListSection from "components/Sections/ProfileListSection.js";
+import ProfileInformation from "components/Sections/ProfileInformation.js";
 
 function ProfilePage() {
   const [activeTab, setActiveTab] = React.useState("1");
   const [cookies, setCookie] = useCookies(["name", "user_id"]);
   const [arrListing, setArrListing] = useState([]);
+  const [prevListings, setPrevListings] = useState([]);
   const [del, setDel] = useState(0);
 
-  useEffect(() => {
+  const [userData, setUserData] = useState([]);
 
-    let id = cookies.user_id;
-    axios.get(`http://localhost:8001/api/listing/profile/${id}`).then(res => {
-      setArrListing(res.data);
+  useEffect(() => {
+    axios.get(`/api/listing/profile/${cookies.user_id}`).then(res => {
+      let temp = res.data.map(listing => listing);
+      setArrListing(temp.filter(listing => !listing.is_sold));
+      setPrevListings(temp.filter(listing => listing.is_sold));
+    });
+    axios.get(`/api/users/profile/${cookies.user_id}`).then(res => {
+      setUserData(res.data[0]);
     });
   }, []);
-
-  let generateListing = arrListing.map(list => {
-    console.log(list.id);
-    return (
-      <li>
-        <Row>
-          <Col className="ml-auto mr-auto" lg="2" md="4" xs="4">
-            <img
-              alt="..."
-              className="img-circle img-no-padding img-responsive"
-              src={list.listing_image}
-            />
-          </Col>
-          <Col className="ml-auto mr-auto" lg="7" md="4" xs="4">
-            <h6>
-              {list.year} {list.make} {list.model} <br />
-            </h6>
-          </Col>
-          <Col className="ml-auto mr-auto" lg="3" md="4" xs="4">
-            <div className="text-center">
-              <Button
-                className="btn-round"
-                color="warning"
-                outline
-                onClick={() => {
-                  deleteListing(list.id);
-                }}
-              >
-                Delete Listing
-              </Button>
-            </div>
-          </Col>
-        </Row>
-      </li>
-    );
-  });
 
   const toggle = tab => {
     if (activeTab !== tab) {
@@ -105,10 +77,6 @@ function ProfilePage() {
       document.body.classList.remove("landing-page");
     };
   });
-
-  let deleteListing = function(e) {
-    axios.delete(`/api/listing/${e}`);
-  };
 
   return (
     <>
@@ -125,9 +93,10 @@ function ProfilePage() {
               />
             </div>
             <div className="name">
-              <h4 className="title">email@email.com</h4>
+              <h4 className="title">{userData.name}</h4>
             </div>
           </div>
+          <ProfileInformation data={userData} setData={setUserData} />
           <div className="nav-tabs-navigation">
             <div className="nav-tabs-wrapper">
               <Nav role="tablist" tabs>
@@ -168,7 +137,13 @@ function ProfilePage() {
             <TabPane tabId="1" id="follows">
               <Row>
                 <Col className="ml-auto mr-auto" md="6">
-                  <ul className="list-unstyled follows">{generateListing}</ul>
+
+                  <ul className="list-unstyled follows">
+                    {arrListing.map(list => (
+                      <ProfileListSection list={list} current={true} />
+                    ))}
+                  </ul>
+
                 </Col>
               </Row>
             </TabPane>
@@ -179,7 +154,19 @@ function ProfilePage() {
               </Button>
             </TabPane>
             <TabPane className="text-center" tabId="3" id="following">
-              <h3 className="text-muted">No previous listings!</h3>
+              {prevListings.length === 0 && (
+                <h3 className="text-muted">No previous listings!</h3>
+              )}
+              <Row>
+                <Col className="ml-auto mr-auto" md="6">
+                  <ul className="list-unstyled follows">
+                    {console.log("akjshdf", prevListings)}
+                    {prevListings.map(prevlist => (
+                      <ProfileListSection list={prevlist} current={false} />
+                    ))}
+                  </ul>
+                </Col>
+              </Row>
             </TabPane>
           </TabContent>
         </Container>
