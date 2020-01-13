@@ -31,8 +31,9 @@ const SectionSearchCards = props => {
               <CardSubtitle>
                 {listing.make} {listing.model}
               </CardSubtitle>
-
-              <CardText>{listing.description}</CardText>
+              <CardText>
+                {listing.description}
+              </CardText>
               <Link to={{pathname:'/listing', state:{ result: listing }}}>View More</Link>
 
             </CardBody>
