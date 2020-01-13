@@ -53,6 +53,7 @@ function ProfilePage() {
     let id = cookies.user_id;
     axios.get(`http://localhost:8001/api/listing/profile/${id}`).then(res => {
       setArrListing(res.data);
+      /* console.log(arrListing); */
     });
   }, []);
 
