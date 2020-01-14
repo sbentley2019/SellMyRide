@@ -5,8 +5,20 @@
     margin: 0 5%;
   }
 }
-
+.messageReply {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  button {
+    margin-left: 5%;
+  }
+}
 // end profile
+
+.listMenu {
+  display: flex;
+  justify-content: center;
+}
 
 .results-container {
   display: flex;

@@ -5,7 +5,6 @@ import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import SearchPageHeader from "components/Headers/SearchPageHeader.js";
 import ResultSection from "components/Sections/ResultSection.js";
 
-
 // reactstrap components
 import {
   Button,
@@ -33,6 +32,8 @@ import {GoogleMap,
 let something = [];
 axios.get('https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:M6E4B1&key=AIzaSyAd-HZuVuAhjBHtKFlApJuXh9dvcD2yIzk')
 
+let ip = axios.get('https://api.ipify.org?format=json');
+console.log(ip);
 
 function Map() {
 

@@ -27,15 +27,14 @@ const SectionSearchCards = props => {
               alt="Card image cap"
             />
             <CardBody>
-              <CardTitle>{listing.year}</CardTitle>
-              <CardSubtitle>
-                {listing.make} {listing.model}
-              </CardSubtitle>
-              <CardText>
-                {listing.description}
-              </CardText>
-              <Link to={{pathname:'/listing', state:{ result: listing }}}>View More</Link>
-
+              <CardTitle>
+                {listing.year} {listing.make} {listing.model}
+              </CardTitle>
+              <CardSubtitle>Asking Price: ${listing.price}</CardSubtitle>
+              <CardText>{listing.description}</CardText>
+              <Link to={{ pathname: "/listing", state: { result: listing } }}>
+                View Listing
+              </Link>
             </CardBody>
           </Card>
         ))}
