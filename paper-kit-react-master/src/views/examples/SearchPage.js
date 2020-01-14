@@ -5,7 +5,6 @@ import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import SearchPageHeader from "components/Headers/SearchPageHeader.js";
 import ResultSection from "components/Sections/ResultSection.js";
 
-
 // reactstrap components
 import {
   Button,
@@ -22,7 +21,6 @@ import {
   Row,
   Col
 } from "reactstrap";
-
 
 function SearchPage() {
   const [results, setResults] = useState([]);
