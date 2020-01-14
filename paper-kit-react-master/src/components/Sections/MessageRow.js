@@ -35,17 +35,8 @@ export default function MessageRow(props) {
       <Modal isOpen={liveModal} toggle={() => setLiveModal(false)}>
         <div className="modal-header">
           <h5 className="modal-title" id="exampleModalLiveLabel">
-            Modal title
+            Send Message
           </h5>
-          <button
-            aria-label="Close"
-            className="close"
-            data-dismiss="modal"
-            type="button"
-            onClick={() => setLiveModal(false)}
-          >
-            <span aria-hidden={true}>×</span>
-          </button>
         </div>
         <div className="modal-body">
           <FormGroup row>
