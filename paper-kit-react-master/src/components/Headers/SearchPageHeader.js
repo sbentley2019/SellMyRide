@@ -69,7 +69,7 @@ function SearchPageHeader(props) {
 
   const sendMake = function(e) {
     setState({ ...state, make: e, model: "" });
-    axios.get(`/api/listing/make/${e}`).then(res => {
+    axios.get(`/api/listing/findModel/${e}`).then(res => {
       setModelArr(res.data.map(listing => listing.model));
     });
   };
