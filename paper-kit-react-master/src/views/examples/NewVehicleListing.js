@@ -30,15 +30,22 @@ import {
 } from "reactstrap";
 
 function VehicleListing(props) {
+  const [cookies, setCookie] = useCookies(["name", "user_id"]);
+  if (!cookies.user_id) {
+    window.location.replace("/login");
+  }
   const [makeArr, setMakeArr] = useState([]);
   const [modelArr, setModelArr] = useState([]);
-  const [make, setMake] = useState("");
-  const [model, setModel] = useState("");
-  const [year, setYear] = useState("");
-  const [image, setImage] = useState("");
-  const [price, setPrice] = useState("");
-  const [kms, setKms] = useState("");
-  const [city, setCity] = useState("");
+  const [state, setState] = useState({
+    make: "",
+    model: "",
+    year: "",
+    image: "",
+    price: "",
+    kms: "",
+    city: "",
+    description: ""
+  });
 
   let pageHeader = React.createRef();
 
@@ -50,13 +57,10 @@ function VehicleListing(props) {
   const toggle3 = () => setOpen3(!dropdownOpen3);
 
   let yearArr = [];
-  for (let i = 1970; i <= 2020; i++) {
+  for (let i = 2020; i >= 1970; i--) {
     yearArr.push(i);
   }
-
   document.documentElement.classList.remove("nav-open");
-
-  const [cookies, setCookie] = useCookies(["name", "user_id"]);
 
   useEffect(() => {
     if (window.innerWidth < 991) {
@@ -83,8 +87,7 @@ function VehicleListing(props) {
   }, []);
 
   const sendMake = function(e) {
-    setMake(e);
-    setModel("");
+    setState({ ...state, make: e, model: "" });
     axios.get(`/api/makeModel/make/${e}`).then(res => {
       setModelArr(res.data.map(listing => listing.model));
       console.log(res.data);
@@ -95,17 +98,7 @@ function VehicleListing(props) {
     /*     kms = kms.replace(/[^\d\.\-\ ]/g, '');
     price = price.replace(/[^\d\.\-\ ]/g, ''); */
 
-    let listingObj = {};
-    listingObj["make"] = make;
-    listingObj["model"] = model;
-    listingObj["year"] = year;
-    listingObj["user_id"] = 1;
-    listingObj["listing_image"] = image;
-    listingObj["price"] = parseInt(price);
-    listingObj["kms"] = parseInt(kms);
-    listingObj["city"] = city;
-
-    axios.put(`/api/listing`, listingObj);
+    axios.put(`/api/listing`, state);
   };
 
   return (
@@ -123,136 +116,128 @@ function VehicleListing(props) {
                 <br />
 
                 <Form>
-                  <FormGroup row>
-                    <Label for="exampleSelect" sm={2}>
-                      Select Make
-                    </Label>
-                    <Col sm={10}>
-                      <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
-                        <DropdownToggle caret>
-                          {make ? make : "Select Make"}
-                        </DropdownToggle>
-                        <DropdownMenu
-                          modifiers={{
-                            setMaxHeight: {
-                              enabled: true,
-                              order: 890,
-                              fn: data => {
-                                return {
-                                  ...data,
-                                  styles: {
-                                    ...data.styles,
-                                    overflow: "auto",
-                                    maxHeight: 300
-                                  }
-                                };
+                  <Row className="listMenu">
+                    <FormGroup>
+                      <Col sm={10}>
+                        <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
+                          <DropdownToggle caret>
+                            {state.make ? state.make : "Select Make"}
+                          </DropdownToggle>
+                          <DropdownMenu
+                            modifiers={{
+                              setMaxHeight: {
+                                enabled: true,
+                                order: 890,
+                                fn: data => {
+                                  return {
+                                    ...data,
+                                    styles: {
+                                      ...data.styles,
+                                      overflow: "auto",
+                                      maxHeight: 300
+                                    }
+                                  };
+                                }
                               }
-                            }
-                          }}
-                        >
-                          {makeArr.map(make => (
-                            <DropdownItem
-                              value={make}
-                              onClick={e => {
-                                e.preventDefault();
-                                sendMake(e.target.value);
-                              }}
-                            >
-                              {make}
-                            </DropdownItem>
-                          ))}
-                        </DropdownMenu>
-                      </ButtonDropdown>
-                    </Col>
-                  </FormGroup>
+                            }}
+                          >
+                            {makeArr.map(make => (
+                              <DropdownItem
+                                value={make}
+                                onClick={e => {
+                                  e.preventDefault();
+                                  setState({ ...state, make: e.target.value });
+                                }}
+                              >
+                                {make}
+                              </DropdownItem>
+                            ))}
+                          </DropdownMenu>
+                        </ButtonDropdown>
+                      </Col>
+                    </FormGroup>
+                    <FormGroup>
+                      <Col sm={10}>
+                        <ButtonDropdown isOpen={dropdownOpen2} toggle={toggle2}>
+                          <DropdownToggle caret>
+                            {state.model ? state.model : "Select Model"}
+                          </DropdownToggle>
+                          <DropdownMenu
+                            modifiers={{
+                              setMaxHeight: {
+                                enabled: true,
+                                order: 890,
+                                fn: data => {
+                                  return {
+                                    ...data,
+                                    styles: {
+                                      ...data.styles,
+                                      overflow: "auto",
+                                      maxHeight: 300
+                                    }
+                                  };
+                                }
+                              }
+                            }}
+                          >
+                            {modelArr.map(model => (
+                              <DropdownItem
+                                value={model}
+                                onClick={e => {
+                                  e.preventDefault();
+                                  setState({ ...state, model: e.target.value });
+                                }}
+                              >
+                                {model}
+                              </DropdownItem>
+                            ))}
+                          </DropdownMenu>
+                        </ButtonDropdown>
+                      </Col>
+                    </FormGroup>
+                    <FormGroup>
+                      <Col sm={10}>
+                        <ButtonDropdown isOpen={dropdownOpen3} toggle={toggle3}>
+                          <DropdownToggle caret>
+                            {state.year ? state.year : "Select Year"}
+                          </DropdownToggle>
+                          <DropdownMenu
+                            modifiers={{
+                              setMaxHeight: {
+                                enabled: true,
+                                order: 890,
+                                fn: data => {
+                                  return {
+                                    ...data,
+                                    styles: {
+                                      ...data.styles,
+                                      overflow: "auto",
+                                      maxHeight: 300
+                                    }
+                                  };
+                                }
+                              }
+                            }}
+                          >
+                            {yearArr.map(year => (
+                              <DropdownItem
+                                value={year}
+                                onClick={e => {
+                                  e.preventDefault();
+                                  setState({ ...state, year: e.target.value });
+                                }}
+                              >
+                                {year}
+                              </DropdownItem>
+                            ))}
+                          </DropdownMenu>
+                        </ButtonDropdown>
+                      </Col>
+                    </FormGroup>
+                  </Row>
 
                   <FormGroup row>
-                    <Label for="exampleSelect" sm={2}>
-                      Select Model
-                    </Label>
-                    <Col sm={10}>
-                      <ButtonDropdown isOpen={dropdownOpen2} toggle={toggle2}>
-                        <DropdownToggle caret>
-                          {model ? model : "Select Model"}
-                        </DropdownToggle>
-                        <DropdownMenu
-                          modifiers={{
-                            setMaxHeight: {
-                              enabled: true,
-                              order: 890,
-                              fn: data => {
-                                return {
-                                  ...data,
-                                  styles: {
-                                    ...data.styles,
-                                    overflow: "auto",
-                                    maxHeight: 300
-                                  }
-                                };
-                              }
-                            }
-                          }}
-                        >
-                          {modelArr.map(model => (
-                            <DropdownItem
-                              value={model}
-                              onClick={e => {
-                                e.preventDefault();
-                                setModel(e.target.value);
-                              }}
-                            >
-                              {model}
-                            </DropdownItem>
-                          ))}
-                        </DropdownMenu>
-                      </ButtonDropdown>
-                    </Col>
-                  </FormGroup>
-
-                  <FormGroup row>
-                    <Label for="exampleSelect" sm={2}>
-                      Select Year
-                    </Label>
-                    <Col sm={10}>
-                      <ButtonDropdown isOpen={dropdownOpen3} toggle={toggle3}>
-                        <DropdownToggle caret>
-                          {year ? year : "Select Year"}
-                        </DropdownToggle>
-                        <DropdownMenu
-                          modifiers={{
-                            setMaxHeight: {
-                              enabled: true,
-                              order: 890,
-                              fn: data => {
-                                return {
-                                  ...data,
-                                  styles: {
-                                    ...data.styles,
-                                    overflow: "auto",
-                                    maxHeight: 300
-                                  }
-                                };
-                              }
-                            }
-                          }}
-                        >
-                          {yearArr.map(year => (
-                            <DropdownItem
-                              value={year}
-                              onClick={e => {
-                                e.preventDefault();
-                                setYear(e.target.value);
-                              }}
-                            >
-                              {year}
-                            </DropdownItem>
-                          ))}
-                        </DropdownMenu>
-                      </ButtonDropdown>
-                    </Col>
-                  </FormGroup>
-                  <FormGroup row>
-                    <Label for="exampleText" sm={2}>
+                    <Label for="formkms" sm={2}>
                       Kilometers ('000s)
                     </Label>
                     <Col sm={10}>
@@ -261,16 +246,16 @@ function VehicleListing(props) {
                         min="0"
                         step="1"
                         name="text"
-                        id="exampleText"
-                        value={kms}
+                        id="formkms"
+                        value={state.kms}
                         onChange={e => {
-                          setKms(e.target.value);
+                          setState({ ...state, kms: e.target.value });
                         }}
                       />
                     </Col>
                   </FormGroup>
                   <FormGroup row>
-                    <Label for="exampleText" sm={2}>
+                    <Label for="formPrice" sm={2}>
                       Price
                     </Label>
                     <Col sm={10}>
@@ -279,61 +264,61 @@ function VehicleListing(props) {
                         min="0"
                         step="1"
                         name="text"
-                        id="exampleText"
-                        value={price}
+                        id="formPrice"
+                        value={state.price}
                         onChange={e => {
-                          setPrice(e.target.value);
+                          setState({ ...state, price: e.target.value });
                         }}
                       />
                     </Col>
                   </FormGroup>
 
                   <FormGroup row>
-                    <Label for="exampleText" sm={2}>
+                    <Label for="formCity" sm={2}>
                       City
                     </Label>
                     <Col sm={10}>
                       <Input
-                        type="textarea"
+                        type="textbox"
                         name="text"
-                        id="exampleText"
-                        value={city}
+                        id="formCity"
+                        value={state.city}
                         onChange={e => {
-                          setCity(e.target.value);
+                          setState({ ...state, city: e.target.value });
                         }}
                       />
                     </Col>
                   </FormGroup>
 
                   <FormGroup row>
-                    <Label for="exampleText" sm={2}>
+                    <Label for="formDesc" sm={2}>
                       Description
                     </Label>
                     <Col sm={10}>
                       <Input
                         type="textarea"
                         name="text"
-                        id="exampleText"
-                        value={city}
+                        id="formDesc"
+                        value={state.description}
                         onChange={e => {
-                          setCity(e.target.value);
+                          setState({ ...state, description: e.target.value });
                         }}
                       />
                     </Col>
                   </FormGroup>
 
                   <FormGroup row>
-                    <Label for="exampleFile" sm={2}>
+                    <Label for="formPic" sm={2}>
                       Add Photos
                     </Label>
                     <Col sm={10}>
                       <Input
                         type="file"
                         name="file"
-                        id="exampleFile"
-                        value={image}
+                        id="formPic"
+                        value={state.image}
                         onChange={e => {
-                          setImage(e.target.value);
+                          setState({ ...state, image: e.target.value });
                         }}
                       />
                     </Col>

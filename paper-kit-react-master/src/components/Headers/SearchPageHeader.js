@@ -25,7 +25,6 @@ import {
 
 import Slider from "nouislider";
 
-
 // core components
 
 function SearchPageHeader(props) {

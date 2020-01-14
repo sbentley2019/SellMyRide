@@ -27,6 +27,7 @@ import {
   Label,
   FormGroup,
   Input,
+  Modal,
   NavItem,
   NavLink,
   Nav,
@@ -43,15 +44,33 @@ import ProfilePageHeader from "components/Headers/ProfilePageHeader.js";
 import DemoFooter from "components/Footers/DemoFooter.js";
 import ProfileListSection from "components/Sections/ProfileListSection.js";
 import ProfileInformation from "components/Sections/ProfileInformation.js";
+import MessageRow from "components/Sections/MessageRow";
+import MessageItem from "components/Sections/MessageItem.js";
 
 function ProfilePage() {
-  const [activeTab, setActiveTab] = React.useState("1");
   const [cookies, setCookie] = useCookies(["name", "user_id"]);
+  if (!cookies.user_id) {
+    window.location.replace("/login");
+  }
+  const [activeTab, setActiveTab] = React.useState("1");
   const [arrListing, setArrListing] = useState([]);
   const [prevListings, setPrevListings] = useState([]);
   const [del, setDel] = useState(0);
-
+  const [messages, setMessages] = useState([]);
+  const [currentMessages, setCurrentMessages] = useState([]);
   const [userData, setUserData] = useState([]);
+  const [users, setUsers] = useState({});
+
+  const addItem = function(sender) {
+    setCurrentMessages([
+      ...currentMessages,
+      {
+        sender: sender.sender,
+        message: sender.message,
+        time: sender.time
+      }
+    ]);
+  };
 
   useEffect(() => {
     axios.get(`/api/listing/profile/${cookies.user_id}`).then(res => {
@@ -62,6 +81,48 @@ function ProfilePage() {
     axios.get(`/api/users/profile/${cookies.user_id}`).then(res => {
       setUserData(res.data[0]);
     });
+
+    // messages
+    if (!currentMessages.length) {
+      axios
+        .get(`/api/messages/${cookies.user_id}`)
+        .then(res => {
+          res.data.map(person => {
+            setUsers({ ...users, [person.user_id]: person.name });
+            return axios
+              .get(`/api/messages/${cookies.user_id}/${person.user_id}`)
+              .then(res => {
+                const data = res.data[0];
+                console.log(data.user_id == cookies.user_id);
+                if (data.user_id != cookies.user_id) {
+                  addItem({
+                    sender: data.user_id,
+                    message: data.message,
+                    time: data.timestamp
+                  });
+                }
+                // const messages = [];
+                // for (let i in res.data) {
+                //   messages.push({
+                //     sender: i.user_id,
+                //     receiver: i.seller_id,
+                //     message: i.message,
+                //     time: i.timestamp
+                //   });
+                // }
+                // setMessages([...messages, { conv: messages }]);
+              });
+          });
+        })
+        .then(() => {
+          console.log("message", currentMessages);
+          // const sender = messages.map((message) => message.)
+          // const sender = res.data[res.data.length - 1];
+          // if (sender.user_id != cookies.user_id) {
+          //   addItem(sender);
+          // }
+        });
+    }
   }, []);
 
   const toggle = tab => {
@@ -78,6 +139,14 @@ function ProfilePage() {
     };
   });
 
+  const messageComponent = currentMessages.map(message => (
+    <MessageRow
+      userid={cookies.user_id}
+      users={users}
+      message={message}
+      clearMessage={() => setCurrentMessages([])}
+    />
+  ));
   return (
     <>
       <IndexNavbar />
@@ -137,21 +206,41 @@ function ProfilePage() {
             <TabPane tabId="1" id="follows">
               <Row>
                 <Col className="ml-auto mr-auto" md="6">
-
                   <ul className="list-unstyled follows">
                     {arrListing.map(list => (
                       <ProfileListSection list={list} current={true} />
                     ))}
                   </ul>
-
                 </Col>
               </Row>
             </TabPane>
             <TabPane className="text-center" tabId="2" id="following">
-              <h3 className="text-muted">Your inbox is empty!</h3>
+              {/* <ProfileMessages userid={cookies.user_id} /> */}
+              {/* <h3 className="text-muted">Your inbox is empty!</h3>
               <Button className="btn-round" color="warning" outline>
                 Delete Message
-              </Button>
+              </Button> */}
+              {messageComponent.length > 0 && (
+                <div>
+                  <Row>
+                    <Col>
+                      <p>Sender</p>
+                    </Col>
+                    <Col className="ml-auto mr-auto">
+                      <p>Message</p>
+                    </Col>
+                    <Col>
+                      <p>Date</p>
+                    </Col>
+                  </Row>
+                  <hr />
+                </div>
+              )}
+              {!messageComponent.length ? (
+                <h3 className="text-muted">Your inbox is empty!</h3>
+              ) : (
+                messageComponent
+              )}
             </TabPane>
             <TabPane className="text-center" tabId="3" id="following">
               {prevListings.length === 0 && (
@@ -160,7 +249,6 @@ function ProfilePage() {
               <Row>
                 <Col className="ml-auto mr-auto" md="6">
                   <ul className="list-unstyled follows">
-                    {console.log("akjshdf", prevListings)}
                     {prevListings.map(prevlist => (
                       <ProfileListSection list={prevlist} current={false} />
                     ))}
