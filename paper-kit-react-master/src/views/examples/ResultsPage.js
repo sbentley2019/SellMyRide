@@ -22,6 +22,8 @@ import {
 } from "reactstrap";
 
 
+
+
 function ResultsPage(props) {
   document.documentElement.classList.remove("nav-open");
   React.useEffect(() => {
@@ -48,6 +50,7 @@ function ResultsPage(props) {
       </Container> */}
       <SectionSearchCards />
       {/* <SectionCarousel /> */}
+
     </>
   );
 }
