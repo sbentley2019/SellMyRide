@@ -45,7 +45,7 @@ module.exports = db => {
     console.log("/listing/make GET");
     db.query(
       `
-      SELECT DISTINCT make FROM listing
+      SELECT DISTINCT make FROM listing ORDER BY make ASC
       `
     ).then(data => {
       response.json(data.rows);
@@ -58,8 +58,19 @@ module.exports = db => {
     // const queryStr = `SELECT * FROM listing WHERE make = $1`
     db.query(
       `
-      SELECT * FROM listing WHERE make = $1 
+      SELECT * FROM listing WHERE make = $1
       `,
+      [request.params.id]
+    ).then(data => {
+      response.json(data.rows);
+    });
+  });
+
+  router.get("/listing/findModel/:id", (request, response) => {
+    console.log("/listing/make/:id GET");
+    db.query(
+      `
+      SELECT DISTINCT model FROM listing WHERE make = $1 ORDER BY model ASC`,
       [request.params.id]
     ).then(data => {
       response.json(data.rows);
@@ -115,17 +126,6 @@ module.exports = db => {
       });
     }
   );
-
-  router.get("/listing/make/:id", (request, response) => {
-    console.log("/listing/make/:id GET");
-    db.query(
-      `
-      SELECT DISTINCT model FROM listing WHERE make = $1`,
-      [request.params.id]
-    ).then(data => {
-      response.json(data.rows);
-    });
-  });
 
   router.get("/listing/make/:id/model/all", (request, response) => {
     console.log("/listing/make/:id/model/all GET");
