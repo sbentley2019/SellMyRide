@@ -93,7 +93,6 @@ function ProfilePage() {
               .get(`/api/messages/${cookies.user_id}/${person.user_id}`)
               .then(res => {
                 const data = res.data[0];
-                console.log(data.user_id == cookies.user_id);
                 if (data.user_id != cookies.user_id) {
                   addItem({
                     sender: data.user_id,
@@ -115,7 +114,6 @@ function ProfilePage() {
           });
         })
         .then(() => {
-          console.log("message", currentMessages);
           // const sender = messages.map((message) => message.)
           // const sender = res.data[res.data.length - 1];
           // if (sender.user_id != cookies.user_id) {
@@ -147,6 +145,12 @@ function ProfilePage() {
       clearMessage={() => setCurrentMessages([])}
     />
   ));
+
+  const removeListing = function(e) {
+    const temp = arrListing.filter(i => i.id === e);
+    setArrListing(arrListing.filter(i => i.id !== e));
+    setPrevListings([...prevListings, temp[0]]);
+  };
   return (
     <>
       <IndexNavbar />
@@ -208,7 +212,11 @@ function ProfilePage() {
                 <Col className="ml-auto mr-auto" md="6">
                   <ul className="list-unstyled follows">
                     {arrListing.map(list => (
-                      <ProfileListSection list={list} current={true} />
+                      <ProfileListSection
+                        removeListing={e => removeListing(e)}
+                        list={list}
+                        current={true}
+                      />
                     ))}
                   </ul>
                 </Col>

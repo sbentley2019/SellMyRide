@@ -28,15 +28,28 @@ module.exports = db => {
       listing_image,
       price,
       kms,
-      city
+      city,
+      description,
+      exterior_colour
     } = request.body;
 
     // console.log(make, model, year, user_id, listing_image, price, kms, city);
     db.query(
       `
-      INSERT INTO listing (make, model, year, user_id, listing_image, is_sold, price, kms, city) VALUES ($1, $2, $3, $4, $5, FALSE, $6, $7, $8)
+      INSERT INTO listing (make, model, year, user_id, listing_image, is_sold, price, kms, city, description, exterior_colour) VALUES ($1, $2, $3, $4, $5, FALSE, $6, $7, $8, $9, $10)
     `,
-      [make, model, year, user_id, listing_image, price, kms, city]
+      [
+        make,
+        model,
+        year,
+        user_id,
+        listing_image,
+        price,
+        kms,
+        city,
+        description,
+        exterior_colour
+      ]
     );
   });
 
