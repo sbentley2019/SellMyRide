@@ -99,9 +99,9 @@ function VehicleListing(props) {
   const createListing = function(data) {
     /*     kms = kms.replace(/[^\d\.\-\ ]/g, '');
     price = price.replace(/[^\d\.\-\ ]/g, ''); */
-    const dbObj = { ...state, user_id: cookies.user_id };
+    let dbObj = { ...state, user_id: cookies.user_id };
     if (!state.listing_image) {
-      dbObj({ ...state, listing_image: imageurl });
+      dbObj = { ...state, listing_image: imageurl };
     }
     // console.log(dbObj);
     axios.put(`/api/listing`, dbObj);
@@ -373,8 +373,8 @@ function VehicleListing(props) {
                       <Button
                         className="btn-round"
                         color="success"
-                        href="/listing"
                         onClick={createListing}
+                        // href="/listing"
                         outline
                       >
                         List my ride!
