@@ -36,15 +36,17 @@ function VehicleListing(props) {
   }
   const [makeArr, setMakeArr] = useState([]);
   const [modelArr, setModelArr] = useState([]);
+  const [imageurl, setImageurl] = useState("");
   const [state, setState] = useState({
     make: "",
     model: "",
     year: "",
-    image: "",
+    listing_image: "",
     price: "",
     kms: "",
     city: "",
-    description: ""
+    description: "",
+    exterior_colour: ""
   });
 
   let pageHeader = React.createRef();
@@ -90,15 +92,19 @@ function VehicleListing(props) {
     setState({ ...state, make: e, model: "" });
     axios.get(`/api/makeModel/make/${e}`).then(res => {
       setModelArr(res.data.map(listing => listing.model));
-      console.log(res.data);
+      // console.log(res.data);
     });
   };
 
   const createListing = function(data) {
     /*     kms = kms.replace(/[^\d\.\-\ ]/g, '');
     price = price.replace(/[^\d\.\-\ ]/g, ''); */
-
-    axios.put(`/api/listing`, state);
+    const dbObj = { ...state, user_id: cookies.user_id };
+    if (!state.listing_image) {
+      dbObj({ ...state, listing_image: imageurl });
+    }
+    // console.log(dbObj);
+    axios.put(`/api/listing`, dbObj);
   };
 
   return (
@@ -146,7 +152,7 @@ function VehicleListing(props) {
                                 value={make}
                                 onClick={e => {
                                   e.preventDefault();
-                                  setState({ ...state, make: e.target.value });
+                                  sendMake(e.target.value);
                                 }}
                               >
                                 {make}
@@ -308,20 +314,58 @@ function VehicleListing(props) {
                   </FormGroup>
 
                   <FormGroup row>
-                    <Label for="formPic" sm={2}>
-                      Add Photos
+                    <Label for="formColour" sm={2}>
+                      Exterior colour
                     </Label>
                     <Col sm={10}>
                       <Input
-                        type="file"
-                        name="file"
-                        id="formPic"
-                        value={state.image}
+                        type="text"
+                        min="0"
+                        step="1"
+                        name="formColour"
+                        id="formColour"
+                        value={state.exterior_colour}
                         onChange={e => {
-                          setState({ ...state, image: e.target.value });
+                          setState({
+                            ...state,
+                            exterior_colour: e.target.value
+                          });
                         }}
                       />
                     </Col>
+                  </FormGroup>
+
+                  <FormGroup row>
+                    <Label for="formPic" sm={2}>
+                      Add Photos
+                    </Label>
+                    <div className="inputFormPic" sm={10}>
+                      <Col>
+                        <Input
+                          type="file"
+                          name="file"
+                          id="formPic"
+                          value={state.listing_image}
+                          onChange={e => {
+                            setState({
+                              ...state,
+                              listing_image: e.target.value
+                            });
+                          }}
+                        />
+                      </Col>
+                      <span>OR</span>
+                      <Col sm={8}>
+                        <Input
+                          type="text"
+                          value={state.imageurl}
+                          placeholder="http://"
+                          onChange={e => {
+                            setImageurl(e.target.value);
+                          }}
+                        />
+                      </Col>
+                    </div>
                   </FormGroup>
 
                   <FormGroup check row>
