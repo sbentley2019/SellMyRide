@@ -146,7 +146,7 @@ function VehicleListing(props) {
                                 value={make}
                                 onClick={e => {
                                   e.preventDefault();
-                                  setState({ ...state, make: e.target.value });
+                                  sendMake(e.target.value);
                                 }}
                               >
                                 {make}
