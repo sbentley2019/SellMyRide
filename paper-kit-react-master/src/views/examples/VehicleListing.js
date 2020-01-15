@@ -24,69 +24,54 @@ import {
 } from "reactstrap";
 import axios from "axios";
 
-
-import {GoogleMap, 
-  withScriptjs, 
-  withGoogleMap, 
-  Marker, 
+import {
+  GoogleMap,
+  withScriptjs,
+  withGoogleMap,
+  Marker,
   InfoWindow
 } from "react-google-maps";
 
 let postal = "";
 let car = {};
 
-
 function Map() {
+  const [localLat, setLocalLat] = useState(0);
+  const [localLng, setLocalLng] = useState(0);
 
-const [localLat, setLocalLat] = useState(0);
-const [localLng, setLocalLng] = useState(0);
+  axios
+    .get(
+      "https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:" +
+        postal +
+        "&key=[GOOGLE_KEY]"
+    )
+    .then(res => {
+      setLocalLat(res.data.results[0].geometry.location.lat);
+      setLocalLng(res.data.results[0].geometry.location.lng);
+    });
 
-axios.get('https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:' + postal + '&key=[GOOGLE_KEY]').then(res => {
-  setLocalLat(res.data.results[0].geometry.location.lat);
-  setLocalLng(res.data.results[0].geometry.location.lng);
-});
+  console.log(localLat, localLng);
 
-console.log(localLat, localLng);
+  return (
+    <GoogleMap defaultZoom={10} center={{ lat: localLat, lng: localLng }}>
+      <Marker key={car.make} position={{ lat: localLat, lng: localLng }} />
+      <InfoWindow position={{ lat: localLat, lng: localLng }}>
+        <div>
+          <img src={car.listing_image} width="75px"></img>
+          <h4>
+            {car.year} {car.make} {car.model}
+          </h4>
+          <p>$ {car.price}</p>
+        </div>
+      </InfoWindow>
+    </GoogleMap>
+  );
+}
 
-return ( 
-  <GoogleMap 
-  defaultZoom={10} 
-  center={{ lat: localLat, lng: localLng}}
-  >
-
-  <Marker 
-  key={car.make} 
-  position={{lat: localLat, lng: localLng
-  }} 
-
-
-  />
- <InfoWindow
- position={{lat: localLat, lng: localLng}}
- >
-   <div>
-     <img src={car.listing_image} width="75px"></img>
-     <h4>{car.year} {car.make} {car.model}</h4>
-     <p>$ {car.price}</p>
-   </div>
- </InfoWindow>
-
-</GoogleMap>
-);
-
-
-};
-
-
-
-const WrappedMap = withScriptjs(withGoogleMap(Map));  
-
+const WrappedMap = withScriptjs(withGoogleMap(Map));
 
 export default function VehicleListing() {
   let data = useLocation();
-  postal = data.state.result.city;
-  car = data.state.result;
-
 
   document.documentElement.classList.remove("nav-open");
   const [cookies, setCookie] = useCookies(["name", "user_id"]);
@@ -104,19 +89,22 @@ export default function VehicleListing() {
     });
   }, []);
 
+  postal = vehicle.city;
+  car = vehicle;
+
   /*   console.log("props:", ); */
   return (
     <>
       <IndexNavbar />
-      <NewVehicleListingHeader data={data.state.result}/>
-      <VehicleProfileCarousel data={data.state.result}/>
-      <VehicleProfileDescription data={data.state.result}/>
-      <div style={{width: '100vw', height: '100vh'}}>
-        <WrappedMap 
-        googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=[GOOGLE_KEY]`}
-        loadingElement={<div style={{ height: "100%"}} />}
-        containerElement={<div style={{ height: "100%"}} />}
-        mapElement={<div style={{ height: "100%"}} />}
+      <NewVehicleListingHeader data={vehicle} />
+      <VehicleProfileCarousel data={vehicle} />
+      <VehicleProfileDescription data={vehicle} />
+      <div style={{ width: "100vw", height: "100vh" }}>
+        <WrappedMap
+          googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=[GOOGLE_KEY]`}
+          loadingElement={<div style={{ height: "100%" }} />}
+          containerElement={<div style={{ height: "100%" }} />}
+          mapElement={<div style={{ height: "100%" }} />}
         />
       </div>
     </>
