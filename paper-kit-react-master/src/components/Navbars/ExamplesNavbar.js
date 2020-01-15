@@ -26,9 +26,6 @@ import {
   Collapse,
   NavbarBrand,
   Navbar,
-  NavItem,
-  NavLink,
-  Nav,
   Container
 } from "reactstrap";
 

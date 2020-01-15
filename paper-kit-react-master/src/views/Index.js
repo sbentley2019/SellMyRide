@@ -24,7 +24,6 @@ import { useCookies } from "react-cookie";
 // core components
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import IndexHeader from "components/Headers/IndexHeader.js";
-import DemoFooter from "components/Footers/DemoFooter.js";
 
 // index sections
 import SectionButtons from "views/index-sections/SectionButtons.js";
@@ -43,7 +42,6 @@ import SectionDownload from "views/index-sections/SectionDownload.js";
 
 import axios from "axios";
 const listing = axios.get("/api/listing");
-console.log("zzzzzzz", listing);
 
 function Index() {
   document.documentElement.classList.remove("nav-open");

@@ -7,21 +7,6 @@ import VehicleProfileDescription from "components/Sections/VehicleProfileDescrip
 import { useLocation } from "react-router-dom";
 
 // reactstrap components
-import {
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardTitle,
-  Form,
-  Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
-  Container,
-  Row,
-  Col
-} from "reactstrap";
 import axios from "axios";
 
 import {
@@ -43,7 +28,7 @@ function Map() {
     .get(
       "https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:" +
         postal +
-        "&key=[GOOGLE_KEY]"
+        "&key=AIzaSyCXRaYlU5lp6ccacJJXdOEuSqE511PJaWM"
     )
     .then(res => {
       setLocalLat(res.data.results[0].geometry.location.lat);
@@ -101,7 +86,7 @@ export default function VehicleListing() {
       <VehicleProfileDescription data={vehicle} />
       <div style={{ width: "100vw", height: "100vh" }}>
         <WrappedMap
-          googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=[GOOGLE_KEY]`}
+          googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyCXRaYlU5lp6ccacJJXdOEuSqE511PJaWM`}
           loadingElement={<div style={{ height: "100%" }} />}
           containerElement={<div style={{ height: "100%" }} />}
           mapElement={<div style={{ height: "100%" }} />}

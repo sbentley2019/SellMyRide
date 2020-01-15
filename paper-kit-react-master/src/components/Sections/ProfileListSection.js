@@ -3,15 +3,6 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import {
   Button,
-  Label,
-  FormGroup,
-  Input,
-  NavItem,
-  NavLink,
-  Nav,
-  TabContent,
-  TabPane,
-  Container,
   Row,
   Col
 } from "reactstrap";

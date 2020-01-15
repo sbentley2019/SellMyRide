@@ -7,16 +7,13 @@ import {
   CardBody,
   CardTitle,
   CardSubtitle,
-  Container,
-  Button
+  Container
 } from "reactstrap";
-
-import axios from "axios";
 
 const SectionSearchCards = props => {
 
   console.log("props:", props.results);
-  let link = `/listing/${props.results[0]}`;
+  // let link = `/listing/${props.results[0]}`;
   return (
     <div className="section pt-o">
       <Container className="results-container">
