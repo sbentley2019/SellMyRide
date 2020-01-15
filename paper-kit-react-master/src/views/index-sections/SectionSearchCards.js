@@ -18,26 +18,32 @@ const SectionSearchCards = props => {
   return (
     <div className="section pt-o">
       <Container className="results-container">
-        {props.results.map(listing => (
-          <Card className="results-card">
-            <CardImg
-              top
-              width="100%"
-              src={listing.listing_image}
-              alt="Card image cap"
-            />
-            <CardBody>
-              <CardTitle>{listing.year}</CardTitle>
-              <CardSubtitle>
-                {listing.make} {listing.model}
-              </CardSubtitle>
+        {props.results.map(listing => {
+          console.log("listing:", listing);
+          return (
+            <Card className="results-card">
+              <CardImg
+                top
+                width="100%"
+                src={listing.listing_image}
+                alt="Card image cap"
+              />
+              <CardBody>
+                <CardTitle>{listing.year}</CardTitle>
+                <CardSubtitle>
+                  {listing.make} {listing.model}
+                </CardSubtitle>
 
-              <CardText>{listing.description}</CardText>
-              <Link to={{pathname:'/listing', state:{ result: listing }}}>View More</Link>
-
-            </CardBody>
-          </Card>
-        ))}
+                <CardText>{listing.description}</CardText>
+                <Link
+                  to={{ pathname: "/listing", state: { result: listing.id } }}
+                >
+                  View More
+                </Link>
+              </CardBody>
+            </Card>
+          );
+        })}
       </Container>
     </div>
   );

@@ -4,7 +4,7 @@ import React from "react";
 
 // core components
 
-function NewVehicleListingHeader() {
+function NewVehicleListingHeader(props) {
   let pageHeader = React.createRef();
 
   React.useEffect(() => {
@@ -32,7 +32,9 @@ function NewVehicleListingHeader() {
         ref={pageHeader}
       >
         <div className="motto text-center">
-          <h2>[Vehicle year, make, model]</h2>
+          <h2>
+            [{props.data.make + " " + props.data.model + " " + props.data.year}]
+          </h2>
         </div>
       </div>
     </>
