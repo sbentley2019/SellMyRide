@@ -311,7 +311,7 @@ function VehicleListing(props) {
 
                   <FormGroup row>
                     <Label for="formCity" sm={2}>
-                      City
+                      Postal Code <br/> (e.g. A1A1A1)
                     </Label>
                     <Col sm={10}>
                       <Input

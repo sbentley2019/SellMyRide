@@ -122,6 +122,8 @@ function SearchPageHeader(props) {
         <Container>
           <div className="filter" />
           <div className="motto text-center">
+            <h2>Enter a vehicle Make and/or Model below:</h2>
+            <br/>
             <Row>
               <Col>
                 <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
