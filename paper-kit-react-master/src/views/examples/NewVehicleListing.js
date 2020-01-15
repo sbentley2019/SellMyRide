@@ -78,7 +78,6 @@ function VehicleListing(props) {
 
     axios.get("http://localhost:8001/api/makeModel/make").then(res => {
       setMakeArr(res.data.map(listing => listing.make));
-      console.log(res.data);
     });
 
     document.body.classList.add("profile-page");
@@ -91,11 +90,10 @@ function VehicleListing(props) {
     setState({ ...state, make: e, model: "" });
     axios.get(`/api/makeModel/make/${e}`).then(res => {
       setModelArr(res.data.map(listing => listing.model));
-      // console.log(res.data);
     });
   };
 
-  const createListing = function(data) {
+  const createListing = function() {
     /*     kms = kms.replace(/[^\d\.\-\ ]/g, '');
     price = price.replace(/[^\d\.\-\ ]/g, ''); */
     let dbObj;

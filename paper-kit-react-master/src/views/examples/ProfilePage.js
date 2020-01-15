@@ -207,7 +207,10 @@ function ProfilePage() {
             </div>
           </div>
           <TabContent className="following" activeTab={activeTab}>
-            <TabPane tabId="1" id="follows">
+            <TabPane className="text-center" tabId="1" id="follows">
+              {arrListing.length === 0 && (
+                <h3 className="text-muted">No current listings!</h3>
+              )}
               <Row>
                 <Col className="ml-auto mr-auto" md="6">
                   <ul className="list-unstyled follows">
