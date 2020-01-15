@@ -223,11 +223,6 @@ function ProfilePage() {
               </Row>
             </TabPane>
             <TabPane className="text-center" tabId="2" id="following">
-              {/* <ProfileMessages userid={cookies.user_id} /> */}
-              {/* <h3 className="text-muted">Your inbox is empty!</h3>
-              <Button className="btn-round" color="warning" outline>
-                Delete Message
-              </Button> */}
               {messageComponent.length > 0 && (
                 <div>
                   <Row>

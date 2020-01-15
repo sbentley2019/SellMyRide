@@ -41,7 +41,7 @@ export default function ProfileListSection(props) {
           <div className="listing-actions">
             <div className="text-center">
               <Link
-                to={{ pathname: "/listing", state: { result: props.list.id } }}
+                to={{ pathname: "/listing", state: { result: props.list } }}
               >
                 <Button className="btn-round" color="success" outline>
                   View
