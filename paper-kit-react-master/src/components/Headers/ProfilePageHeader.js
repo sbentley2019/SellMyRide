@@ -51,7 +51,7 @@ function ProfilePageHeader() {
       >
         <div className="filter" />
         <div className="motto text-center">
-          <h2>My Profile</h2>
+          <h2>View My Profile</h2>
         </div>
       </div>
     </>
