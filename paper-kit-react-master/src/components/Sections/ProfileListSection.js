@@ -70,7 +70,6 @@ export default function ProfileListSection(props) {
                     outline
                     onClick={() => {
                       deleteListing(props.list.id);
-                      // console.log("delete listing");
                     }}
                   >
                     Delete

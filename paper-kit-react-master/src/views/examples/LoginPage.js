@@ -36,14 +36,15 @@ function LoginPage() {
     setCookie(key, value, { path: "/" });
   }
 
-  const loginUser = function() {
-    axios.get(`/api/users/${user.email}`).then(res => {
-      if (user.password === res.data[0].password) {
-        alterUser("name", res.data[0].name);
-        alterUser("user_id", res.data[0].id);
-        window.location.replace("/");
-      } else {
+  const loginUser = function(e) {
+    e.preventDefault();
+    axios.post(`/api/users/login`, user).then(res => {
+      if (res.data === -1) {
         alert("incorrect email or password");
+      } else {
+        alterUser("name", res.data.name);
+        alterUser("user_id", res.data.id);
+        window.location.replace("/");
       }
     });
   };
@@ -63,7 +64,7 @@ function LoginPage() {
             <Col className="mx-auto" lg="4" md="6">
               <Card className="card-register">
                 <h3 className="title mx-auto">Welcome!</h3>
-                <Form className="register-form">
+                <Form className="register-form" onSubmit={e => loginUser(e)}>
                   <label>Email</label>
                   <InputGroup className="form-group-no-border">
                     <InputGroupAddon addonType="prepend">
@@ -102,8 +103,7 @@ function LoginPage() {
                     block
                     className="btn-round"
                     color="danger"
-                    onClick={loginUser}
-                    type="button"
+                    type="submit"
                   >
                     Login
                   </Button>
