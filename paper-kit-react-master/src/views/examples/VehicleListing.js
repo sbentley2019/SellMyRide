@@ -6,7 +6,6 @@ import VehicleProfileCarousel from "components/Sections/VehicleProfileCarousel.j
 import VehicleProfileDescription from "components/Sections/VehicleProfileDescription.js";
 import { useLocation } from "react-router-dom";
 
-// reactstrap components
 import axios from "axios";
 
 import {
@@ -19,6 +18,7 @@ import {
 
 let postal = "";
 let car = {};
+let googleKey = process.env.REACT_APP_GOOGLE_KEY;
 
 function Map() {
   const [localLat, setLocalLat] = useState(0);
@@ -26,9 +26,7 @@ function Map() {
 
   axios
     .get(
-      "https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:" +
-        postal +
-        "&key=AIzaSyCXRaYlU5lp6ccacJJXdOEuSqE511PJaWM"
+      `https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:${postal}&key=${googleKey}`
     )
     .then(res => {
       setLocalLat(res.data.results[0].geometry.location.lat);
@@ -61,6 +59,8 @@ export default function VehicleListing() {
   document.documentElement.classList.remove("nav-open");
   const [cookies, setCookie] = useCookies(["name", "user_id"]);
   const [vehicle, setVehicle] = useState({});
+  const [liveModal, setLiveModal] = useState(false);
+  const [message, setMessage] = useState("");
   useEffect(() => {
     document.body.classList.add("profile-page");
     return function cleanup() {
@@ -77,16 +77,85 @@ export default function VehicleListing() {
   postal = vehicle.city;
   car = vehicle;
 
+  const sendText = function() {
+    console.log("send text");
+    if (!cookies.user_id) {
+      alert("Register or login to send messages.");
+    }
+    if (message) {
+      axios.put(`/api/messages/${cookies.user_id}/${vehicle.user_id}`, {
+        message: message
+      });
+      setLiveModal(false);
+    }
+  };
   /*   console.log("props:", ); */
   return (
     <>
       <IndexNavbar />
       <NewVehicleListingHeader data={vehicle} />
       <VehicleProfileCarousel data={vehicle} />
-      <VehicleProfileDescription data={vehicle} />
+      <VehicleProfileDescription
+        fire={() => setLiveModal(true)}
+        data={vehicle}
+      />
+      <Modal isOpen={liveModal} toggle={() => setLiveModal(false)}>
+        <div className="modal-header">
+          <h5 className="modal-title" id="exampleModalLiveLabel">
+            Send Message
+          </h5>
+        </div>
+        <div className="modal-body">
+          <FormGroup row>
+            <Input
+              type="text"
+              min="0"
+              step="1"
+              name="text"
+              id="formText"
+              value={message}
+              onChange={e => {
+                setMessage(e.target.value);
+              }}
+            />
+          </FormGroup>
+        </div>
+        <div className="modal-footer">
+          <div className="left-side">
+            <Button
+              className="btn-link"
+              color="default"
+              data-dismiss="modal"
+              type="button"
+              onClick={() => setLiveModal(false)}
+            >
+              Never mind
+            </Button>
+          </div>
+          <div className="divider" />
+          <div className="right-side">
+            <Button
+              className="btn-link"
+              color="danger"
+              type="button"
+              onClick={() => sendText()}
+            >
+              Send
+            </Button>
+          </div>
+        </div>
+      </Modal>
+      {/* <Button
+        className="btn-round"
+        color="success"
+        outline
+        onClick={() => setLiveModal(true)}
+      >
+        Message Seller
+      </Button> */}
       <div style={{ width: "100vw", height: "100vh" }}>
         <WrappedMap
-          googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyCXRaYlU5lp6ccacJJXdOEuSqE511PJaWM`}
+          googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${googleKey}`}
           loadingElement={<div style={{ height: "100%" }} />}
           containerElement={<div style={{ height: "100%" }} />}
           mapElement={<div style={{ height: "100%" }} />}

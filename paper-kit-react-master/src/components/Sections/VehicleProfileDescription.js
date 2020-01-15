@@ -61,6 +61,18 @@ function VehicleProfileDescription(props) {
         ) : (
           ""
         )}
+        {!cookies.user_id || cookies.user_id != props.data.user_id ? (
+          <Button
+            className="btn-round"
+            color="success"
+            outline
+            onClick={props.fire}
+          >
+            Message Seller
+          </Button>
+        ) : (
+          ""
+        )}
 
         <Button className="btn-round" color="warning" outline>
           Back
