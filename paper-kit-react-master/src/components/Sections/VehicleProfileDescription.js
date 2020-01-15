@@ -1,6 +1,6 @@
 import React from "react";
-
-import { useCookies } from "react-cookie";
+import { Link } from "react-router-dom";
+import { useCookies, Cookies } from "react-cookie";
 
 // reactstrap components
 import { Card, Container, Row, Col, Table, Button } from "reactstrap";
@@ -8,7 +8,7 @@ import { Card, Container, Row, Col, Table, Button } from "reactstrap";
 // core components
 
 function VehicleProfileDescription(props) {
-  console.log("data: ", props.data);
+  const [cookies, setCookie] = useCookies(["name", "user_id"]);
   return (
     <>
       <Container className="tim-container">
@@ -47,10 +47,21 @@ function VehicleProfileDescription(props) {
             </tr>
           </tbody>
         </Table>
+        {cookies.user_id && cookies.user_id == props.data.user_id ? (
+          <Link
+            to={{
+              pathname: "/new-listing",
+              state: { result: props.data }
+            }}
+          >
+            <Button className="btn-round" color="warning" outline>
+              Edit
+            </Button>
+          </Link>
+        ) : (
+          ""
+        )}
 
-        <Button className="btn-round" color="warning" outline>
-          Edit Listing
-        </Button>
         <Button className="btn-round" color="warning" outline>
           Back
         </Button>

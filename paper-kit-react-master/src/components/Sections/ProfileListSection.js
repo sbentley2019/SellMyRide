@@ -52,16 +52,16 @@ export default function ProfileListSection(props) {
             {props.current && (
               <>
                 <div className="text-center">
-                  <Button
-                    className="btn-round"
-                    color="warning"
-                    outline
-                    onClick={() => {
-                      console.log("edit listing");
+                  <Link
+                    to={{
+                      pathname: "/new-listing",
+                      state: { result: props.list }
                     }}
                   >
-                    Edit
-                  </Button>
+                    <Button className="btn-round" color="warning" outline>
+                      Edit
+                    </Button>
+                  </Link>
                 </div>
                 <div className="text-center">
                   <Button
