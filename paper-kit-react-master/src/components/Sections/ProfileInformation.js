@@ -6,8 +6,6 @@ export default function ProfileInformation(props) {
       <hr />
       <p>name: {props.data.name}</p>
       <hr />
-      <p>id: {props.data.id}</p>
-      <hr />
       <p>email: {props.data.email}</p>
       <hr />
       <p>location: {props.data.location}</p>
