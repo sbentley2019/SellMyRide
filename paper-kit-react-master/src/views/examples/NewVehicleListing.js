@@ -64,7 +64,7 @@ function VehicleListing(props) {
   }
   document.documentElement.classList.remove("nav-open");
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (window.innerWidth < 991) {
       const updateScroll = () => {
         let windowScrollTop = window.pageYOffset / 3;
