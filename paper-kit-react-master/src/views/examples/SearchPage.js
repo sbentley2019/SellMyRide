@@ -38,10 +38,10 @@ function SearchPage() {
   return (
     <>
       <IndexNavbar />
-      <SearchPageHeader setResults={results => setResults(results)} />
-      <div id="search-results">
+      <SearchPageHeader setResults={results => setResults(results)} results={results}/>
+      {/* <div id="search-results">
         {results.length !== 0 && <ResultSection results={results} />}
-      </div>
+      </div> */}
     </>
   );
 }
