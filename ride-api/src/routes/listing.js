@@ -67,6 +67,41 @@ module.exports = db => {
     });
   });
 
+  router.put("/listing/modify", (request, response) => {
+    const {
+      make,
+      model,
+      year,
+      listing_image,
+      price,
+      kms,
+      city,
+      description,
+      exterior_colour,
+      id
+    } = request.body;
+
+    db.query(
+      `
+      UPDATE listing SET make = $1, model = $2, year = $3, listing_image = $4, price = $5, kms = $6, city =$7, description = $8, exterior_colour = $9 WHERE id = $10
+    `,
+      [
+        make,
+        model,
+        year,
+        listing_image,
+        price,
+        kms,
+        city,
+        description,
+        exterior_colour,
+        id
+      ]
+    ).then(data => {
+      response.json("Listing modified.");
+    });
+  });
+
   router.get("/listing/make/:id", (request, response) => {
     console.log("/listing/make/:id GET");
     // const make = (request.params.id === "all" ? :)

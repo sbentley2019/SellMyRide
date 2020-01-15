@@ -3,7 +3,7 @@ import axios from "axios";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import NewListingPageHeader from "components/Headers/NewListingPageHeader.js";
 import { useCookies } from "react-cookie";
-import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 // reactstrap components
 import {
@@ -36,19 +36,23 @@ function VehicleListing(props) {
   if (!cookies.user_id) {
     window.location.replace("/login");
   }
+  let data = useLocation();
+
   const [makeArr, setMakeArr] = useState([]);
   const [modelArr, setModelArr] = useState([]);
-  const [imageurl, setImageurl] = useState("");
+  const [imageurl, setImageurl] = useState(
+    data.state ? data.state.result.listing_image : ""
+  );
   const [state, setState] = useState({
-    make: "",
-    model: "",
-    year: "",
+    make: data.state ? data.state.result.make : "",
+    model: data.state ? data.state.result.model : "",
+    year: data.state ? data.state.result.year : "",
     listing_image: "",
-    price: "",
-    kms: "",
-    city: "",
-    description: "",
-    exterior_colour: ""
+    price: data.state ? data.state.result.price : "",
+    kms: data.state ? data.state.result.kms : "",
+    city: data.state ? data.state.result.city : "",
+    description: data.state ? data.state.result.description : "",
+    exterior_colour: data.state ? data.state.result.exterior_colour : ""
   });
 
   let pageHeader = React.createRef();
@@ -120,10 +124,16 @@ function VehicleListing(props) {
       dbObj.exterior_colour &&
       dbObj.user_id
     ) {
-      console.log(dbObj);
-      axios.put(`/api/listing`, dbObj).then(res => {
-        console.log(res.data);
-      });
+      if (data.state) {
+        dbObj.id = data.state.result.id;
+        axios.put(`/api/listing/modify`, dbObj).then(res => {
+          console.log(res.data);
+        });
+      } else {
+        axios.put(`/api/listing`, dbObj).then(res => {
+          console.log(res.data);
+        });
+      }
     }
   };
 
@@ -378,7 +388,7 @@ function VehicleListing(props) {
                       <Col sm={8}>
                         <Input
                           type="text"
-                          value={state.imageurl}
+                          value={imageurl}
                           placeholder="http://"
                           onChange={e => {
                             setImageurl(e.target.value);
