@@ -1,28 +1,7 @@
 import React from "react";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import ResultsPageHeader from "components/Headers/ResultsPageHeader.js";
-import SectionCarousel from "views/index-sections/SectionCarousel.js";
 import SectionSearchCards from "views/index-sections/SectionSearchCards";
-
-// reactstrap components
-import {
-  Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardTitle,
-  Form,
-  Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
-  Container,
-  Row,
-  Col
-} from "reactstrap";
-
-
-
 
 function ResultsPage(props) {
   document.documentElement.classList.remove("nav-open");

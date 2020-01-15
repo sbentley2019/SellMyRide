@@ -74,7 +74,7 @@ function VehicleProfileDescription(props) {
           ""
         )}
 
-        <Button className="btn-round" color="warning" outline>
+        <Button className="btn-round" color="warning" outline href="/search">
           Back
         </Button>
       </Container>

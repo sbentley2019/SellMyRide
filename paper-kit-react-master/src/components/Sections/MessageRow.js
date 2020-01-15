@@ -2,16 +2,9 @@ import React, { useState } from "react";
 import axios from "axios";
 import {
   Button,
-  Label,
   FormGroup,
   Input,
   Modal,
-  NavItem,
-  NavLink,
-  Nav,
-  TabContent,
-  TabPane,
-  Container,
   Row,
   Col
 } from "reactstrap";

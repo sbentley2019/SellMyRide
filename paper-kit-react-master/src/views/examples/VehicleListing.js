@@ -10,20 +10,9 @@ import { useLocation } from "react-router-dom";
 // reactstrap components
 import {
   Button,
-  Card,
-  CardBody,
-  CardFooter,
-  CardTitle,
-  Form,
   Input,
   Modal,
   FormGroup,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
-  Container,
-  Row,
-  Col
 } from "reactstrap";
 import axios from "axios";
 
