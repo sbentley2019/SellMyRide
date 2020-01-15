@@ -3,6 +3,8 @@ import axios from "axios";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import NewListingPageHeader from "components/Headers/NewListingPageHeader.js";
 import { useCookies } from "react-cookie";
+import { Link } from "react-router-dom";
+
 // reactstrap components
 import {
   Button,
@@ -99,12 +101,30 @@ function VehicleListing(props) {
   const createListing = function(data) {
     /*     kms = kms.replace(/[^\d\.\-\ ]/g, '');
     price = price.replace(/[^\d\.\-\ ]/g, ''); */
-    let dbObj = { ...state, user_id: cookies.user_id };
+    let dbObj;
     if (!state.listing_image) {
-      dbObj = { ...state, listing_image: imageurl };
+      dbObj = { ...state, user_id: cookies.user_id, listing_image: imageurl };
+    } else {
+      dbObj = { ...state, user_id: cookies.user_id };
     }
-    // console.log(dbObj);
-    axios.put(`/api/listing`, dbObj);
+
+    if (
+      dbObj.make &&
+      dbObj.model &&
+      dbObj.year &&
+      dbObj.listing_image &&
+      dbObj.price &&
+      dbObj.kms &&
+      dbObj.city &&
+      dbObj.description &&
+      dbObj.exterior_colour &&
+      dbObj.user_id
+    ) {
+      console.log(dbObj);
+      axios.put(`/api/listing`, dbObj).then(res => {
+        console.log(res.data);
+      });
+    }
   };
 
   return (
@@ -374,7 +394,7 @@ function VehicleListing(props) {
                         className="btn-round"
                         color="success"
                         onClick={createListing}
-                        // href="/listing"
+                        href="/profile"
                         outline
                       >
                         List my ride!

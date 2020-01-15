@@ -50,7 +50,9 @@ module.exports = db => {
         description,
         exterior_colour
       ]
-    );
+    ).then(data => {
+      response.json("Listing added.");
+    });
   });
 
   // /make

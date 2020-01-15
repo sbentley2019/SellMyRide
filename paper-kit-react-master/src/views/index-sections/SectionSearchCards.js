@@ -18,6 +18,7 @@ const SectionSearchCards = props => {
   return (
     <div className="section pt-o">
       <Container className="results-container">
+
         {props.results.map(listing => (
           <Card className="results-card">
             <CardImg
@@ -32,12 +33,13 @@ const SectionSearchCards = props => {
               </CardTitle>
               <CardSubtitle>Asking Price: ${listing.price}</CardSubtitle>
               <CardText>{listing.description}</CardText>
-              <Link to={{ pathname: "/listing", state: { result: listing } }}>
+              <Link to={{ pathname: "/listing", state: { result: listing.id } }}>
                 View Listing
               </Link>
             </CardBody>
           </Card>
         ))}
+
       </Container>
     </div>
   );

@@ -4,7 +4,7 @@ import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import NewVehicleListingHeader from "components/Headers/NewVehicleListingHeader.js";
 import VehicleProfileCarousel from "components/Sections/VehicleProfileCarousel.js";
 import VehicleProfileDescription from "components/Sections/VehicleProfileDescription.js";
-import {useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 // reactstrap components
 import {
@@ -26,31 +26,35 @@ import axios from "axios";
 
 /* const router = require("express").Router(); */
 
-function VehicleListing() {
+export default function VehicleListing() {
   let data = useLocation();
-  console.log(data.state.result); 
-
+  console.log(data.state.result);
 
   document.documentElement.classList.remove("nav-open");
   const [cookies, setCookie] = useCookies(["name", "user_id"]);
-
-  React.useEffect(() => {
-
+  const [vehicle, setVehicle] = useState({});
+  useEffect(() => {
     document.body.classList.add("profile-page");
     return function cleanup() {
       document.body.classList.remove("profile-page");
     };
   });
+  useEffect(() => {
+    axios.get(`/api/listing/${data.state.result}`).then(res => {
+      console.log(res.data[0]);
+      setVehicle(res.data[0]);
+    });
+  }, []);
 
-/*   console.log("props:", ); */
+  /*   console.log("props:", ); */
   return (
     <>
       <IndexNavbar />
-      <NewVehicleListingHeader data={data.state.result}/>
-      <VehicleProfileCarousel data={data.state.result}/>
-      <VehicleProfileDescription data={data.state.result}/>
+
+      <NewVehicleListingHeader data={vehicle} />
+      <VehicleProfileCarousel data={vehicle} />
+      <VehicleProfileDescription data={vehicle} />
+
     </>
   );
 }
-
-export default VehicleListing;
