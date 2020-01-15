@@ -50,9 +50,11 @@ export default function VehicleListing() {
   return (
     <>
       <IndexNavbar />
+
       <NewVehicleListingHeader data={vehicle} />
       <VehicleProfileCarousel data={vehicle} />
       <VehicleProfileDescription data={vehicle} />
+
     </>
   );
 }

@@ -127,7 +127,7 @@ function SearchPageHeader(props) {
               <Col>
                 <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
                   <DropdownToggle caret>
-                    {state.make !== "" ? state.make : "--Select Make--"}
+                    {state.make !== "" ? state.make : "Select Make"}
                   </DropdownToggle>
                   <DropdownMenu
                     modifiers={{
@@ -172,7 +172,7 @@ function SearchPageHeader(props) {
               <Col>
                 <ButtonDropdown isOpen={dropdownOpen2} toggle={toggle2}>
                   <DropdownToggle caret>
-                    {state.model !== "" ? state.model : "--Select Model--"}
+                    {state.model !== "" ? state.model : "Select Model"}
                   </DropdownToggle>
                   <DropdownMenu
                     modifiers={{

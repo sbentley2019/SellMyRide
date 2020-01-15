@@ -32,9 +32,9 @@ function NewVehicleListingHeader(props) {
         ref={pageHeader}
       >
         <div className="motto text-center">
-          <h2>
-            [{props.data.make + " " + props.data.model + " " + props.data.year}]
-          </h2>
+
+          <h2> {props.data.year} {props.data.make} {props.data.model}</h2>
+
         </div>
       </div>
     </>
