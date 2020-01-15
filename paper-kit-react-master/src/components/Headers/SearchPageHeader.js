@@ -4,15 +4,7 @@ import ResultSection from "components/Sections/ResultSection.js";
 
 // reactstrap components
 import {
-  Card,
-  CardBody,
-  CardFooter,
-  CardTitle,
-  Form,
   Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
   FormGroup,
   Row,
   Col,
