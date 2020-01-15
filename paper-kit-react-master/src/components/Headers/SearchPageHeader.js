@@ -224,7 +224,7 @@ function SearchPageHeader(props) {
                     }}
                     type="text"
                   />
-                  <div className="location-search">
+                  {/* <div className="location-search">
                     <ul>
                       {locationArr.map(place => {
                         return (
@@ -241,7 +241,7 @@ function SearchPageHeader(props) {
                         );
                       })}
                     </ul>
-                  </div>
+                  </div> */}
                 </FormGroup>
               </Col>
             </Row>
@@ -271,7 +271,13 @@ function SearchPageHeader(props) {
               >
                 Find my ride!
               </Button>
-              <Modal isOpen={modal} toggle={modalToggle} className={className} size="lg" style={{maxWidth: '1600px', width: '90%'}}>
+              <Modal
+                isOpen={modal}
+                toggle={modalToggle}
+                className={className}
+                size="lg"
+                style={{ maxWidth: "1600px", width: "90%" }}
+              >
                 <ModalHeader toggle={modalToggle}>
                   <h3>View Search Results</h3>
                 </ModalHeader>

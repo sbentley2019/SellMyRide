@@ -16,6 +16,8 @@ import {
   CardTitle,
   Form,
   Input,
+  Modal,
+  FormGroup,
   InputGroupAddon,
   InputGroupText,
   InputGroup,
@@ -33,6 +35,10 @@ export default function VehicleListing() {
 
   document.documentElement.classList.remove("nav-open");
   const [cookies, setCookie] = useCookies(["name", "user_id"]);
+
+  const [liveModal, setLiveModal] = useState(false);
+  const [message, setMessage] = useState("");
+
   useEffect(() => {
     document.body.classList.add("profile-page");
     return function cleanup() {
@@ -40,13 +46,77 @@ export default function VehicleListing() {
     };
   });
 
+
+  const sendText = function() {
+    console.log("send text");
+    if (!cookies.user_id) {
+      alert("Register or login to send messages.");
+    }
+    if (message) {
+      axios.put(`/api/messages/${cookies.user_id}/${vehicle.user_id}`, {
+        message: message
+      });
+      setLiveModal(false);
+    }
+  };
+  /*   console.log("props:", ); */
   return (
     <>
       <IndexNavbar />
       <NewVehicleListingHeader data={data.state.result} />
       <VehicleProfileCarousel data={data.state.result} />
-      <VehicleProfileDescription data={data.state.result} />
-      <MapsSection data={data.state.result}/>
+      <VehicleProfileDescription
+        fire={() => setLiveModal(true)}
+        data={data.state.result}
+      />
+      <Modal isOpen={liveModal} toggle={() => setLiveModal(false)}>
+        <div className="modal-header">
+          <h5 className="modal-title" id="exampleModalLiveLabel">
+            Send Message
+          </h5>
+        </div>
+        <div className="modal-body">
+          <FormGroup row>
+            <Input
+              type="text"
+              min="0"
+              step="1"
+              name="text"
+              id="formText"
+              value={message}
+              onChange={e => {
+                setMessage(e.target.value);
+              }}
+            />
+          </FormGroup>
+        </div>
+        <div className="modal-footer">
+          <div className="left-side">
+            <Button
+              className="btn-link"
+              color="default"
+              data-dismiss="modal"
+              type="button"
+              onClick={() => setLiveModal(false)}
+            >
+              Never mind
+            </Button>
+          </div>
+          <div className="divider" />
+          <div className="right-side">
+            <Button
+              className="btn-link"
+              color="danger"
+              type="button"
+              onClick={() => sendText()}
+            >
+              Send
+            </Button>
+          </div>
+        </div>
+       />
+       <MapsSection data={data.state.result}/>
+
     </>
   );
 }
