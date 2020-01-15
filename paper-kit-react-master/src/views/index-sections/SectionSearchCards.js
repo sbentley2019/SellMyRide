@@ -35,7 +35,7 @@ const SectionSearchCards = props => {
               </CardTitle>
               <CardSubtitle>Asking Price: ${listing.price}</CardSubtitle>
               <CardText>{listing.description}</CardText>
-              <Link to={{ pathname: "/listing", state: { result: listing.id } }}>
+              <Link to={{ pathname: "/listing", state: { result: listing } }}>
                 View Listing
               </Link>
             </CardBody>

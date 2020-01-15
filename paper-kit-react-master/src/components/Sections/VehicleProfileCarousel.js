@@ -53,21 +53,23 @@ import {
       src: require("assets/img/2016-sti/6-sti.jpg")
     }
   ]; */
+    
 
 function VehicleProfileCarousel(props) {
   const [activeIndex, setActiveIndex] = React.useState(0);
   const [animating, setAnimating] = React.useState(false);
   const [imagesArr, setImagesArr] = React.useState([]);
   
-  useEffect(() => {
 
-    
+  useEffect(() => {
     axios.get(`http://localhost:8001/api/car_images/listing/${props.data.id}`).then(res => {
       console.log("images: ", res.data);
       setImagesArr(res.data);
     
+
     });
   }, []);
+
 
 
   let items = imagesArr.map(objImage => {
@@ -75,6 +77,7 @@ function VehicleProfileCarousel(props) {
       { src : objImage.image}
     )
   });
+
   
   
   const onExiting = () => {
