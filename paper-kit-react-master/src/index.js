@@ -36,6 +36,7 @@ import ResultsPage from "views/examples/ResultsPage.js";
 import LoginPage from "views/examples/LoginPage.js";
 import VehicleListing from "views/examples/VehicleListing.js";
 import NewVehicleListing from "views/examples/NewVehicleListing.js";
+require('dotenv').config()
 
 ReactDOM.render(
   <BrowserRouter>

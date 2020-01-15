@@ -118,3 +118,12 @@ then you will be asked to input the new password twice, I recommend using the wo
 
   http://localhost:8001/api/debug/reset
 
+------------------------------------------------------------------------------------------------
+
+Step 6 - adding .env for safely storing api keys
+
+Inside the front end folder paper-kit-react-master, create a .env file.
+
+Now to to .env.example and copy what's inside it and paste it inside .env file.
+
+replace YOUR_API_KEY_HERE with your google maps api key inside quotes, now save and enjoy!
