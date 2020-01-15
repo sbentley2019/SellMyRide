@@ -28,16 +28,31 @@ module.exports = db => {
       listing_image,
       price,
       kms,
-      city
+      city,
+      description,
+      exterior_colour
     } = request.body;
 
     // console.log(make, model, year, user_id, listing_image, price, kms, city);
     db.query(
       `
-      INSERT INTO listing (make, model, year, user_id, listing_image, is_sold, price, kms, city) VALUES ($1, $2, $3, $4, $5, FALSE, $6, $7, $8)
+      INSERT INTO listing (make, model, year, user_id, listing_image, is_sold, price, kms, city, description, exterior_colour) VALUES ($1, $2, $3, $4, $5, FALSE, $6, $7, $8, $9, $10)
     `,
-      [make, model, year, user_id, listing_image, price, kms, city]
-    );
+      [
+        make,
+        model,
+        year,
+        user_id,
+        listing_image,
+        price,
+        kms,
+        city,
+        description,
+        exterior_colour
+      ]
+    ).then(data => {
+      response.json("Listing added.");
+    });
   });
 
   // /make
@@ -49,6 +64,41 @@ module.exports = db => {
       `
     ).then(data => {
       response.json(data.rows);
+    });
+  });
+
+  router.put("/listing/modify", (request, response) => {
+    const {
+      make,
+      model,
+      year,
+      listing_image,
+      price,
+      kms,
+      city,
+      description,
+      exterior_colour,
+      id
+    } = request.body;
+
+    db.query(
+      `
+      UPDATE listing SET make = $1, model = $2, year = $3, listing_image = $4, price = $5, kms = $6, city =$7, description = $8, exterior_colour = $9 WHERE id = $10
+    `,
+      [
+        make,
+        model,
+        year,
+        listing_image,
+        price,
+        kms,
+        city,
+        description,
+        exterior_colour,
+        id
+      ]
+    ).then(data => {
+      response.json("Listing modified.");
     });
   });
 

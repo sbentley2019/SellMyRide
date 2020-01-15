@@ -3,6 +3,8 @@ import axios from "axios";
 import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import NewListingPageHeader from "components/Headers/NewListingPageHeader.js";
 import { useCookies } from "react-cookie";
+import { useLocation } from "react-router-dom";
+
 // reactstrap components
 import {
   Button,
@@ -34,17 +36,23 @@ function VehicleListing(props) {
   if (!cookies.user_id) {
     window.location.replace("/login");
   }
+  let data = useLocation();
+
   const [makeArr, setMakeArr] = useState([]);
   const [modelArr, setModelArr] = useState([]);
+  const [imageurl, setImageurl] = useState(
+    data.state ? data.state.result.listing_image : ""
+  );
   const [state, setState] = useState({
-    make: "",
-    model: "",
-    year: "",
-    image: "",
-    price: "",
-    kms: "",
-    city: "",
-    description: ""
+    make: data.state ? data.state.result.make : "",
+    model: data.state ? data.state.result.model : "",
+    year: data.state ? data.state.result.year : "",
+    listing_image: "",
+    price: data.state ? data.state.result.price : "",
+    kms: data.state ? data.state.result.kms : "",
+    city: data.state ? data.state.result.city : "",
+    description: data.state ? data.state.result.description : "",
+    exterior_colour: data.state ? data.state.result.exterior_colour : ""
   });
 
   let pageHeader = React.createRef();
@@ -62,7 +70,7 @@ function VehicleListing(props) {
   }
   document.documentElement.classList.remove("nav-open");
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (window.innerWidth < 991) {
       const updateScroll = () => {
         let windowScrollTop = window.pageYOffset / 3;
@@ -90,15 +98,43 @@ function VehicleListing(props) {
     setState({ ...state, make: e, model: "" });
     axios.get(`/api/makeModel/make/${e}`).then(res => {
       setModelArr(res.data.map(listing => listing.model));
-      console.log(res.data);
+      // console.log(res.data);
     });
   };
 
   const createListing = function(data) {
     /*     kms = kms.replace(/[^\d\.\-\ ]/g, '');
     price = price.replace(/[^\d\.\-\ ]/g, ''); */
+    let dbObj;
+    if (!state.listing_image) {
+      dbObj = { ...state, user_id: cookies.user_id, listing_image: imageurl };
+    } else {
+      dbObj = { ...state, user_id: cookies.user_id };
+    }
 
-    axios.put(`/api/listing`, state);
+    if (
+      dbObj.make &&
+      dbObj.model &&
+      dbObj.year &&
+      dbObj.listing_image &&
+      dbObj.price &&
+      dbObj.kms &&
+      dbObj.city &&
+      dbObj.description &&
+      dbObj.exterior_colour &&
+      dbObj.user_id
+    ) {
+      if (data.state) {
+        dbObj.id = data.state.result.id;
+        axios.put(`/api/listing/modify`, dbObj).then(res => {
+          console.log(res.data);
+        });
+      } else {
+        axios.put(`/api/listing`, dbObj).then(res => {
+          console.log(res.data);
+        });
+      }
+    }
   };
 
   return (
@@ -146,7 +182,7 @@ function VehicleListing(props) {
                                 value={make}
                                 onClick={e => {
                                   e.preventDefault();
-                                  setState({ ...state, make: e.target.value });
+                                  sendMake(e.target.value);
                                 }}
                               >
                                 {make}
@@ -308,20 +344,58 @@ function VehicleListing(props) {
                   </FormGroup>
 
                   <FormGroup row>
-                    <Label for="formPic" sm={2}>
-                      Add Photos
+                    <Label for="formColour" sm={2}>
+                      Exterior colour
                     </Label>
                     <Col sm={10}>
                       <Input
-                        type="file"
-                        name="file"
-                        id="formPic"
-                        value={state.image}
+                        type="text"
+                        min="0"
+                        step="1"
+                        name="formColour"
+                        id="formColour"
+                        value={state.exterior_colour}
                         onChange={e => {
-                          setState({ ...state, image: e.target.value });
+                          setState({
+                            ...state,
+                            exterior_colour: e.target.value
+                          });
                         }}
                       />
                     </Col>
+                  </FormGroup>
+
+                  <FormGroup row>
+                    <Label for="formPic" sm={2}>
+                      Add Photos
+                    </Label>
+                    <div className="inputFormPic" sm={10}>
+                      <Col>
+                        <Input
+                          type="file"
+                          name="file"
+                          id="formPic"
+                          value={state.listing_image}
+                          onChange={e => {
+                            setState({
+                              ...state,
+                              listing_image: e.target.value
+                            });
+                          }}
+                        />
+                      </Col>
+                      <span>OR</span>
+                      <Col sm={8}>
+                        <Input
+                          type="text"
+                          value={imageurl}
+                          placeholder="http://"
+                          onChange={e => {
+                            setImageurl(e.target.value);
+                          }}
+                        />
+                      </Col>
+                    </div>
                   </FormGroup>
 
                   <FormGroup check row>
@@ -329,8 +403,8 @@ function VehicleListing(props) {
                       <Button
                         className="btn-round"
                         color="success"
-                        href="/listing"
                         onClick={createListing}
+                        href="/profile"
                         outline
                       >
                         List my ride!

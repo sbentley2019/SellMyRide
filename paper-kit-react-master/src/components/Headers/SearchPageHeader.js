@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import ResultSection from "components/Sections/ResultSection.js";
 
 // reactstrap components
 import {
@@ -20,7 +21,11 @@ import {
   Container,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter
 } from "reactstrap";
 
 import Slider from "nouislider";
@@ -40,7 +45,13 @@ function SearchPageHeader(props) {
   const toggle = () => setOpen(!dropdownOpen);
   const toggle2 = () => setOpen2(!dropdownOpen2);
 
-  useEffect(() => {
+  const { buttonLabel, className } = props;
+
+  const [modal, setModal] = useState(false);
+
+  const modalToggle = () => setModal(!modal);
+
+  React.useEffect(() => {
     if (window.innerWidth < 991) {
       const updateScroll = () => {
         let windowScrollTop = window.pageYOffset / 3;
@@ -85,30 +96,18 @@ function SearchPageHeader(props) {
     });
   };
 
-  // React.useEffect(() => {
-  //   if (window.innerWidth < 991) {
-  //     const updateScroll = () => {
-  //       let windowScrollTop = window.pageYOffset / 3;
-  //       pageHeader.current.style.transform =
-  //         "translate3d(0," + windowScrollTop + "px,0)";
-  //     };
-  //     window.addEventListener("scroll", updateScroll);
-  //     return function cleanup() {
-  //       window.removeEventListener("scroll", updateScroll);
-  //     };
-  //   }
-
-  // if (
-  //   !document.getElementById("sliderDouble").classList.contains("noUi-target")
-  // ) {
-  //   Slider.create(document.getElementById("sliderDouble"), {
-  //     start: [200, 800],
-  //     connect: [false, true, false],
-  //     step: 1,
-  //     range: { min: 0, max: 1000 }
-  //   });
-  // }
-  // });
+  const modalClick = function(e) {
+    e.preventDefault();
+    let url = `/api/listing`;
+    if (state.make) url += `/make/${state.make}`;
+    if (state.model) url += `/model/${state.model}`;
+    if (state.location) url += `/location/${state.location}`;
+    axios.get(url).then(res => {
+      props.setResults(res.data.map(listing => listing));
+      console.log("aaaa");
+      setModal(true);
+    });
+  };
 
   return (
     <>
@@ -246,37 +245,56 @@ function SearchPageHeader(props) {
                 </FormGroup>
               </Col>
             </Row>
-            <br />
-            <Button
-              className="btn-round"
-              size="lg"
-              color="primary"
-              type="button"
-              onClick={searchListing}
-              // onClick={e => console.log(state)}
-              outline
-            >
-              Find my ride!
-            </Button>
+
+            {/* <div>
+              <Button
+                className="btn-round"
+                size="lg"
+                color="primary"
+                type="button"
+                onClick={searchListing}
+                // onClick={e => console.log(state)}
+                outline
+              >
+                Find my ride!
+              </Button>
+            </div> */}
+
+            <div>
+              <br />
+              <Button
+                className="btn-round"
+                color="success"
+                size="lg"
+                onClick={modalClick}
+                outline
+              >
+                Find my ride!
+              </Button>
+              <Modal isOpen={modal} toggle={modalToggle} className={className} size="lg" style={{maxWidth: '1600px', width: '90%'}}>
+                <ModalHeader toggle={modalToggle}>
+                  <h3>View Search Results</h3>
+                </ModalHeader>
+                <ModalBody>
+                  <div id="search-results">
+                    {props.results.length !== 0 && (
+                      <ResultSection results={props.results} />
+                    )}
+                  </div>
+                </ModalBody>
+                <ModalFooter>
+                  <Button
+                    className="btn-round"
+                    color="primary"
+                    onClick={modalToggle}
+                    outline
+                  >
+                    Return to Search
+                  </Button>
+                </ModalFooter>
+              </Modal>
+            </div>
           </div>
-
-          {/* <Col lg="3" sm="6">
-            <div className="title">
-              <h3>Kilometers ('000s)</h3>
-            </div>
-            <div className="slider" id="sliderRegular" />
-            <br />
-            <div className="slider slider-primary" id="sliderDouble" />
-          </Col>
-
-          <Col lg="3" sm="6">
-            <div className="title">
-              <h3>Price</h3>
-            </div>
-            <div className="slider" id="sliderRegular" />
-            <br />
-            <div className="slider slider-primary" id="sliderDouble" />
-          </Col> */}
         </Container>
       </div>
     </>

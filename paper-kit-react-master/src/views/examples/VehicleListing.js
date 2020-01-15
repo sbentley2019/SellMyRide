@@ -4,7 +4,7 @@ import IndexNavbar from "components/Navbars/IndexNavbar.js";
 import NewVehicleListingHeader from "components/Headers/NewVehicleListingHeader.js";
 import VehicleProfileCarousel from "components/Sections/VehicleProfileCarousel.js";
 import VehicleProfileDescription from "components/Sections/VehicleProfileDescription.js";
-import {useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 // reactstrap components
 import {
@@ -82,7 +82,7 @@ return (
 const WrappedMap = withScriptjs(withGoogleMap(Map));  
 
 
-function VehicleListing() {
+export default function VehicleListing() {
   let data = useLocation();
   postal = data.state.result.city;
   car = data.state.result;
@@ -90,16 +90,21 @@ function VehicleListing() {
 
   document.documentElement.classList.remove("nav-open");
   const [cookies, setCookie] = useCookies(["name", "user_id"]);
-
-  React.useEffect(() => {
-
+  const [vehicle, setVehicle] = useState({});
+  useEffect(() => {
     document.body.classList.add("profile-page");
     return function cleanup() {
       document.body.classList.remove("profile-page");
     };
   });
+  useEffect(() => {
+    axios.get(`/api/listing/${data.state.result}`).then(res => {
+      console.log(res.data[0]);
+      setVehicle(res.data[0]);
+    });
+  }, []);
 
-/*   console.log("props:", ); */
+  /*   console.log("props:", ); */
   return (
     <>
       <IndexNavbar />
@@ -108,7 +113,7 @@ function VehicleListing() {
       <VehicleProfileDescription data={data.state.result}/>
       <div style={{width: '100vw', height: '100vh'}}>
         <WrappedMap 
-        googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyAd-HZuVuAhjBHtKFlApJuXh9dvcD2yIzk`}
+        googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=[GOOGLE_KEY]`}
         loadingElement={<div style={{ height: "100%"}} />}
         containerElement={<div style={{ height: "100%"}} />}
         mapElement={<div style={{ height: "100%"}} />}
@@ -117,5 +122,3 @@ function VehicleListing() {
     </>
   );
 }
-
-export default VehicleListing;

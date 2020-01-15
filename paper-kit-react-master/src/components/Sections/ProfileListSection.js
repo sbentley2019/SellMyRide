@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import {
   Button,
   Label,
@@ -17,6 +18,7 @@ import {
 
 export default function ProfileListSection(props) {
   let deleteListing = function(e) {
+    props.removeListing(e);
     axios.delete(`/api/listing/${e}`);
   };
 
@@ -38,31 +40,28 @@ export default function ProfileListSection(props) {
         <Col className="ml-auto mr-auto" lg="3" md="4" xs="4">
           <div className="listing-actions">
             <div className="text-center">
-              <Button
-                className="btn-round"
-                color="success"
-                outline
-                onClick={() => {
-                  console.log("view listing");
-                }}
+              <Link
+                to={{ pathname: "/listing", state: { result: props.list.id } }}
               >
-                View
-              </Button>
+                <Button className="btn-round" color="success" outline>
+                  View
+                </Button>
+              </Link>
             </div>
 
             {props.current && (
               <>
                 <div className="text-center">
-                  <Button
-                    className="btn-round"
-                    color="warning"
-                    outline
-                    onClick={() => {
-                      console.log("edit listing");
+                  <Link
+                    to={{
+                      pathname: "/new-listing",
+                      state: { result: props.list }
                     }}
                   >
-                    Edit
-                  </Button>
+                    <Button className="btn-round" color="warning" outline>
+                      Edit
+                    </Button>
+                  </Link>
                 </div>
                 <div className="text-center">
                   <Button
