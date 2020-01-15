@@ -114,7 +114,7 @@ export default function VehicleListing() {
             </Button>
           </div>
         </div>
-       />
+       </Modal>
        <MapsSection data={data.state.result}/>
 
     </>
