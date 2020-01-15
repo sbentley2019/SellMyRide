@@ -53,7 +53,7 @@ export default function VehicleListing() {
       alert("Register or login to send messages.");
     }
     if (message) {
-      axios.put(`/api/messages/${cookies.user_id}/${vehicle.user_id}`, {
+      axios.put(`/api/messages/${cookies.user_id}/${data.state.result.user_id}`, {
         message: message
       });
       setLiveModal(false);
