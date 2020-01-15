@@ -34,6 +34,7 @@ import {
 
 let postal = "";
 let car = {};
+let googleKey = process.env.REACT_APP_GOOGLE_KEY;
 
 function Map() {
   const [localLat, setLocalLat] = useState(0);
@@ -41,9 +42,7 @@ function Map() {
 
   axios
     .get(
-      "https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:" +
-        postal +
-        "&key=[GOOGLE_KEY]"
+      `https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:${postal}&key=${googleKey}`
     )
     .then(res => {
       setLocalLat(res.data.results[0].geometry.location.lat);
@@ -101,7 +100,7 @@ export default function VehicleListing() {
       <VehicleProfileDescription data={vehicle} />
       <div style={{ width: "100vw", height: "100vh" }}>
         <WrappedMap
-          googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=[GOOGLE_KEY]`}
+          googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${googleKey}`}
           loadingElement={<div style={{ height: "100%" }} />}
           containerElement={<div style={{ height: "100%" }} />}
           mapElement={<div style={{ height: "100%" }} />}
