@@ -19,21 +19,20 @@ module.exports = db => {
 
     const { username, email, password, location, phone } = request.body;
 
-    console.log(request.body);
-    console.log(username);
-    console.log(email);
-    console.log(password);
-    console.log(location);
-    console.log(phone);
-
     db.query(
       `
       INSERT INTO users (name, email, password, location, phone) VALUES ( $1 , $2, $3, $4, $5)
     `,
       [username, email, password, location, phone]
+    );
+
+    db.query(
+      `SELECT * FROM users where email = $1
+      `,
+      [email]
     )
       .then(data => {
-        response.json("User added.");
+        response.json(data.rows);
       })
       .catch(error => console.log(error));
   });
