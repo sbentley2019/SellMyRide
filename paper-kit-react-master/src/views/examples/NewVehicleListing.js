@@ -38,7 +38,6 @@ function VehicleListing(props) {
     data.state ? data.state.result.listing_image : ""
   );
 
-  const id = data.state ? data.state.result.id : false;
   const [state, setState] = useState({
     make: data.state ? data.state.result.make : "",
     model: data.state ? data.state.result.model : "",
@@ -96,7 +95,7 @@ function VehicleListing(props) {
     });
   };
 
-  const createListing = function(data) {
+  const createListing = function() {
     let dbObj;
     let imageArray = [];
 
@@ -123,8 +122,8 @@ function VehicleListing(props) {
       dbObj.exterior_colour &&
       dbObj.user_id
     ) {
-      if (id) {
-        dbObj.id = id;
+      if (data.state) {
+        dbObj.id = data.state.result.id;
         axios.put(`/api/listing/modify`, dbObj).then(res => {
           window.location.replace("/profile");
         });
@@ -140,7 +139,6 @@ function VehicleListing(props) {
                 dbObj.city === car.city &&
                 dbObj.description === car.description
               ) {
-                console.log("Hello!!");
                 id = car.id;
                 axios.put(`/api/car_images/array/${id}`, imageArray);
               }
