@@ -123,6 +123,7 @@ function VehicleListing(props) {
         dbObj.id = data.state.result.id;
         axios.put(`/api/listing/modify`, dbObj).then(res => {
           console.log(res.data);
+          window.location.replace('/profile');
         });
       } else {
         axios.put(`/api/listing`, dbObj);
