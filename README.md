@@ -15,3 +15,12 @@
 - Server: Node, PostgreSQL, React-router-dom, React-cookie, bcrypt, Axios
 
 ## Selected Screenshots
+!["Homepage"](#)
+!["Search page"](#)
+!["Search results"](#)
+!["Vehicle profile"](#)
+!["List vehicle for sale"](#)
+!["User profile"](#)
+!["Send private message to user from a vehicle listing"](#)
+!["Seller receive private message via user profile page"](#)
+!["Login page"](#)
