@@ -534,21 +534,6 @@ VALUES
   );
 
 INSERT INTO
-  messages (user_id, seller_id, message)
-VALUES
-  (
-    1,
-    3,
-    'Get off this website, my car is better than yours.'
-  ),
-  (
-    3,
-    1,
-    'This town isn''t big enough for the both of us'
-  ),
-  (2, 3, 'Can I take that car for a ride?');
-
-INSERT INTO
   makes (make)
 VALUES
   ('Acura'),
