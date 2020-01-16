@@ -13,6 +13,7 @@ import {
   Input,
   Modal,
   FormGroup,
+  Container
 } from "reactstrap";
 import axios from "axios";
 
@@ -53,6 +54,19 @@ export default function VehicleListing() {
     <>
       <IndexNavbar />
       <NewVehicleListingHeader data={data.state.result} />
+      <div className="section profile-content">
+      <div className="owner">
+            <div className="avatar2">
+              <img
+                
+                alt="..."
+                className="img-circle img-no-padding img-responsive"
+                src={data.state.result.listing_image}
+              />
+            </div>
+            </div>
+      </div>
+
       <VehicleProfileCarousel data={data.state.result} />
       <VehicleProfileDescription
         fire={() => setLiveModal(true)}
