@@ -38,11 +38,6 @@ const items = [
     altText: "2016Subaru STI",
     caption: "2016 Subaru STI"
   },
-  // {
-  //   src: require("assets/img/2-crosstrek.PNG"),
-  //   altText: "2019 Subaru Crosstrek",
-  //   caption: "2019 Subaru Crosstrek"
-  // },
   {
     src: require("assets/img/3-shitty-accord.jpg"),
     altText: "2002 Honda Accord",

@@ -4,13 +4,13 @@ export default function ProfileInformation(props) {
   return (
     <div>
       <hr />
-      <p>name: {props.data.name}</p>
+      <p><h4>Username: {props.data.name}</h4></p>
       <hr />
-      <p>email: {props.data.email}</p>
+      <p><h4>Email: {props.data.email}</h4></p>
       <hr />
-      <p>location: {props.data.location}</p>
-      <hr />
-      <p>phone: {props.data.phone}</p>
+      <p><h4>location: {props.data.location}</h4></p>
+      {/* <hr />
+      <p>phone: {props.data.phone}</p> */}
       <hr />
     </div>
   );

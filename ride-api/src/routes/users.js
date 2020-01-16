@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const bcrypt = require("bcrypt");
 
 module.exports = db => {
   router.get("/users", (request, response) => {
@@ -11,40 +12,70 @@ module.exports = db => {
     });
   });
 
-  router.put("/users", (request, response) => {
-    if (process.env.TEST_ERROR) {
-      setTimeout(() => response.status(500).json({}), 1000);
-      return;
-    }
-
-    const { username, email, password, location, phone } = request.body;
-
+  router.get("/users/profile/:id", (req, res) => {
     db.query(
       `
-      INSERT INTO users (name, email, password, location, phone) VALUES ( $1 , $2, $3, $4, $5)
-    `,
-      [username, email, password, location, phone]
-    );
+    SELECT * FROM users WHERE id = $1 LIMIT 1`,
+      [req.params.id]
+    ).then(data => {
+      res.json(data.rows);
+    });
+  });
+  router.post("/users/register", (req, res) => {
+    if (
+      !req.body.name ||
+      !req.body.email ||
+      !req.body.password ||
+      !req.body.location ||
+      !req.body.location ||
+      !req.body.phone
+    ) {
+      res.statusCode = 403;
+      res.send("Status Code: 403");
+    } else {
+      const { name, email, password, location, phone } = req.body;
 
-    db.query(
-      `SELECT * FROM users where email = $1
-      `,
-      [email]
-    )
-      .then(data => {
-        response.json(data.rows);
-      })
-      .catch(error => console.log(error));
+      db.query(`SELECT * FROM users WHERE email = $1`, [email]).then(data => {
+        if (data.rows.length !== 0) {
+          res.json(-1);
+        } else {
+          const hashedPassword = bcrypt.hashSync(password, 10);
+
+          db.query(
+            `
+            INSERT INTO users (name, email, password, location, phone) VALUES ( $1 , $2, $3, $4, $5)
+          `,
+            [name, email, hashedPassword, location, phone]
+          );
+
+          db.query(
+            `SELECT id, name FROM users where email = $1
+            `,
+            [email]
+          )
+            .then(data => {
+              res.json(data.rows[0]);
+            })
+            .catch(error => console.log(error));
+        }
+      });
+    }
   });
 
-  router.get("/users/profile/:id", (request, response) => {
+  router.post("/users/login", (req, res) => {
+    const { email, password } = req.body;
     db.query(
       `
-      SELECT * FROM users WHERE id = $1 LIMIT 1
+      SELECT * FROM users WHERE email = $1 LIMIT 1
       `,
-      [request.params.id]
+      [email]
     ).then(data => {
-      response.json(data.rows);
+      const user = data.rows[0];
+      if (user && bcrypt.compareSync(password, user.password)) {
+        res.json({ id: data.rows[0].id, name: data.rows[0].name });
+      } else {
+        res.json(-1);
+      }
     });
   });
 

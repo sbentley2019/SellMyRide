@@ -50,7 +50,7 @@ function RegisterPage() {
   });
 
   const [user, setUser] = useState({
-    username: "",
+    name: "",
     email: "",
     password: "",
     location: "",
@@ -63,15 +63,13 @@ function RegisterPage() {
 
   const registerUser = function(e) {
     e.preventDefault();
-    axios.get(`/api/users/${user.email}`).then(res => {
-      if (res.data.length === 0) {
-        axios.put("/api/users", user).then(res => {
-          alterUser("name", res.data[0].name);
-          alterUser("user_id", res.data[0].id);
-          window.location.replace("/");
-        });
-      } else {
+    axios.post(`/api/users/register`, user).then(res => {
+      if (res.data === -1) {
         alert("email is already in use");
+      } else {
+        alterUser("name", res.data.name);
+        alterUser("user_id", res.data.id);
+        window.location.replace("/");
       }
     });
   };
@@ -95,7 +93,7 @@ function RegisterPage() {
             <Col className="mx-auto" lg="4" md="6">
               <Card className="card-register">
                 <h3 className="title mx-auto">New here? Sign up below:</h3>
-                <Form className="register-form" onSubmit={registerUser}>
+                <Form className="register-form" onSubmit={e => registerUser(e)}>
                   <label>Username</label>
                   <InputGroup className="form-group-no-border">
                     <InputGroupAddon addonType="prepend">
@@ -104,8 +102,8 @@ function RegisterPage() {
                       </InputGroupText>
                     </InputGroupAddon>
                     <Input
-                      name="username"
-                      value={user.username}
+                      name="name"
+                      value={user.name}
                       onChange={updateUser}
                       placeholder="Username"
                       type="text"

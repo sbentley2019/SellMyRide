@@ -23,11 +23,6 @@ import { useCookies } from "react-cookie";
 
 // reactstrap components
 import {
-  Button,
-  Label,
-  FormGroup,
-  Input,
-  Modal,
   NavItem,
   NavLink,
   Nav,
@@ -39,9 +34,7 @@ import {
 } from "reactstrap";
 
 // core components
-import ExamplesNavbar from "components/Navbars/ExamplesNavbar.js";
 import ProfilePageHeader from "components/Headers/ProfilePageHeader.js";
-import DemoFooter from "components/Footers/DemoFooter.js";
 import ProfileListSection from "components/Sections/ProfileListSection.js";
 import ProfileInformation from "components/Sections/ProfileInformation.js";
 import MessageRow from "components/Sections/MessageRow";
@@ -167,7 +160,7 @@ function ProfilePage() {
               />
             </div>
             <div className="name">
-              <h4 className="title">{userData.name}</h4>
+              <h2 className="title">{userData.name}</h2>
             </div>
           </div>
           <ProfileInformation data={userData} setData={setUserData} />
@@ -181,7 +174,7 @@ function ProfilePage() {
                       toggle("1");
                     }}
                   >
-                    Current Listings
+                    <h4>Current Listings</h4>
                   </NavLink>
                 </NavItem>
                 <NavItem>
@@ -191,7 +184,7 @@ function ProfilePage() {
                       toggle("2");
                     }}
                   >
-                    My Messages
+                    <h4>My Messages</h4>
                   </NavLink>
                 </NavItem>
                 <NavItem>
@@ -201,14 +194,17 @@ function ProfilePage() {
                       toggle("3");
                     }}
                   >
-                    Previous Listings
+                   <h4>Previous Listings</h4>
                   </NavLink>
                 </NavItem>
               </Nav>
             </div>
           </div>
           <TabContent className="following" activeTab={activeTab}>
-            <TabPane tabId="1" id="follows">
+            <TabPane className="text-center" tabId="1" id="follows">
+              {arrListing.length === 0 && (
+                <h3 className="text-muted">No current listings!</h3>
+              )}
               <Row>
                 <Col className="ml-auto mr-auto" md="6">
                   <ul className="list-unstyled follows">
