@@ -42,7 +42,7 @@ CREATE TABLE listing (
 CREATE TABLE car_images (
   id SERIAL PRIMARY KEY NOT NULL,
   listing_id INTEGER REFERENCES listing(id) ON DELETE CASCADE,
-  image TEXT
+  image VARCHAR(255)
 );
 
 CREATE TABLE ratings (
