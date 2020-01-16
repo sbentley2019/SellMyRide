@@ -1,6 +1,6 @@
 # SellMyRide - Lighthouse Labs Final Project
 
-## *Sell*MyRide is an automotive classifieds app that allows users to...
+### *Sell*MyRide is an automotive classifieds app that allows users to...
 
 - Login/register an account to view existing vehicles for sale
 - Create, modify and remove individual vehicle listings
@@ -14,6 +14,13 @@
 - Client: React.js, Reactstrap, Sass, Google Maps API,
 - Server: Node, PostgreSQL, React-router-dom, React-cookie, bcrypt, Axios
 
+### Setup and Getting Started
+1. Install dependencies using `npm install` on both the ride-api and paper-kit-react-master folders
+2. Enter the ride-api folder and run `npm start`
+3. After starting the ride-api, return to the paper-kit-react-master folder and run `npm start`
+4. View *Sell*MyRide on http://localhost:3000
+5. Enjoy and good luck finding your new dream ride!
+
 ### Selected Screenshots
 !["Homepage"](https://github.com/mwong01/SellMyRide/blob/master/paper-kit-react-master/src/assets/screenshots/1-homepage.png)
 !["Search page"](https://github.com/mwong01/SellMyRide/blob/master/paper-kit-react-master/src/assets/screenshots/2-search.png)
@@ -24,10 +31,3 @@
 !["Send private message to user from a vehicle listing"](https://github.com/mwong01/SellMyRide/blob/master/paper-kit-react-master/src/assets/screenshots/7-send-pm.png)
 !["Seller receive private message via user profile page"](https://github.com/mwong01/SellMyRide/blob/master/paper-kit-react-master/src/assets/screenshots/8-receive-pm.png)
 !["Login page"](https://github.com/mwong01/SellMyRide/blob/master/paper-kit-react-master/src/assets/screenshots/9-login.png)
-
-### Setup and Getting Started
-1. Install dependencies using `npm install`
-2. Enter the ride-api folder and run `npm start`
-3. After starting the ride-api, return to the paper-kit-react-master folder and run `npm start`
-4. View *Sell*MyRide on http://localhost:3000
-5. Enjoy and good luck finding your new dream ride!
