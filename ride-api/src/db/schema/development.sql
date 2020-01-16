@@ -1426,4 +1426,24 @@ VALUES
   (
     31,
     'https://www.dropbox.com/s/7zfjwfg34vjl6ej/taycan-3.jpg?raw=1'
+  ),
+  (
+    32,
+    'https://cdntdreditorials.azureedge.net/cache/3/7/7/2/c/b/3772cb99414e8ab0c8f40793fefce9109cd13431.jpg'
+  ),
+  (
+    32,
+    'https://cdn.motor1.com/images/mgl/LNZVG/s1/tesla-cybertruck-outdoor-image.jpg'
+  ),
+  (
+    32,
+    'https://www.tesla.com/xNVh4yUEc3B9/09_Desktop.jpg'
+  ),
+  (
+    38,
+    'https://postmediadriving.files.wordpress.com/2019/07/2019-porsche-panamera-gts-sport-turismo-8.jpg?quality=80&strip=all&w=412&h=268&crop=1'
+  ),
+  (
+    38,
+    'https://postmediadriving.files.wordpress.com/2019/07/2019-porsche-panamera-gts-sport-turismo-7.jpg?quality=80&strip=all&w=580&h=370&crop=1'
   );
