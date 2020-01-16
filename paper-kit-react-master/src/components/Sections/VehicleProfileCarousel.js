@@ -73,8 +73,12 @@ function VehicleProfileCarousel(props) {
 
 
   let items = imagesArr.map(objImage => {
+    let image = objImage.image;
+    while (image.includes("'")) {
+      image = image.replace("'", "");
+    }
     return (
-      { src : objImage.image}
+      { src : image}
     )
   });
 

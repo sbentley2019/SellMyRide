@@ -12,6 +12,19 @@ module.exports = db => {
     });
   });
 
+  router.get("/listing/user/:id", (request, response) => {
+    console.log("/listing/user/:id GET");
+    db.query(
+      `
+      SELECT * FROM listing WHERE user_id = $1
+      `,
+      [request.params.id]
+    ).then(data => {
+      console.log(data.rows);
+      response.json(data.rows);
+    });
+  });
+
   router.put("/listing", (request, response) => {
     console.log("/listing PUT");
     if (process.env.TEST_ERROR) {
@@ -266,23 +279,12 @@ module.exports = db => {
       `,
       [request.params.id]
     ).then(data => {
-      console.log(data.rows);
+      console.log(data.rows.id);
       response.json(data.rows);
     });
   });
 
   //////////////
-  router.get("/listing/user/:id", (request, response) => {
-    console.log("/listing/user/:id GET");
-    db.query(
-      `
-      SELECT * FROM listing WHERE user_id = $1
-      `,
-      [request.params.id]
-    ).then(data => {
-      response.json(data.rows);
-    });
-  });
 
   router.get("/listing/:id", (request, response) => {
     console.log("/listing/:id GET");

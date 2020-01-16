@@ -5,6 +5,7 @@ import NewListingPageHeader from "components/Headers/NewListingPageHeader.js";
 import { useCookies } from "react-cookie";
 import { useLocation } from "react-router-dom";
 
+
 // reactstrap components
 import {
   Button,
@@ -33,6 +34,7 @@ function VehicleListing(props) {
 
   const [makeArr, setMakeArr] = useState([]);
   const [modelArr, setModelArr] = useState([]);
+
   const [imageurl, setImageurl] = useState(
     data.state ? data.state.result.listing_image : ""
   );
@@ -94,13 +96,13 @@ function VehicleListing(props) {
       // console.log(res.data);
     });
   };
-
   const createListing = function(data) {
-    /*     kms = kms.replace(/[^\d\.\-\ ]/g, '');
-    price = price.replace(/[^\d\.\-\ ]/g, ''); */
     let dbObj;
+    let imageArray = [];
+
     if (!state.listing_image) {
-      dbObj = { ...state, user_id: cookies.user_id, listing_image: imageurl };
+      imageArray = imageurl.split(',');
+      dbObj = { ...state, user_id: cookies.user_id, listing_image: imageArray[0] };
     } else {
       dbObj = { ...state, user_id: cookies.user_id };
     }
@@ -123,9 +125,22 @@ function VehicleListing(props) {
           console.log(res.data);
         });
       } else {
-        axios.put(`/api/listing`, dbObj).then(res => {
-          console.log(res.data);
-        });
+        axios.put(`/api/listing`, dbObj);
+      
+        axios.get(`/api/listing/user/${dbObj.user_id}`).then(res => {
+          let data = res.data;
+          let id;
+          data.forEach(car => {
+            if(dbObj.city === car.city && dbObj.description === car.description){
+              console.log("Hello!!");
+              id = car.id;
+              axios.put(`/api/car_images/array/${id}`, imageArray);
+            }
+          });
+      
+        }).then(() => {
+          window.location.replace('/profile');
+        })
       }
     }
   };
@@ -393,11 +408,12 @@ function VehicleListing(props) {
 
                   <FormGroup check row>
                     <Col>
+
                       <Button
                         className="btn-round"
                         color="success"
                         onClick={createListing}
-                        href="/profile"
+                        /* href="/profile" */
                         outline
                       >
                         List my ride!

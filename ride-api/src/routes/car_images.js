@@ -47,6 +47,22 @@ module.exports = db => {
     });
   });
 
+  router.put("/car_images/array/:id", (request, response) => {
+    let imageArray = request.body;
+    console.log(imageArray);
+    imageArray.forEach(img => {
+      img = `'${img.trim()}'`
+      console.log(img);
+      db.query(
+        `
+        INSERT INTO car_images (listing_id, image) VALUES ( $1, $2) ;
+        `,
+        [request.params.id, img]
+      );
+    });
+
+  });
+
   router.delete("/car_images/:id", (request, response) => {
     // use a different variable instead of car_images(id) to delete
     db.query(
