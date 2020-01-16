@@ -90,13 +90,12 @@ function SearchPageHeader(props) {
 
   const modalClick = function(e) {
     e.preventDefault();
-    let url = `/api/listing`;
+    let url = `/api/listing/search`;
     if (state.make) url += `/make/${state.make}`;
     if (state.model) url += `/model/${state.model}`;
-    if (state.location) url += `/location/${state.location}`;
+    // if (state.location) url += `/location/${state.location}`;
     axios.get(url).then(res => {
       props.setResults(res.data.map(listing => listing));
-      console.log("aaaa");
       setModal(true);
     });
   };
@@ -115,7 +114,7 @@ function SearchPageHeader(props) {
           <div className="filter" />
           <div className="motto text-center">
             <h2>Enter a vehicle Make and/or Model below:</h2>
-            <br/>
+            <br />
             <Row>
               <Col>
                 <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
@@ -277,8 +276,10 @@ function SearchPageHeader(props) {
                 </ModalHeader>
                 <ModalBody>
                   <div id="search-results">
-                    {props.results.length !== 0 && (
+                    {props.results.length !== 0 ? (
                       <ResultSection results={props.results} />
+                    ) : (
+                      <h3>No Results!</h3>
                     )}
                   </div>
                 </ModalBody>

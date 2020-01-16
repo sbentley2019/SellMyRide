@@ -2,7 +2,6 @@ const router = require("express").Router();
 
 module.exports = db => {
   router.get("/listing", (request, response) => {
-    console.log("/listing GET");
     db.query(
       `
       SELECT * FROM listing
@@ -12,21 +11,28 @@ module.exports = db => {
     });
   });
 
+  router.get("/listing/search", (request, response) => {
+    db.query(
+      `
+      SELECT * FROM listing WHERE is_sold = false
+    `
+    ).then(({ rows: listing }) => {
+      response.json(listing);
+    });
+  });
+
   router.get("/listing/user/:id", (request, response) => {
-    console.log("/listing/user/:id GET");
     db.query(
       `
       SELECT * FROM listing WHERE user_id = $1
       `,
       [request.params.id]
     ).then(data => {
-      console.log(data.rows);
       response.json(data.rows);
     });
   });
 
   router.put("/listing", (request, response) => {
-    console.log("/listing PUT");
     if (process.env.TEST_ERROR) {
       setTimeout(() => response.status(500).json({}), 1000);
       return;
@@ -114,6 +120,34 @@ module.exports = db => {
       response.json("Listing modified.");
     });
   });
+  router.get("/listing/search/make/:id", (request, response) => {
+    console.log("/listing/make/:id GET");
+    // const make = (request.params.id === "all" ? :)
+    // const queryStr = `SELECT * FROM listing WHERE make = $1`
+    db.query(
+      `
+      SELECT * FROM listing WHERE make = $1 AND is_sold = false
+      `,
+      [request.params.id]
+    ).then(data => {
+      response.json(data.rows);
+    });
+  });
+
+  router.get("/listing/search/make/:id1/model/:id2", (request, response) => {
+    console.log("/listing/make/:id1/model/:id2 GET");
+    db.query(
+      `
+      SELECT * FROM listing WHERE make = $1 AND model = $2 AND is_sold = false 
+      `,
+      [request.params.id1, request.params.id2]
+    ).then(data => {
+      response.json(data.rows);
+    });
+  });
+
+  //search
+  //////////////
 
   router.get("/listing/make/:id", (request, response) => {
     console.log("/listing/make/:id GET");
