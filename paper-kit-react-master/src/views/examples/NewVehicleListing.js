@@ -5,7 +5,6 @@ import NewListingPageHeader from "components/Headers/NewListingPageHeader.js";
 import { useCookies } from "react-cookie";
 import { useLocation } from "react-router-dom";
 
-
 // reactstrap components
 import {
   Button,
@@ -38,6 +37,8 @@ function VehicleListing(props) {
   const [imageurl, setImageurl] = useState(
     data.state ? data.state.result.listing_image : ""
   );
+
+  const id = data.state ? data.state.result.id : false;
   const [state, setState] = useState({
     make: data.state ? data.state.result.make : "",
     model: data.state ? data.state.result.model : "",
@@ -96,13 +97,16 @@ function VehicleListing(props) {
   };
 
   const createListing = function(data) {
-
     let dbObj;
     let imageArray = [];
 
     if (!state.listing_image) {
-      imageArray = imageurl.split(',');
-      dbObj = { ...state, user_id: cookies.user_id, listing_image: imageArray[0] };
+      imageArray = imageurl.split(",");
+      dbObj = {
+        ...state,
+        user_id: cookies.user_id,
+        listing_image: imageArray[0]
+      };
     } else {
       dbObj = { ...state, user_id: cookies.user_id };
     }
@@ -119,28 +123,32 @@ function VehicleListing(props) {
       dbObj.exterior_colour &&
       dbObj.user_id
     ) {
-      if (data.state) {
-        dbObj.id = data.state.result.id;
+      if (id) {
+        dbObj.id = id;
         axios.put(`/api/listing/modify`, dbObj).then(res => {
-          console.log(res.data);
+          window.location.replace("/profile");
         });
       } else {
         axios.put(`/api/listing`, dbObj);
-      
-        axios.get(`/api/listing/user/${dbObj.user_id}`).then(res => {
-          let data = res.data;
-          let id;
-          data.forEach(car => {
-            if(dbObj.city === car.city && dbObj.description === car.description){
-              console.log("Hello!!");
-              id = car.id;
-              axios.put(`/api/car_images/array/${id}`, imageArray);
-            }
+        axios
+          .get(`/api/listing/user/${dbObj.user_id}`)
+          .then(res => {
+            let data = res.data;
+            let id;
+            data.forEach(car => {
+              if (
+                dbObj.city === car.city &&
+                dbObj.description === car.description
+              ) {
+                console.log("Hello!!");
+                id = car.id;
+                axios.put(`/api/car_images/array/${id}`, imageArray);
+              }
+            });
+          })
+          .then(() => {
+            window.location.replace("/profile");
           });
-      
-        }).then(() => {
-          window.location.replace('/profile');
-        })
       }
     }
   };
@@ -319,7 +327,7 @@ function VehicleListing(props) {
 
                   <FormGroup row>
                     <Label for="formCity" sm={2}>
-                      Postal Code <br/> (e.g. A1A1A1)
+                      Postal Code <br /> (e.g. A1A1A1)
                     </Label>
                     <Col sm={10}>
                       <Input
@@ -408,7 +416,6 @@ function VehicleListing(props) {
 
                   <FormGroup check row>
                     <Col>
-
                       <Button
                         className="btn-round"
                         color="success"
