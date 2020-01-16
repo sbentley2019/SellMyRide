@@ -4,21 +4,21 @@ VALUES
   (
     'Fred',
     'the@email.com',
-    'password',
+    '$2b$10$4D.12DBhSEGK7M4dDXUxY.8.iWTOiX5AoLBRHMv1.R0VPBITPAnWW',
     'M6H0C2',
     '6477848430'
   ),
   (
     'Matt',
     'user@email.com',
-    'password',
+    '$2b$10$4D.12DBhSEGK7M4dDXUxY.8.iWTOiX5AoLBRHMv1.R0VPBITPAnWW',
     'L6E1M7',
     '4167778800'
   ),
   (
     'Stewart',
     'dude@email.com',
-    'password',
+    '$2b$10$4D.12DBhSEGK7M4dDXUxY.8.iWTOiX5AoLBRHMv1.R0VPBITPAnWW',
     'M2D7A4',
     '4169993321'
   );
